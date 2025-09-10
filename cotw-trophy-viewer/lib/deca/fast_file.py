@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class FFError(Exception):
     pass
 
@@ -8,6 +9,7 @@ params = {
     'inline': 'always',
     'nogil': True,
 }
+
 
 def raise_error():
     raise FFError('ff_read: not enough data')

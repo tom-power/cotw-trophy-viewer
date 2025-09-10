@@ -1,5 +1,4 @@
 import contextlib
-import math
 import zlib
 
 from lib.deca import config
@@ -11,8 +10,10 @@ from lib.deca.file import ArchiveFile
 class FileNotFound(Exception):
     pass
 
+
 class DecompressedAdfFile():
-    def __init__(self, basename: str, filename: Path, file_header: bytearray, header: bytearray, data: bytearray) -> None:
+    def __init__(self, basename: str, filename: Path, file_header: bytearray, header: bytearray,
+                 data: bytearray) -> None:
         self.basename = basename
         self.filename = filename
         self.file_header = file_header
@@ -20,25 +21,27 @@ class DecompressedAdfFile():
         self.data = data
         self.org_size = len(header + data)
 
-    def save(self, destination: Path, verbose = False) -> None:        
+    def save(self, destination: Path, verbose=False) -> None:
         decompressed_data_bytes = self.header + self.data
         new_size = len(decompressed_data_bytes)
         if self.org_size != new_size:
-          print("Org:", self.org_size, "New:", new_size)
-          decompressed_size = struct.pack("I", new_size)
-          self.file_header[8:12] = decompressed_size
-          self.file_header[24:28] = decompressed_size
+            print("Org:", self.org_size, "New:", new_size)
+            decompressed_size = struct.pack("I", new_size)
+            self.file_header[8:12] = decompressed_size
+            self.file_header[24:28] = decompressed_size
         commpressed_data_bytes = self.file_header + _compress_bytes(decompressed_data_bytes)
 
         adf_file = destination / self.basename
         if verbose:
             print(f"Saving modded file to {adf_file}")
-        _save_file(adf_file, commpressed_data_bytes, verbose=verbose)  
+        _save_file(adf_file, commpressed_data_bytes, verbose=verbose)
+
 
 class ParsedAdfFile():
     def __init__(self, decompressed: DecompressedAdfFile, adf: Adf) -> None:
         self.decompressed = decompressed
         self.adf = adf
+
 
 def _get_file_name(reserve: str, mod: bool) -> Path:
     save_path = config.MOD_DIR_PATH if mod else config.get_save_path()
@@ -49,10 +52,12 @@ def _get_file_name(reserve: str, mod: bool) -> Path:
         raise FileNotFound(f'{filename} does not exist')
     return filename
 
-def _read_file(filename: Path, verbose = False):
+
+def _read_file(filename: Path, verbose=False):
     if verbose:
         print(f"Reading {filename}")
     return filename.read_bytes()
+
 
 def _decompress_bytes(data_bytes: bytearray) -> bytearray:
     decompress = zlib.decompressobj()
@@ -60,19 +65,22 @@ def _decompress_bytes(data_bytes: bytearray) -> bytearray:
     decompressed = decompressed + decompress.flush()
     return decompressed
 
+
 def _compress_bytes(data_bytes: bytearray) -> bytearray:
     compress = zlib.compressobj()
     compressed = compress.compress(data_bytes)
     compressed = compressed + compress.flush()
     return compressed
 
-def _save_file(filename: Path, data_bytes: bytearray, verbose = False):
+
+def _save_file(filename: Path, data_bytes: bytearray, verbose=False):
     Path(filename.parent).mkdir(exist_ok=True)
     filename.write_bytes(data_bytes)
     if verbose:
         print(f"Saved {filename}")
 
-def _decompress_adf_file(filename: Path, verbose = False) -> DecompressedAdfFile:
+
+def _decompress_adf_file(filename: Path, verbose=False) -> DecompressedAdfFile:
     # read entire adf file
     data_bytes = _read_file(filename, verbose)
     data_bytes = bytearray(data_bytes)
@@ -102,7 +110,8 @@ def _decompress_adf_file(filename: Path, verbose = False) -> DecompressedAdfFile
         decompressed_data_bytes
     )
 
-def _parse_adf_file(filename: Path, suffix: str = None, verbose = False) -> Adf:
+
+def _parse_adf_file(filename: Path, suffix: str = None, verbose=False) -> Adf:
     obj = Adf()
     with ArchiveFile(open(filename, 'rb')) as f:
         with contextlib.redirect_stdout(None):
@@ -113,12 +122,14 @@ def _parse_adf_file(filename: Path, suffix: str = None, verbose = False) -> Adf:
     _save_file(txt_filename, bytearray(content, 'utf-8'), verbose)
     return obj
 
-def _parse_adf(filename: Path, suffix: str = None, verbose = False) -> Adf:
+
+def _parse_adf(filename: Path, suffix: str = None, verbose=False) -> Adf:
     if verbose:
         print(f"Parsing {filename}")
     return _parse_adf_file(filename, suffix, verbose=verbose)
 
-def load_adf(filename: Path, verbose = False) -> ParsedAdfFile:
+
+def load_adf(filename: Path, verbose=False) -> ParsedAdfFile:
     data = _decompress_adf_file(filename, verbose=verbose)
     adf = _parse_adf(data.filename, verbose=verbose)
     return ParsedAdfFile(data, adf)

@@ -1,4 +1,3 @@
-
 class TrophyAnimal:
     type: ""
 
@@ -15,7 +14,10 @@ class TrophyAnimal:
         self.reserve = reserve
 
     def toString(self):
-        return "["+self.datetime+"] | Weight: "+str(self.weight)+" | Fur: "+str(self.furType)+" | Gender: "+str(self.gender)+" | Score: "+str(self.score)+" | Rating: "+str(self.rating)+" | Cash: "+str(self.cash)+" | XP: "+str(self.xp)+" | RatingIcon: "+str(self.ratingIcon)+" | Difficulty: "+str(self.difficulty)+""
+        return "[" + self.datetime + "] | Weight: " + str(self.weight) + " | Fur: " + str(
+            self.furType) + " | Gender: " + str(self.gender) + " | Score: " + str(self.score) + " | Rating: " + str(
+            self.rating) + " | Cash: " + str(self.cash) + " | XP: " + str(self.xp) + " | RatingIcon: " + str(
+            self.ratingIcon) + " | Difficulty: " + str(self.difficulty) + ""
 
     def getID(self):
-        return str(self.weight)+'-'+str(self.rating)+'-'+str(self.difficulty)
+        return str(self.weight) + '-' + str(self.rating) + '-' + str(self.difficulty)

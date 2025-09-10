@@ -1,6 +1,5 @@
-from typing import List
 import numpy as np
-from numba import njit, jit
+from numba import njit
 
 
 class FFError(Exception):
@@ -11,6 +10,7 @@ params = {
     'inline': 'always',
     'nogil': True,
 }
+
 
 @njit
 def raise_error():

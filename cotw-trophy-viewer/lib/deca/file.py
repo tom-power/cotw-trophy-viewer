@@ -1,4 +1,5 @@
 import struct
+
 from lib.deca.errors import EDecaOutOfData
 
 
@@ -205,5 +206,3 @@ class ArchiveFile:
 
     def write_f64(self, v):
         return self.write_base('d', 8, v)
-
-

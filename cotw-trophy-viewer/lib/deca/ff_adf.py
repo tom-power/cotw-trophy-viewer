@@ -1,9 +1,9 @@
-import io
 import enum
+import io
 from typing import List, Dict
-from lib.deca.errors import *
-from lib.deca.file import ArchiveFile
+
 from lib.deca.fast_file import *
+from lib.deca.file import ArchiveFile
 from lib.deca.hashes import hash32_func
 
 adf_hash_fields = {
@@ -265,16 +265,19 @@ def dump_type(type_id, type_map, offset=0, displayed_types=None):
     elif type_def.metatype == 1:  # Structure
         for m in type_def.members:
             sbuf = sbuf + '{}{} o:{}({:08x})[{}] s:{} t:{:08x} dt:{:08x} dv:{:016x}\n'.format(
-                ' ' * (offset + 2), m.name_utf8, m.offset, m.offset, m.bit_offset, m.size, m.type_hash, m.default_type, m.default_value)
+                ' ' * (offset + 2), m.name_utf8, m.offset, m.offset, m.bit_offset, m.size, m.type_hash, m.default_type,
+                m.default_value)
             sbuf = sbuf + dump_type(m.type_hash, type_map, offset + 4, displayed_types=displayed_types + [type_id])
     elif type_def.metatype == 2:  # Pointer
         pass
     elif type_def.metatype == 3:  # Array
         sbuf = sbuf + '{}Length: {}\n'.format(' ' * (offset + 2), type_def.element_length)
-        sbuf = sbuf + dump_type(type_def.element_type_hash, type_map, offset+2, displayed_types=displayed_types + [type_id])
+        sbuf = sbuf + dump_type(type_def.element_type_hash, type_map, offset + 2,
+                                displayed_types=displayed_types + [type_id])
     elif type_def.metatype == 4:  # Inline Array
         sbuf = sbuf + '{}Length: {}\n'.format(' ' * (offset + 2), type_def.element_length)
-        sbuf = sbuf + dump_type(type_def.element_type_hash, type_map, offset+2, displayed_types=displayed_types + [type_id])
+        sbuf = sbuf + dump_type(type_def.element_type_hash, type_map, offset + 2,
+                                displayed_types=displayed_types + [type_id])
     elif type_def.metatype == 7:  # BitField
         pass
     elif type_def.metatype == 8:  # Enumeration
@@ -320,7 +323,8 @@ def adf_type_id_to_str(type_id, type_map):
 class AdfValue:
     __slots__ = ('value', 'type_id', 'info_offset', 'data_offset', 'bit_offset', 'enum_string', 'hash_string')
 
-    def __init__(self, value, type_id, info_offset, data_offset=None, bit_offset=None, enum_string=None, hash_string=None):
+    def __init__(self, value, type_id, info_offset, data_offset=None, bit_offset=None, enum_string=None,
+                 hash_string=None):
         self.value = value
         self.type_id = type_id
         self.info_offset = info_offset
@@ -348,6 +352,7 @@ class AdfValue:
             s = s + '  # {}'.format(self.hash_string)
 
         return s
+
 
 def adf_format(v, type_map, indent=0):
     if isinstance(v, AdfValue):
@@ -430,6 +435,7 @@ def adf_format(v, type_map, indent=0):
         comment = None
         return '  ' * indent + f'{v}{comment}\n'
 
+
 def adf_value_extract(v):
     if isinstance(v, AdfValue):
         return adf_value_extract(v.value)
@@ -447,7 +453,6 @@ def adf_value_extract(v):
 def read_instance(
         buffer, n_buffer, buffer_pos, type_id, map_typedef, map_string_hash, abs_offset,
         bit_offset=None, found_strings=None):
-
     dpos = buffer_pos
     if type_id == typedef_s8:
         v, buffer_pos = ff_read_s8(buffer, n_buffer, buffer_pos)
@@ -522,14 +527,14 @@ def read_instance(
         gdf_buffer_pos = 0
 
         count, gdf_buffer_pos = ff_read_u32s(gdf_buffer, gdf_n_buffer, gdf_buffer_pos, 8)
-        assert(count[0] == 32)
-        assert(count[1] == 16)
-        assert(count[2] == count[6])
-        assert(count[3] == 0)
+        assert (count[0] == 32)
+        assert (count[1] == 16)
+        assert (count[2] == count[6])
+        assert (count[3] == 0)
         # assert(count[4] == filesize +- k)
-        assert(count[5] == 16)
-        assert(count[6] == count[2])
-        assert(count[7] == 0)
+        assert (count[5] == 16)
+        assert (count[6] == count[2])
+        assert (count[7] == 0)
         dir_list = []
         for i in range(count[2]):
             d00_offset, gdf_buffer_pos = ff_read_u32(gdf_buffer, gdf_n_buffer, gdf_buffer_pos)
@@ -540,11 +545,11 @@ def read_instance(
             d20_unk, gdf_buffer_pos = ff_read_u32(gdf_buffer, gdf_n_buffer, gdf_buffer_pos)
             d24_unk, gdf_buffer_pos = ff_read_u32(gdf_buffer, gdf_n_buffer, gdf_buffer_pos)
             d28_unk, gdf_buffer_pos = ff_read_u32(gdf_buffer, gdf_n_buffer, gdf_buffer_pos)
-            assert(d04_unk == 16)
-            assert(d12_unk == 0)
-            assert(d20_unk == 16)
-            assert(d24_unk == 0)
-            assert(d28_unk == 0)
+            assert (d04_unk == 16)
+            assert (d12_unk == 0)
+            assert (d20_unk == 16)
+            assert (d24_unk == 0)
+            assert (d28_unk == 0)
             entry = [d00_offset, d16_vpath_offset, d08_filetype_hash, d04_unk, d12_unk, d20_unk, d24_unk, d28_unk]
             dir_list.append(entry)
 

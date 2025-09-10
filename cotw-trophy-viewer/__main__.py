@@ -12,4 +12,5 @@ if __name__ == '__main__':
     def home():
         homePage(trophyAnimals)
 
+
     ui.run(native=True, reload=False, window_size=(1200, 800), title="theHunterCotW: Trophy Viewer")

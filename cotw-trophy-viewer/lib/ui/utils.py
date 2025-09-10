@@ -1,5 +1,6 @@
 from lib.model.constants import *
 
+
 class RatingCount:
     def __init__(self, none, bronze, silver, gold, diamond, greatOne):
         self.none = none
@@ -34,6 +35,7 @@ def getTrophiesSinceLastDiamond(animalList):
         result = result + 1
 
     return result
+
 
 def getTrophiesCountTookForLastDiamond(animalList):
     result = -1
@@ -86,4 +88,3 @@ def getRatingCounts(animalList):
                 greatOneCount = greatOneCount + 1
 
     return RatingCount(noneCount, bronzeCount, silverCount, goldCount, diamondCount, greatOneCount)
-

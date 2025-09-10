@@ -29,8 +29,8 @@ class LoadTrophyAnimals:
             trophies = trophyLodge["TrophyAnimals"]["Trophies"]
             for trophy in trophies:
                 if "TrophyAnimal" in trophy:
-                    trophyAnimal=trophy["TrophyAnimal"]
-                    trophyAnimal['LodgeId']=trophy["LodgeId"]
+                    trophyAnimal = trophy["TrophyAnimal"]
+                    trophyAnimal['LodgeId'] = trophy["LodgeId"]
                     trophy_animals.append(trophyAnimal)
 
         return trophy_animals
