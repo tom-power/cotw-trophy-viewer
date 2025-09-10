@@ -3,7 +3,7 @@ from typing import List
 
 from nicegui import ui
 
-from lib.model.constants import GENDERS, RATING_BADGES
+from lib.model.constants import GENDERS, RATING_BADGES, RESERVES
 from lib.model.trophyanimal import TrophyAnimal
 from lib.ui.utils import getDifficultyName
 from lib.ui.utilsUi import footer, headerHome
@@ -13,7 +13,6 @@ def homePage(trophyAnimals: List[TrophyAnimal]):
     headerHome()
 
     rowData = []
-    maxLatestAnimals = 50
 
     sortedTrophyAnimals = sorted(trophyAnimals, key=lambda d: d.datetime, reverse=True)
 
@@ -36,28 +35,24 @@ def homePage(trophyAnimals: List[TrophyAnimal]):
             "score": animal.score,
             "datetime": animal.datetime,
             "lodge": animal.lodge,
-            "reserve": animal.reserve,
-
+            "reserve": list(RESERVES[animal.reserve].keys())[0] if RESERVES.__contains__(animal.reserve) else 'UNKNOWN',
         })
-
-        maxLatestAnimals = maxLatestAnimals - 1
-        if maxLatestAnimals == 0:
-            break
 
     ui.aggrid({
         'defaultColDef': {'sortable': True},
         'columnDefs': [
             {'headerName': 'Animal', 'field': 'animal'},
+            {'headerName': 'Lodge', 'field': 'lodge', 'width': '120'},
+            {'headerName': 'Reserve', 'field': 'reserve'},
             {'headerName': 'Gender', 'field': 'gender', 'width': '140'},
             {'headerName': 'Badge', 'field': 'badge', 'width': '140'},
             {'headerName': 'Rating', 'field': 'rating', 'width': '140'},
             {'headerName': 'Difficulty', 'field': 'difficulty'},
             {'headerName': 'Difficulty Score', 'field': 'difficultyScore'},
-            {'headerName': 'Fur Type', 'field': 'furType'},
             {'headerName': 'Weight', 'field': 'weight', 'width': '140'},
             {'headerName': 'Score', 'field': 'score', 'width': '120'},
-            {'headerName': 'Reserve', 'field': 'reserve', 'width': '120'},
-            {'headerName': 'Lodge', 'field': 'lodge', 'width': '120'},
+            {'headerName': 'Fur Type', 'field': 'furType'},
+
             {'headerName': 'Datetime', 'field': 'datetime', 'width': '300', 'sort': 'desc'},
         ],
         'pagination': True,
