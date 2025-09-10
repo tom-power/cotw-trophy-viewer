@@ -35,6 +35,9 @@ def homePage(trophyAnimals: List[TrophyAnimal]):
             "furType": furTypeName,
             "score": animal.score,
             "datetime": animal.datetime,
+            "lodge": animal.lodge,
+            "reserve": animal.reserve,
+
         })
 
         maxLatestAnimals = maxLatestAnimals - 1
@@ -53,6 +56,8 @@ def homePage(trophyAnimals: List[TrophyAnimal]):
             {'headerName': 'Fur Type', 'field': 'furType'},
             {'headerName': 'Weight', 'field': 'weight', 'width': '140'},
             {'headerName': 'Score', 'field': 'score', 'width': '120'},
+            {'headerName': 'Reserve', 'field': 'reserve', 'width': '120'},
+            {'headerName': 'Lodge', 'field': 'lodge', 'width': '120'},
             {'headerName': 'Datetime', 'field': 'datetime', 'width': '300', 'sort': 'desc'},
         ],
         'pagination': True,

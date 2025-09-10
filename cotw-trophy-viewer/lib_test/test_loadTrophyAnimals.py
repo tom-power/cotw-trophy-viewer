@@ -1,5 +1,7 @@
 import unittest
 
+import numpy as np
+
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.model.trophyanimal import TrophyAnimal
 from lib_test.fixtures import FIXTURES_PATH
@@ -21,3 +23,5 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.difficulty, 0.39767796)
         self.assertEqual(testAnimal.datetime, '1738269517')
         self.assertEqual(testAnimal.furType, 9)
+        self.assertEqual(testAnimal.lodge, np.uint32(0))
+        self.assertEqual(testAnimal.reserve, np.uint32(0))

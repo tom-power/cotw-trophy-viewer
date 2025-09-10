@@ -29,7 +29,9 @@ class LoadTrophyAnimals:
             trophies = trophyLodge["TrophyAnimals"]["Trophies"]
             for trophy in trophies:
                 if "TrophyAnimal" in trophy:
-                    trophy_animals.append(trophy["TrophyAnimal"])
+                    trophyAnimal=trophy["TrophyAnimal"]
+                    trophyAnimal['LodgeId']=trophy["LodgeId"]
+                    trophy_animals.append(trophyAnimal)
 
         return trophy_animals
 
@@ -46,6 +48,8 @@ class LoadTrophyAnimals:
             datetime = str(animal_data.get("HarvestedAt", 0))
             fur_type = animal_data.get("VariationIndex", 0)
             animal_type = self.mapAnimalTypes(animal_data.get("Type", 0))
+            lodge = animal_data.get("LodgeId", 0)
+            reserve = animal_data.get("HarvestReserve", 0)
             animal = TrophyAnimal(
                 type=animal_type,
                 weight=weight,
@@ -54,7 +58,9 @@ class LoadTrophyAnimals:
                 rating=rating,
                 difficulty=difficulty,
                 datetime=datetime,
-                furType=fur_type
+                furType=fur_type,
+                reserve=reserve,
+                lodge=lodge,
             )
 
             trophiesAnimals.append(animal)
