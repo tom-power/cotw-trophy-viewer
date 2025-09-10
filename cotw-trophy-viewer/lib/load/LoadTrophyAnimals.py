@@ -51,7 +51,7 @@ class LoadTrophyAnimals:
             lodge = animal_data.get("LodgeId", 0)
             reserve = animal_data.get("HarvestReserve", 0)
             animal = TrophyAnimal(
-                type=animal_type,
+                animalType=animal_type,
                 weight=weight,
                 gender=gender,
                 score=score,

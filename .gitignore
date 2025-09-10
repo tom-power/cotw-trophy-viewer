@@ -11,3 +11,4 @@ data
 .working
 .DS_Store
 notes
+.env

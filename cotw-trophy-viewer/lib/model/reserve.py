@@ -1,3 +1,27 @@
+from enum import Enum
+
+
 class Reserve:
     def __init__(self, animalsPerClass):
         self.animalsPerClass = animalsPerClass
+
+class ReserveEnum(Enum):
+    HIRSCHFELDEN=0
+    LAYTON_LAKE=1
+    MEDVED_TAIGA=2
+    VURHONGA_SAVANNA=3
+    PARQUE_FERNANDO=4
+    YUKON_VALLEY=6
+    CUATRO_COLINAS=8
+    SILVER_RIDGE_PEAKS=9
+    TE_AWAROA_NATIONAL_PARK=10
+    RANCHO_DEL_ARROYO=11
+    MISSISSIPPI_ACRES_PRESERVE=12
+    REVONTULI_COAST=13
+    NEW_ENGLAND_MOUNTAINS=14
+    SUNDARPATAN=15
+    EMERALD_COAST=16
+
+
+    def reserveName(self) -> str:
+            return self.name.replace("_", " ")
