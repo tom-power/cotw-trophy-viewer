@@ -13,7 +13,7 @@ Lots copied from the following:
 
 Mapping `TrophyAnimal` -> `Type` in `trophy_lodges_adf` manually at the moment, and any help with that would be much appreciated.
 
-Please do via PR against [this][https://github.com/tom-power/cotw-trophy-viewer/blob/main/cotw-trophy-viewer/lib/model/animalType.py] file, or issue etc.
+Please do via PR against [this](https://github.com/tom-power/cotw-trophy-viewer/blob/main/cotw-trophy-viewer/lib/model/animalType.py) file, or issue etc.
 
 ```
 {
@@ -26,6 +26,6 @@ Please do via PR against [this][https://github.com/tom-power/cotw-trophy-viewer/
 }
 ```
 
-You can check your `trophy_lodges_adf` using the [adf tool][https://mathartbang.com/deca/tool/adf.html].
+You can check your `trophy_lodges_adf` using the [adf tool](https://mathartbang.com/deca/tool/adf.html).
 
 Alternatively, if anyone has insight as to how the `Type` is generated and could share that would be fantastic.
