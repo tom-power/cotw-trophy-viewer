@@ -1,3 +1,5 @@
+from typing import List
+
 from lib.model.reserve import Reserve
 
 RESERVES = {

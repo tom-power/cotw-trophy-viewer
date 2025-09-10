@@ -5,12 +5,11 @@ from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.ui.home import homePage
 
 if __name__ == '__main__':
-    trophyAnimals = loadTrophyAnimals(get_save_path())
+
 
 
     @ui.page("/")
     def home():
-        homePage(trophyAnimals)
+        homePage()
 
-
-    ui.run(native=True, reload=False, window_size=(1200, 800), title="theHunterCotW: Trophy Viewer")
+    ui.run(native=True, reload=False, window_size=(1200, 800), title="cotw: Trophy Viewer")

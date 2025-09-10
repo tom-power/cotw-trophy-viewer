@@ -1,20 +1,21 @@
 import math
-from typing import List
+from datetime import datetime
 
 from nicegui import ui
 
+from lib.db.db import Db
 from lib.model.constants import GENDERS, RATING_BADGES, RESERVES
-from lib.model.trophyanimal import TrophyAnimal
 from lib.ui.utils import getDifficultyName
 from lib.ui.utilsUi import footer, headerHome
 
 
-def homePage(trophyAnimals: List[TrophyAnimal]):
-    headerHome()
+def homePage():
+    db=Db()
+
+    headerHome(db)
 
     rowData = []
-
-    sortedTrophyAnimals = sorted(trophyAnimals, key=lambda d: d.datetime, reverse=True)
+    sortedTrophyAnimals = sorted(db.trophyAnimals(), key=lambda d: d.datetime, reverse=True)
 
     for animal in sortedTrophyAnimals:
         furTypeName = "UNKNOWN"
@@ -33,7 +34,7 @@ def homePage(trophyAnimals: List[TrophyAnimal]):
             "difficultyScore": math.floor(animal.difficulty * 1000) / 1000,
             "furType": furTypeName,
             "score": animal.score,
-            "datetime": animal.datetime,
+            "datetime": datetime.fromtimestamp(int(animal.datetime)),
             "lodge": animal.lodge,
             "reserve": list(RESERVES[animal.reserve].keys())[0] if RESERVES.__contains__(animal.reserve) else 'UNKNOWN',
         })
@@ -41,9 +42,9 @@ def homePage(trophyAnimals: List[TrophyAnimal]):
     ui.aggrid({
         'defaultColDef': {'sortable': True},
         'columnDefs': [
-            {'headerName': 'Animal', 'field': 'animal'},
-            {'headerName': 'Lodge', 'field': 'lodge', 'width': '120'},
+            {'headerName': 'Lodge', 'field': 'lodge'},
             {'headerName': 'Reserve', 'field': 'reserve'},
+            {'headerName': 'Animal', 'field': 'animal'},
             {'headerName': 'Gender', 'field': 'gender', 'width': '140'},
             {'headerName': 'Badge', 'field': 'badge', 'width': '140'},
             {'headerName': 'Rating', 'field': 'rating', 'width': '140'},
@@ -52,7 +53,6 @@ def homePage(trophyAnimals: List[TrophyAnimal]):
             {'headerName': 'Weight', 'field': 'weight', 'width': '140'},
             {'headerName': 'Score', 'field': 'score', 'width': '120'},
             {'headerName': 'Fur Type', 'field': 'furType'},
-
             {'headerName': 'Datetime', 'field': 'datetime', 'width': '300', 'sort': 'desc'},
         ],
         'pagination': True,
