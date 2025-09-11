@@ -29,9 +29,9 @@ def homePage():
     def updateQueryFor(key):
         return lambda e: updateQuery(key, e.value)
 
-    with ui.element("div").style("display:grid;grid-template-columns:1fr auto;width:100%"):
-        with ui.element("div"):
-            topControlsGrid = ui.grid(columns=2)
+    # with ui.element("div").style("display:grid;grid-template-columns:1fr auto;width:100%"):
+    #     with ui.element("div"):
+    topControlsGrid = ui.grid(columns='150px 1fr')
 
     topButtonRow = ui.row()
 
@@ -56,6 +56,7 @@ def homePage():
         grid.update()
 
     with topControlsGrid:
+        ui.space()
         dropdown(db.lodges(), "lodge", updateQueryFor('lodges'))
 
         andOr(updateQueryFor('reservesAndOr'))
@@ -66,11 +67,9 @@ def homePage():
 
         andOr(updateQueryFor('animalsAndOr'))
         dropdown({0: "ALL"} | animalsOptions(), "animal", updateQueryFor('animals'))
-        checkbox('all animals', updateQueryFor('animalsAll'))
 
     with topButtonRow:
-        ui.button('Filter', on_click=lambda: updateGrid())
-        ui.button('Refresh', on_click=lambda: homePage())
+        ui.button('Reload', on_click=lambda: updateGrid())
 
     footer()
 
