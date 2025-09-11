@@ -14,12 +14,12 @@ def homePage():
 
     queryDict = {
         'lodges': [],
-        'lodgesAndOr': 'or',
-        'reserves': [],
         'reservesAndOr': 'or',
-        'animals': [],
-        'animalsAndOr': 'or',
+        'reserves': [],
+        'badgesAndOr': 'or',
         'badges': [],
+        'animalsAndOr': 'or',
+        'animals': [],
         'animalsAll': False,
     }
 
@@ -29,8 +29,11 @@ def homePage():
     def updateQueryFor(key):
         return lambda e: updateQuery(key, e.value)
 
-    topGrid = ui.grid(columns=2)
-    topRow = ui.row()
+    with ui.element("div").style("display:grid;grid-template-columns:1fr auto;width:100%"):
+        with ui.element("div"):
+            topControlsGrid = ui.grid(columns=2)
+
+    topButtonRow = ui.row()
 
     grid = ui.aggrid({
         'defaultColDef': {'sortable': True},
@@ -52,20 +55,20 @@ def homePage():
         grid.options['rowData'] = rowData(db.trophyAnimals(queryDict))
         grid.update()
 
-    with topGrid:
+    with topControlsGrid:
         dropdown(db.lodges(), "lodge", updateQueryFor('lodges'))
-        andOr(updateQueryFor('lodgesAndOr'))
 
-        dropdown(reservesOptions(), "reserve", updateQueryFor('reserves'))
         andOr(updateQueryFor('reservesAndOr'))
+        dropdown(reservesOptions(), "reserve", updateQueryFor('reserves'))
 
+        andOr(updateQueryFor('badgesAndOr'))
         dropdown(badgeOptions(), "badge", updateQueryFor('badge'))
-        andOr(updateQueryFor('animalsAndOr'))
 
+        andOr(updateQueryFor('animalsAndOr'))
         dropdown({0: "ALL"} | animalsOptions(), "animal", updateQueryFor('animals'))
         checkbox('all animals', updateQueryFor('animalsAll'))
 
-    with topRow:
+    with topButtonRow:
         ui.button('Filter', on_click=lambda: updateGrid())
         ui.button('Refresh', on_click=lambda: homePage())
 
