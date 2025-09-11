@@ -4,7 +4,7 @@ from datetime import datetime
 from nicegui import ui
 
 from lib.db.db import Db
-from lib.model.constants import GENDERS, RATING_BADGES, RESERVES
+from lib.model.constants import GENDERS, RESERVES
 from lib.ui.utils import getDifficultyName
 from lib.ui.utilsUi import footer, dropdown, reservesOptions, animalsOptions, badgeOptions, andOr, checkbox
 
@@ -26,15 +26,14 @@ def homePage():
     def updateQuery(key, value):
         queryDict[key] = value
 
-    topGrid= ui.grid(columns=2)
-    topRow= ui.row()
+    topGrid = ui.grid(columns=2)
+    topRow = ui.row()
 
     def rowData():
         rows = []
-        sortedTrophyAnimals = sorted(db.trophyAnimals(queryDict),
-                                     key=lambda d: d.datetime, reverse=True)
+        trophyAnimals = db.trophyAnimals(queryDict)
 
-        for animal in sortedTrophyAnimals:
+        for animal in trophyAnimals:
             furTypeName = "UNKNOWN"
 
             if hasattr(animal, "furType") and animal.furType is not None:
@@ -81,7 +80,7 @@ def homePage():
     with topGrid:
         dropdown(db.lodges(), "lodge", lambda e: updateQuery('lodges', e.value))
         andOr(lambda e: updateQuery('lodgesAndOr', e.value))
-        
+
         dropdown(reservesOptions(), "reserve", lambda e: updateQuery('reserves', e.value))
         andOr(lambda e: updateQuery('reservesAndOr', e.value))
 
