@@ -12,14 +12,21 @@ class Db:
         self._trophyAnimals = Table('TrophyAnimals')
         self._trophyAnimals.insert_many(loadTrophyAnimals(get_save_path()))
 
-    def trophyAnimals(self, lodges, reserves, animals) -> List[TrophyAnimal]:
-        if len(lodges) > 0 or len(reserves) > 0 or len(animals) > 0:
-            lodgeSelection = self._trophyAnimals.where(lodge=Table.is_in(lodges))
-            reserveSelection = self._trophyAnimals.where(reserve=Table.is_in(reserves))
-            animalsSelection = self._trophyAnimals.where(type=Table.is_in(animals))
+    def trophyAnimals(self, query: dict) -> List[TrophyAnimal]:
+        _lodges = query['lodges']
+        _reserves = query['reserves']
+        _badges = query['badges']
+        _animals = query['animals']
+        if len(_lodges) > 0 or len(_reserves) > 0 or len(_animals) > 0:
+            lodgeSelection = self._trophyAnimals.where(lodge=Table.is_in(_lodges))
+            reserveSelection = self._trophyAnimals.where(reserve=Table.is_in(_reserves))
+            badgeSelection = self._trophyAnimals.where(badge=Table.is_in(_badges))
+            animalsSelection = self._trophyAnimals.where(type=Table.is_in(_animals))
             return list(
                 lodgeSelection
+                    .outer_join(Table.FULL_OUTER_JOIN, lodgeSelection, id="id")
                     .outer_join(Table.FULL_OUTER_JOIN, reserveSelection, id="id")
+                    .outer_join(Table.FULL_OUTER_JOIN, badgeSelection, id="id")
                     .outer_join(Table.FULL_OUTER_JOIN, animalsSelection, id="id")
             )
         return list(self._trophyAnimals)

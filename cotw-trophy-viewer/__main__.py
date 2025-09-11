@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from lib.ui.home import homePage
+from lib.ui.homePage import homePage
 
 if __name__ == '__main__':
     @ui.page("/")

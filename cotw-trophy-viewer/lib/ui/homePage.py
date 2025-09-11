@@ -6,31 +6,33 @@ from nicegui import ui
 from lib.db.db import Db
 from lib.model.constants import GENDERS, RATING_BADGES, RESERVES
 from lib.ui.utils import getDifficultyName
-from lib.ui.utilsUi import footer, dropdownFor, reservesOptions, animalsOptions, badgeOptions
-
+from lib.ui.utilsUi import footer, dropdown, reservesOptions, animalsOptions, badgeOptions, andOr, checkbox
 
 
 def homePage():
+    db = Db()
 
-    db=Db()
+    queryDict = {
+        'lodges': [],
+        'lodgesAndOr': 'or',
+        'reserves': [],
+        'reservesAndOr': 'or',
+        'animals': [],
+        'animalsAndOr': 'or',
+        'badges': [],
+        'animalsAll': False,
+    }
 
-    lodgesSelected = []
-    reservesSelected = []
-    animalsSelected = []
-    def update(listToUpdate, value):
-        listToUpdate.clear()
-        listToUpdate += value
+    def updateQuery(key, value):
+        queryDict[key] = value
 
-
-    with ui.element("div").style("display:grid;grid-template-columns:1fr auto;width:100%"):
-        with ui.element("div"):
-            ui.label("TROPHIES").style("font-size:30px;color:#666;")
-
-    topRow = ui.row()
+    topGrid= ui.grid(columns=2)
+    topRow= ui.row()
 
     def rowData():
         rows = []
-        sortedTrophyAnimals = sorted(db.trophyAnimals(lodgesSelected, reservesSelected, animalsSelected), key=lambda d: d.datetime, reverse=True)
+        sortedTrophyAnimals = sorted(db.trophyAnimals(queryDict),
+                                     key=lambda d: d.datetime, reverse=True)
 
         for animal in sortedTrophyAnimals:
             furTypeName = "UNKNOWN"
@@ -46,8 +48,8 @@ def homePage():
                 "animal": animal.type,
                 "gender": GENDERS[animal.gender] if GENDERS.__contains__(animal.gender) else 'UNKNOWN',
                 "weight": round(animal.weight * 100) / 100,
-                "badge": RATING_BADGES[animal.rating] if RATING_BADGES.__contains__(animal.rating) else 'UNKNOWN',
                 "rating": math.floor(animal.rating * 100) / 100,
+                "badge": animal.badge,
                 "difficulty": getDifficultyName(animal.difficulty),
                 "difficultyScore": math.floor(animal.difficulty * 1000) / 1000,
                 "furType": furTypeName,
@@ -76,11 +78,21 @@ def homePage():
         grid.options['rowData'] = rowData()
         grid.update()
 
+    with topGrid:
+        dropdown(db.lodges(), "lodge", lambda e: updateQuery('lodges', e.value))
+        andOr(lambda e: updateQuery('lodgesAndOr', e.value))
+        
+        dropdown(reservesOptions(), "reserve", lambda e: updateQuery('reserves', e.value))
+        andOr(lambda e: updateQuery('reservesAndOr', e.value))
+
+        dropdown(badgeOptions(), "badge", lambda e: updateQuery('badge', e.value))
+        andOr(lambda e: updateQuery('animalsAndOr', e.value))
+
+        dropdown({0: "ALL"} | animalsOptions(), "animal", lambda e: updateQuery('animals', e.value))
+        checkbox('all animals', lambda e: updateQuery('animalsAll', e.value))
+
     with topRow:
-        dropdownFor(db.lodges(), "lodge", lambda e: update(lodgesSelected, e.value))
-        dropdownFor(reservesOptions(), "reserve", lambda e: update(reservesSelected, e.value))
-        dropdownFor({0: "ALL"} | animalsOptions(), "animal", lambda e: update(animalsSelected, e.value))
-        dropdownFor(badgeOptions(), "badge", lambda e: e)
-        ui.button('Update', on_click=lambda : updateGrid())
+        ui.button('Filter', on_click=lambda: updateGrid())
+        ui.button('Refresh', on_click=lambda: homePage())
 
     footer()

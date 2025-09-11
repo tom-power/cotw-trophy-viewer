@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Callable, List
 
 from lib.deca.adf import load_adf
+from lib.model.constants import RATING_BADGES
 from lib.model.trophyanimal import TrophyAnimal
 
 
@@ -56,6 +57,7 @@ class LoadTrophyAnimals:
                 gender=gender,
                 score=score,
                 rating=rating,
+                badge=RATING_BADGES[rating] if RATING_BADGES.__contains__(rating) else 'UNKNOWN',
                 difficulty=difficulty,
                 datetime=datetime,
                 furType=fur_type,
