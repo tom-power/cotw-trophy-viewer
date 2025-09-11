@@ -26,36 +26,11 @@ def homePage():
     def updateQuery(key, value):
         queryDict[key] = value
 
+    def updateQueryFor(key):
+        return lambda e: updateQuery(key, e.value)
+
     topGrid = ui.grid(columns=2)
     topRow = ui.row()
-
-    def rowData():
-        rows = []
-        trophyAnimals = db.trophyAnimals(queryDict)
-
-        for animal in trophyAnimals:
-            furTypeName = "UNKNOWN"
-
-            if hasattr(animal, "furType") and animal.furType is not None:
-                furTypeName = animal.furType
-
-            rows.append({
-                # "id": idDisplay,
-                "lodge": animal.lodge,
-                "reserve": list(RESERVES[animal.reserve].keys())[0] if RESERVES.__contains__(
-                    animal.reserve) else 'UNKNOWN',
-                "animal": animal.type,
-                "gender": GENDERS[animal.gender] if GENDERS.__contains__(animal.gender) else 'UNKNOWN',
-                "weight": round(animal.weight * 100) / 100,
-                "rating": math.floor(animal.rating * 100) / 100,
-                "badge": animal.badge,
-                "difficulty": getDifficultyName(animal.difficulty),
-                "difficultyScore": math.floor(animal.difficulty * 1000) / 1000,
-                "furType": furTypeName,
-                "score": animal.score,
-                "datetime": datetime.fromtimestamp(int(animal.datetime)),
-            })
-        return rows
 
     grid = ui.aggrid({
         'defaultColDef': {'sortable': True},
@@ -70,28 +45,56 @@ def homePage():
         ],
         'pagination': True,
         'paginationPageSize': 50,
-        'rowData': rowData()
+        'rowData': rowData(db.trophyAnimals(queryDict))
     }, html_columns=[0]).style("height: 600px")
 
     def updateGrid():
-        grid.options['rowData'] = rowData()
+        grid.options['rowData'] = rowData(db.trophyAnimals(queryDict))
         grid.update()
 
     with topGrid:
-        dropdown(db.lodges(), "lodge", lambda e: updateQuery('lodges', e.value))
-        andOr(lambda e: updateQuery('lodgesAndOr', e.value))
+        dropdown(db.lodges(), "lodge", updateQueryFor('lodges'))
+        andOr(updateQueryFor('lodgesAndOr'))
 
-        dropdown(reservesOptions(), "reserve", lambda e: updateQuery('reserves', e.value))
-        andOr(lambda e: updateQuery('reservesAndOr', e.value))
+        dropdown(reservesOptions(), "reserve", updateQueryFor('reserves'))
+        andOr(updateQueryFor('reservesAndOr'))
 
-        dropdown(badgeOptions(), "badge", lambda e: updateQuery('badge', e.value))
-        andOr(lambda e: updateQuery('animalsAndOr', e.value))
+        dropdown(badgeOptions(), "badge", updateQueryFor('badge'))
+        andOr(updateQueryFor('animalsAndOr'))
 
-        dropdown({0: "ALL"} | animalsOptions(), "animal", lambda e: updateQuery('animals', e.value))
-        checkbox('all animals', lambda e: updateQuery('animalsAll', e.value))
+        dropdown({0: "ALL"} | animalsOptions(), "animal", updateQueryFor('animals'))
+        checkbox('all animals', updateQueryFor('animalsAll'))
 
     with topRow:
         ui.button('Filter', on_click=lambda: updateGrid())
         ui.button('Refresh', on_click=lambda: homePage())
 
     footer()
+
+
+def rowData(trophyAnimals) -> [dict]:
+    rows = []
+
+    for animal in trophyAnimals:
+        furTypeName = "UNKNOWN"
+
+        if hasattr(animal, "furType") and animal.furType is not None:
+            furTypeName = animal.furType
+
+        rows.append({
+            # "id": idDisplay,
+            "lodge": animal.lodge,
+            "reserve": list(RESERVES[animal.reserve].keys())[0] if RESERVES.__contains__(
+                animal.reserve) else 'UNKNOWN',
+            "animal": animal.type,
+            "gender": GENDERS[animal.gender] if GENDERS.__contains__(animal.gender) else 'UNKNOWN',
+            "weight": round(animal.weight * 100) / 100,
+            "rating": math.floor(animal.rating * 100) / 100,
+            "badge": animal.badge,
+            "difficulty": getDifficultyName(animal.difficulty),
+            "difficultyScore": math.floor(animal.difficulty * 1000) / 1000,
+            "furType": furTypeName,
+            "score": animal.score,
+            "datetime": datetime.fromtimestamp(int(animal.datetime)),
+        })
+    return rows
