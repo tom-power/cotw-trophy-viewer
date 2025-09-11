@@ -4,10 +4,23 @@ Tool to view your COTW trophies.
 
 Uses `trophy_lodges_adf` and mapping to work out names.
 
-Lots copied from the following:
+Lots copied from:
 
 - [cotw-harvest-tracker](https://github.com/LordHansCapon/cotw-harvest-tracker)
 - [animal-population-changer](https://github.com/cpypasta/apc)
+
+### Installation
+
+...
+
+### Usage
+
+...
+
+
+### Build
+
+...
 
 ### Animal type mapping
 
