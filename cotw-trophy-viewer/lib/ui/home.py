@@ -25,11 +25,8 @@ def homePage():
     with ui.element("div").style("display:grid;grid-template-columns:1fr auto;width:100%"):
         with ui.element("div"):
             ui.label("TROPHIES").style("font-size:30px;color:#666;")
-    with ui.row():
-        dropdownFor(db.lodges(), "lodge", lambda e: update(lodgesSelected, e.value))
-        dropdownFor(reservesOptions(), "reserve", lambda e: update(reservesSelected, e.value))
-        dropdownFor({0:"ALL"} | animalsOptions(), "animal", lambda e: update(animalsSelected, e.value))
-        dropdownFor(badgeOptions(), "badge", lambda e: e)
+
+    topRow = ui.row()
 
     def rowData():
         rows = []
@@ -79,6 +76,11 @@ def homePage():
         grid.options['rowData'] = rowData()
         grid.update()
 
-    ui.button('Update', on_click=lambda : updateGrid())
+    with topRow:
+        dropdownFor(db.lodges(), "lodge", lambda e: update(lodgesSelected, e.value))
+        dropdownFor(reservesOptions(), "reserve", lambda e: update(reservesSelected, e.value))
+        dropdownFor({0: "ALL"} | animalsOptions(), "animal", lambda e: update(animalsSelected, e.value))
+        dropdownFor(badgeOptions(), "badge", lambda e: e)
+        ui.button('Update', on_click=lambda : updateGrid())
 
     footer()
