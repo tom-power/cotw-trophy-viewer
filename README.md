@@ -1,9 +1,5 @@
 # COTW trophy viewer
 
-Tool to view your COTW trophies.
-
-### Usage
-
 ![Screenshot](assets/screenShot.png)
 
 ### Installation
