@@ -4,6 +4,18 @@ from lib.model.animalType import AnimalType
 from lib.model.constants import RATING_BADGES
 from lib.model.reserve import ReserveEnum
 
+def uiFormFilter(db, queries):
+    ui.space()
+    dropdown(db.lodges(), "lodge", queries.updateQueryFor('lodges'))
+
+    andOr(queries.updateQueryFor('reservesAndOr'))
+    dropdown(reservesOptions(), "reserve", queries.updateQueryFor('reserves'))
+
+    andOr(queries.updateQueryFor('badgesAndOr'))
+    dropdown(badgeOptions(), "badge", queries.updateQueryFor('badge'))
+
+    andOr(queries.updateQueryFor('animalsAndOr'))
+    dropdown({0: "ALL"} | animalsOptions(), "animal", queries.updateQueryFor('animals'))
 
 def andOr(callBack):
     ui.radio(['and', 'or'], value='or', on_change=callBack).props('inline')
@@ -15,13 +27,6 @@ def dropdown(options, label, callBack):
 
 def checkbox(label, callback):
     ui.checkbox(text=label, value=False, on_change=callback)
-
-
-def isDiamondTrophy(trophies, animal):
-    for animalData in trophies.animalsOptions[animal]:
-        if animalData.ratingIcon == 0:
-            return True
-    return False
 
 
 def footer():
