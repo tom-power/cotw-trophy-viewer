@@ -5,6 +5,8 @@ from pathlib import Path
 
 APP_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
 
+_custom_save_path = None
+
 
 def _find_saves_path() -> Path | None:
     steam_saves = Path().home() / "Documents/Avalanche Studios/COTW/Saves"
@@ -40,4 +42,16 @@ DEFAULT_SAVE_PATH = _find_saves_path()
 
 
 def get_save_path() -> Path:
+    if _custom_save_path is not None:
+        return _custom_save_path
     return DEFAULT_SAVE_PATH
+
+
+def set_custom_save_path(path: Path) -> None:
+    global _custom_save_path
+    _custom_save_path = path
+
+
+def reset_to_default_save_path() -> None:
+    global _custom_save_path
+    _custom_save_path = None

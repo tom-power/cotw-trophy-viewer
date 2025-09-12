@@ -6,5 +6,5 @@ from lib.load.mapAnimalTypes import getMapAnimalTypes
 from lib.model.trophyanimal import TrophyAnimal
 
 
-def loadTrophyAnimals(savePath: Path) -> List[TrophyAnimal]:
-    return LoadTrophyAnimals(savePath, getMapAnimalTypes()).__call__()
+def loadTrophyAnimals(loadPath: Path) -> List[TrophyAnimal]:
+    return LoadTrophyAnimals(loadPath, getMapAnimalTypes()).__call__()

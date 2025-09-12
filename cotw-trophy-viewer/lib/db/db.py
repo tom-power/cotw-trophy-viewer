@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import List
 
 from littletable import Table
@@ -8,9 +9,9 @@ from lib.model.trophyanimal import TrophyAnimal
 
 
 class Db:
-    def __init__(self) -> None:
+    def __init__(self, loadPath: Path) -> None:
         self._trophyAnimals = Table('TrophyAnimals')
-        self._trophyAnimals.insert_many(loadTrophyAnimals(get_save_path()))
+        self._trophyAnimals.insert_many(loadTrophyAnimals(loadPath))
 
     def trophyAnimals(self, query: dict) -> List[TrophyAnimal]:
         _lodgesIds = query['lodges']

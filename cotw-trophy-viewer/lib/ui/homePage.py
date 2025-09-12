@@ -1,16 +1,37 @@
 import math
 from datetime import datetime
+from pathlib import Path
+import tempfile
 
 from nicegui import ui
 
 from lib.db.db import Db
+from lib.deca.config import get_save_path, set_custom_save_path, reset_to_default_save_path
 from lib.model.constants import GENDERS, RESERVES
 from lib.ui.utils import getDifficultyName
 from lib.ui.utilsUi import footer, dropdown, reservesOptions, animalsOptions, badgeOptions, andOr, checkbox
 
 
 def homePage():
-    db = Db()
+    loadPath = get_save_path()
+
+    def getLoadPath():
+        return loadPath
+
+    def getDb():
+        return Db(getLoadPath())
+
+    def updateLoadPath(new_path):
+        nonlocal loadPath
+        loadPath = new_path
+        set_custom_save_path(new_path)
+
+    def resetToDefaultPath():
+        nonlocal loadPath
+        reset_to_default_save_path()
+        loadPath = get_save_path()
+        ui.notify('Reset to default save path', type='info')
+        updateGrid()
 
     queryDict = {
         'lodges': [],
@@ -29,11 +50,11 @@ def homePage():
     def updateQueryFor(key):
         return lambda e: updateQuery(key, e.value)
 
-    # with ui.element("div").style("display:grid;grid-template-columns:1fr auto;width:100%"):
-    #     with ui.element("div"):
-    topControlsGrid = ui.grid(columns='150px 1fr')
-
-    topButtonRow = ui.row()
+    with ui.card():
+        topControlsGrid = ui.grid(columns='150px auto')
+        filterButtonRow = ui.row()
+    with ui.card():
+        updateResetButtonRow = ui.row()
 
     grid = ui.aggrid({
         'defaultColDef': {'sortable': True},
@@ -48,16 +69,31 @@ def homePage():
         ],
         'pagination': True,
         'paginationPageSize': 50,
-        'rowData': rowData(db.trophyAnimals(queryDict))
+        'rowData': rowData(getDb().trophyAnimals(queryDict))
     }, html_columns=[0]).style("height: 600px")
 
     def updateGrid():
-        grid.options['rowData'] = rowData(db.trophyAnimals(queryDict))
+        grid.options['rowData'] = rowData(getDb().trophyAnimals(queryDict))
         grid.update()
+
+    async def handle_file_upload(e):
+        if e.content:
+            temp_dir = Path(tempfile.mkdtemp())
+            temp_file_path = temp_dir / "trophy_lodges_adf"
+
+            with open(temp_file_path, 'wb') as f:
+                e.content.seek(0)  # Reset file pointer to beginning
+                f.write(e.content.read())
+
+            updateLoadPath(temp_dir)
+
+            ui.notify('Trophy file uploaded successfully! Using uploaded data.', type='positive')
+
+        updateGrid()
 
     with topControlsGrid:
         ui.space()
-        dropdown(db.lodges(), "lodge", updateQueryFor('lodges'))
+        dropdown(getDb().lodges(), "lodge", updateQueryFor('lodges'))
 
         andOr(updateQueryFor('reservesAndOr'))
         dropdown(reservesOptions(), "reserve", updateQueryFor('reserves'))
@@ -68,8 +104,15 @@ def homePage():
         andOr(updateQueryFor('animalsAndOr'))
         dropdown({0: "ALL"} | animalsOptions(), "animal", updateQueryFor('animals'))
 
-    with topButtonRow:
-        ui.button('Reload', on_click=lambda: updateGrid())
+    with filterButtonRow:
+        ui.button(text='FILTER', on_click=lambda: updateGrid())
+
+    with updateResetButtonRow:
+        ui.upload(label='UPLOAD LODGE',
+                  on_upload=handle_file_upload,
+                  multiple=False,
+                  auto_upload=True).props('accept="*"').tooltip('Upload trophy_lodges_adf file')
+        ui.button(text='RESET LODGE', on_click=resetToDefaultPath)
 
     footer()
 
