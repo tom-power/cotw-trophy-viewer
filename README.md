@@ -9,11 +9,11 @@ Lots copied from:
 - [cotw-harvest-tracker](https://github.com/LordHansCapon/cotw-harvest-tracker)
 - [animal-population-changer](https://github.com/cpypasta/apc)
 
-### Installation
-
-...
-
 ### Usage
+
+![Screenshot](assets/screenShot.png)
+
+### Installation
 
 ...
 
