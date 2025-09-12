@@ -6,7 +6,7 @@ import nicegui
 cmd = [
     'python',
     '-m', 'PyInstaller',
-    '__main__.py', # your main file with ui.run()
+    'mainNative.py', # your main file with ui.run()
     '--name', 'cotwTrophyViewer.exe', # name of your app
     '--onefile',
     '--noconsole', # prevent console appearing, only use with ui.run(native=True, ...)
