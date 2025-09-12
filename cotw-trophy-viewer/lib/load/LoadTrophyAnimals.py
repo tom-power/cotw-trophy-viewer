@@ -19,6 +19,8 @@ class LoadTrophyAnimals:
     TROPHY_LODGES_FILE = "trophy_lodges_adf"
 
     def _loadTrophyLodges(self) -> dict:
+        if self.loadPath is None:
+            return {}
         adf = load_adf(self.loadPath / self.TROPHY_LODGES_FILE, verbose=True).adf
         return adf.table_instance_values[0]
 
