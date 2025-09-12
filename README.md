@@ -4,7 +4,7 @@
 
 ### Installation
 
-Download release and the `.exe` locally 
+Download release and run the `.exe` locally 
 
 ### Run/build locally
 
