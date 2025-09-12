@@ -51,7 +51,7 @@ class LoadTrophyAnimals:
             datetime = str(animal_data.get("HarvestedAt", 0))
             fur_type = animal_data.get("VariationIndex", 0)
             animal_type = self.mapAnimalTypes(animal_data.get("Type", 0))
-            lodge = animal_data.get("LodgeId", 0)
+            lodge = animal_data.get("LodgeId", 0) + 1
             reserve = animal_data.get("HarvestReserve", 0)
             animal = TrophyAnimal(
                 animalType=animal_type,
