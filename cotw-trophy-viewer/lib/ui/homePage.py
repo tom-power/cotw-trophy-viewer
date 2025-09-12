@@ -39,13 +39,13 @@ def homePage():
         paths.resetToDefaultPath()
         updateGrid()
 
-    with ui.card():
-        with ui.grid(columns='150px auto'):
-            uiFormFilter(getDb(), queries)
-        with ui.row():
-            ui.button(text='FILTER', on_click=lambda: updateGrid())
-    with ui.card():
-        with ui.row():
+    with ui.grid(columns='800px auto'):
+        with ui.card():
+            with ui.grid(columns='150px 600px'):
+                uiFormFilter(getDb(), queries)
+            with ui.row():
+                ui.button(text='FILTER', on_click=lambda: updateGrid())
+        with ui.card():
             ui.upload(label='UPLOAD LODGE',
                       on_upload=lambda e: uploadLodge(e),
                       multiple=False,
