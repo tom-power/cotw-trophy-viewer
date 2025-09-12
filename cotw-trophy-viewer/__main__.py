@@ -8,4 +8,4 @@ if __name__ == '__main__' or __name__ == '__mp_main__':
         homePage()
 
 
-    ui.run(title="cotw: Trophy Viewer")
+    ui.run(reload=True,title="cotw: Trophy Viewer")
