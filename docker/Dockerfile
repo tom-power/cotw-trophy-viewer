@@ -4,8 +4,8 @@ RUN apt update && apt install curl build-essential -y
 
 WORKDIR /app
 
-ENV PYTHONUNBUFFERED=1
 COPY requirements.txt .
+ENV PYTHONUNBUFFERED=1
 RUN pip3 install -r requirements.txt
 
 COPY cotw-trophy-viewer .

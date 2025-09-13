@@ -3,7 +3,9 @@ services:
     build:
       context: ..
       dockerfile: ./docker/Dockerfile
+#    restart: always
+    container_name: cotw_trophy_viewer
     ports:
-      - "80:8080"
-    volumes:
-      - ./:/app
+      - 2234:8080
+#    volumes:
+#      - ./app:/app
