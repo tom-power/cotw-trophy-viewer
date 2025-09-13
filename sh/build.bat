@@ -1,4 +1,8 @@
 @echo off
-call .venv\Scripts\activate
+call .venv\Scripts\activate.bat
 cd cotw-trophy-viewer
-python build.py
+python -m PyInstaller mainNative.py ^
+    --name cotwTrophyViewer.exe ^
+    --onefile ^
+    --noconsole ^
+    --specpath .\build
