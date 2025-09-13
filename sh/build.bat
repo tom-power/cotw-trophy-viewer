@@ -1,4 +1,4 @@
 @echo off
 call .venv\Scripts\activate.bat
 cd cotw-trophy-viewer
-nicegui-pack --onefile --name "cotwTrophyViewer" mainNative.py
+nicegui-pack --onefile --windowed --name "cotwTrophyViewer" mainNative.py

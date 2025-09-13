@@ -1,3 +1,3 @@
 source .venv/bin/activate &&
 cd ./cotw-trophy-viewer &&
-nicegui-pack --onefile --name "cotwTrophyViewer" mainNative.py
+nicegui-pack --onefile --windowed --name "cotwTrophyViewer" mainNative.py
