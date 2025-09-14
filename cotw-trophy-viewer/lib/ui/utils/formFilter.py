@@ -4,6 +4,7 @@ from lib.model.animalType import AnimalType
 from lib.model.constants import RATING_BADGES
 from lib.model.reserve import ReserveEnum
 
+
 def uiFormFilter(db, queries):
     ui.space()
     dropdown(db.lodges(), "lodge", queries.updateQueryFor('lodges'))

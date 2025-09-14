@@ -1,7 +1,6 @@
+import math
 from datetime import datetime
 from typing import List
-
-import math
 
 from lib.model.constants import RESERVES, GENDERS
 from lib.ui.utils.ratings import getDifficultyName
