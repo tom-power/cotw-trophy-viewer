@@ -13,3 +13,4 @@ data
 notes
 .env
 .env.bat
+/docker/docker-compose-deploy.yml
