@@ -6,7 +6,6 @@ WORKDIR /app
 
 COPY requirements.txt .
 ENV PYTHONUNBUFFERED=1
-ENV PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 RUN pip3 install -r requirements.txt
 
 COPY cotw-trophy-viewer .
