@@ -1,3 +1,5 @@
+name: cotw_trophy_viewer
+
 services:
   cotw_trophy_viewer:
     build:
