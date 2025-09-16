@@ -4,5 +4,12 @@ services:
       context: ..
       dockerfile: ./docker/Dockerfile
     container_name: cotw_trophy_viewer
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
+    networks:
+      - example
+
+networks:
+  example:
+      name: example_network
+      external: true
