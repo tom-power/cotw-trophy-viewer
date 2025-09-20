@@ -5,8 +5,8 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.ui.utils.data import rowData
-from lib.ui.utils.formFilter import footer, uiFormFilter, dropdown, andOr, reservesOptions, badgeOptions, animalsOptions
+from lib.ui.utils.rowData import rowData
+from lib.ui.utils.formFilter import footer, select, andOrRadio, reservesOptions, badgeOptions, animalsOptions
 from lib.ui.utils.paths import Paths
 from lib.ui.utils.queries import Queries
 
@@ -43,18 +43,19 @@ def homePage(paths=Paths(get_save_path())):
         with ui.card():  # filter
             with ui.grid(columns='auto 600px'):
                 ui.space()
-                lodges_select = dropdown(db.lodges(), "lodge", queries.updateQueryFor('lodges'))
+                selectLodges = select(db.lodges(), "lodge", queries.updateQueryFor('lodges'))
 
-                andOr(queries.updateQueryFor('reservesAndOr'))
-                dropdown(reservesOptions(), "reserve", queries.updateQueryFor('reserves'))
+                andOrRadio(queries.updateQueryFor('reservesAndOr'))
+                selectReserves = select(reservesOptions(), "reserve", queries.updateQueryFor('reserves'))
 
-                andOr(queries.updateQueryFor('badgesAndOr'))
-                dropdown(badgeOptions(), "badge", queries.updateQueryFor('badge'))
+                andOrRadio(queries.updateQueryFor('badgesAndOr'))
+                selectBadges = select(badgeOptions(), "badge", queries.updateQueryFor('badge'))
 
-                andOr(queries.updateQueryFor('animalsAndOr'))
-                dropdown({0: "ALL"} | animalsOptions(), "animal", queries.updateQueryFor('animals'))
+                andOrRadio(queries.updateQueryFor('animalsAndOr'))
+                selectAnimals = select({0: "ALL"} | animalsOptions(), "animal", queries.updateQueryFor('animals'))
             with ui.row():
                 ui.button(text='FILTER', on_click=lambda: updateGrid())
+                ui.button(text='CLEAR', on_click=lambda: clearFilters())
         with ui.card():  # files
             with ui.card():
                 ui.label('LODGE FILE ' + ('FOUND' if trophyFileExists else 'NOT FOUND'))
@@ -62,8 +63,9 @@ def homePage(paths=Paths(get_save_path())):
                                          on_upload=lambda e: uploadLodge(e),
                                          multiple=False,
                                          auto_upload=True).props('accept="*"').tooltip('Upload trophy_lodges_adf file')
-            ui.button(text='RESET', on_click=lambda: reset())
-            ui.button(text='RELOAD', on_click=lambda: reload())
+            with ui.row():
+                ui.button(text='RELOAD', on_click=lambda: reload())
+                ui.button(text='RESET', on_click=lambda: reset())
 
         dataGrid = ui.aggrid({
             'defaultColDef': {'sortable': True},
@@ -81,6 +83,12 @@ def homePage(paths=Paths(get_save_path())):
             'rowData': (lambda: getRowData())()
         }, html_columns=[0]).style("height: 600px").classes('col-span-full border p-1')
 
+    def clearFilters():
+        selectLodges.set_value("")
+        selectReserves.set_value("")
+        selectBadges.set_value("")
+        selectAnimals.set_value("")
+
     def updateGrid():
         dataGrid.options['rowData'] = getRowData()
         dataGrid.update()
@@ -88,7 +96,7 @@ def homePage(paths=Paths(get_save_path())):
     def reload():
         nonlocal db
         db = Db(paths.getLoadPath())
-        lodges_select.set_options(db.lodges())
+        selectLodges.set_options(db.lodges())
         updateGrid()
 
     footer()

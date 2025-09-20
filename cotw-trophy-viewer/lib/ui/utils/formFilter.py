@@ -5,25 +5,12 @@ from lib.model.constants import RATING_BADGES
 from lib.model.reserve import ReserveEnum
 
 
-def uiFormFilter(db, queries):
-    ui.space()
-    dropdown(db.lodges(), "lodge", queries.updateQueryFor('lodges'))
-
-    andOr(queries.updateQueryFor('reservesAndOr'))
-    dropdown(reservesOptions(), "reserve", queries.updateQueryFor('reserves'))
-
-    andOr(queries.updateQueryFor('badgesAndOr'))
-    dropdown(badgeOptions(), "badge", queries.updateQueryFor('badge'))
-
-    andOr(queries.updateQueryFor('animalsAndOr'))
-    dropdown({0: "ALL"} | animalsOptions(), "animal", queries.updateQueryFor('animals'))
-
-def andOr(callBack):
+def andOrRadio(callBack):
     ui.radio(['and', 'or'], value='or', on_change=callBack).props('inline')
 
 
-def dropdown(options, label, callBack):
-    return ui.select(options=options, multiple=True, label=label, with_input=True, on_change=callBack).props('use-chips')
+def select(options, label, callBack):
+    return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True, on_change=callBack).props('use-chips')
 
 
 def checkbox(label, callback):
