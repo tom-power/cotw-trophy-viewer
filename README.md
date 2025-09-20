@@ -15,26 +15,9 @@ sh/setup.sh
 ```
 then `sh/run.sh` or `sh/runNative.sh` or `sh/build.sh` etc
 
-### Animal type mapping
+### Animal type name mapping
 
-Mapping `TrophyAnimal` -> `Type` in `trophy_lodges_adf` manually at the moment, and any help with that would be much appreciated.
-
-Please do via PR against [this](https://github.com/tom-power/cotw-trophy-viewer/blob/main/cotw-trophy-viewer/lib/model/animalType.py) file, or issue etc.
-
-```
-{
-  ...
-  "TrophyAnimal": {
-      ...
-      "Type": 1511159411 // this is a fallow deer
-      ...
-  }
-}
-```
-
-You can check your `trophy_lodges_adf` using the [adf tool](https://mathartbang.com/deca/tool/adf.html).
-
-Alternatively, if anyone has insight as to how the `Type` is generated and could share that would be fantastic.
+Animal type name in the parsed adf file is hashed at the moment and am looking that up, another way could be to not hash it in the first place, but I'm not confident with files in the `deca` package, which will probably be the downfall of this project :)
 
 ### Notes
 

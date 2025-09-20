@@ -11,8 +11,7 @@ from lib.ui.utils.paths import Paths
 from lib.ui.utils.queries import Queries
 
 
-def homePage():
-    paths = Paths(get_save_path())
+def homePage(paths = Paths(get_save_path())):
     trophyFileExists = paths.getLoadPath() and paths.getLoadPath().exists()
     queries = Queries()
 
