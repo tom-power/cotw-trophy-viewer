@@ -23,7 +23,7 @@ class AnimalType(Enum):
     COMMON_RACCOON = auto()
     COYOTE = auto()
     EASTERN_COTTONTAIL_RABBIT = auto()
-    EASTERN_GRAY_KANGAROO = auto()
+    EASTERN_GREY_KANGAROO = auto()
     EASTERN_WILD_TURKEY = auto()
     BROWN_BEAR = auto()
     EURASIAN_LYNX = auto()
@@ -37,8 +37,8 @@ class AnimalType(Enum):
     FERAL_PIG = auto()
     GEMSBOK = auto()
     GOLDENEYE = auto()
-    GRAY_FOX = auto()
-    GRAY_WOLF = auto()
+    GREY_FOX = auto()
+    GREY_WOLF = auto()
     GREDOS_IBEX = auto()
     GREEN_WINGED_TEAL = auto()
     GREYLAG_GOOSE = auto()
@@ -113,5 +113,5 @@ class AnimalType(Enum):
 
 
 _nameMap = {
-    "EU_RABBIT": "EUROPEAN RABBIT"
+    "EU_RABBIT": "EUROPEAN RABBIT",
 }

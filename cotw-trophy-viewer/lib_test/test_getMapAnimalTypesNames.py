@@ -14,6 +14,7 @@ class TestGetMapAnimalTypesFunctions(unittest.TestCase):
         self.assertEqual('FALLOW DEER', lookup(1511159411))
         self.assertEqual('SALTWATER CROCODILE', lookup(1443188410))
         self.assertEqual('EUROPEAN RABBIT', lookup(_to_unsigned_32bit(-715943829)))
+        self.assertEqual('EASTERN GREY KANGAROO', lookup(_to_unsigned_32bit(-1512662627)))
 
     def test_getMapAnimalTypesUnknown(self):
         lookup = getMapAnimalTypeNames()
