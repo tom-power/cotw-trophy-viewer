@@ -11,12 +11,16 @@ from lib.ui.utils.paths import Paths
 from lib.ui.utils.queries import Queries
 
 
-def homePage(paths = Paths(get_save_path())):
+def homePage(paths=Paths(get_save_path())):
     trophyFileExists = paths.getLoadPath() and paths.getLoadPath().exists()
     queries = Queries()
+    db = Db(paths.getLoadPath())
+
+    def reloadDb():
+        db = Db(paths.getLoadPath())
 
     def getDb():
-        return Db(paths.getLoadPath())
+        return db
 
     def getRowData() -> list[dict]:
         return rowData(getDb().trophyAnimals(queries.queryDict))
@@ -32,12 +36,9 @@ def homePage(paths = Paths(get_save_path())):
 
             paths.updateLoadPath(temp_dir)
             ui.notify('Trophy file uploaded successfully! Using uploaded data.', type='positive')
-        updateGrid()
 
     def resetLodge():
         paths.resetToDefaultPath()
-        updateGrid()
-
 
     with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
         with ui.card():  # filter
@@ -47,12 +48,13 @@ def homePage(paths = Paths(get_save_path())):
                 ui.button(text='FILTER', on_click=lambda: updateGrid())
         with ui.card():  # files
             with ui.card():
-                ui.label('COTW SAVE FILE -> ' + ('FOUND' if trophyFileExists else 'NOT FOUND'))
-            ui.upload(label='UPLOAD LODGE',
+                ui.label('LODGE FILE ' + ('FOUND' if trophyFileExists else 'NOT FOUND'))
+            ui.upload(label='UPLOAD LODGE FILE',
                       on_upload=lambda e: uploadLodge(e),
                       multiple=False,
                       auto_upload=True).props('accept="*"').tooltip('Upload trophy_lodges_adf file')
-            ui.button(text='RESET LODGE', on_click=lambda: resetLodge())
+            ui.button(text='RESET', on_click=lambda: resetLodge())
+            ui.button(text='RELOAD', on_click=lambda: reloadDb())
 
         dataGrid = ui.aggrid({
             'defaultColDef': {'sortable': True},
