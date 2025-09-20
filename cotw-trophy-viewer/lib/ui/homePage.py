@@ -35,7 +35,7 @@ def homePage(paths=Paths(get_save_path())):
                 f.write(e.content.read())
 
             paths.updateLoadPath(temp_dir)
-            ui.notify('Trophy file uploaded successfully! Using uploaded data.', type='positive')
+            ui.notify('Trophy file uploaded successfully!', type='positive')
 
     def resetLodge():
         paths.resetToDefaultPath()
