@@ -41,21 +41,30 @@ def homePage(paths=Paths(get_save_path())):
 
     with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
         with ui.card():  # filter
-            with ui.grid(columns='auto 600px'):
+            with ui.grid(columns='auto auto 600px'):
+                ui.space()
                 ui.space()
                 selectLodges = select(db.lodges(), "lodge", queries.updateQueryFor('lodges'))
 
                 andOrRadio(queries.updateQueryFor('reservesAndOr'))
+                ui.space()
                 selectReserves = select(reservesOptions(), "reserve", queries.updateQueryFor('reserves'))
 
                 andOrRadio(queries.updateQueryFor('badgesAndOr'))
+                ui.space()
                 selectBadges = select(badgeOptions(), "badge", queries.updateQueryFor('badge'))
 
                 andOrRadio(queries.updateQueryFor('animalsAndOr'))
+                ui.space()
                 selectAnimals = select({0: "ALL"} | animalsOptions(), "animal", queries.updateQueryFor('animals'))
-            with ui.row():
-                ui.button(text='FILTER', on_click=lambda: updateGrid())
-                ui.button(text='CLEAR', on_click=lambda: clearFilters())
+            with ui.grid(columns='auto 200px 200px'):
+                with ui.row():
+                    ui.button(text='FILTER', on_click=lambda: updateGrid())
+                    ui.button(text='CLEAR', on_click=lambda: clearFilters())
+                    ui.checkbox(text='All animals')
+                ui.space()
+                ui.select(options=['diamond checklist'], label='presets', with_input=True, clearable=True)
+
         with ui.card():  # files
             with ui.card():
                 ui.label('LODGE FILE ' + ('FOUND' if trophyFileExists else 'NOT FOUND'))
