@@ -6,7 +6,7 @@ from lib.model.reserve import ReserveEnum
 
 
 def andOrRadio(callBack):
-    ui.radio(['and', 'or'], value='or', on_change=callBack).props('inline')
+    ui.radio(['and', 'or'], value='and', on_change=callBack).props('inline')
 
 
 def select(options, label, callBack):
