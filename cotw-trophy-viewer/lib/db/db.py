@@ -1,4 +1,5 @@
 import sqlite3
+import sys
 from pathlib import Path
 from typing import List
 import os
@@ -8,11 +9,11 @@ from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.model.trophyanimal import TrophyAnimal
 from lib.deca.hashes import hash32_func
 
-DB_PATH = 'cotw-trophy-viewer/lib/db/data/'
+DB_PATH = Path('cotw-trophy-viewer/lib/db/data/')
 
 class Db:
-    def __init__(self, loadPath: Path, db_path: str = DB_PATH + "trophy_viewer.db") -> None:
-        self.db_path = db_path
+    def __init__(self, loadPath: Path, db_path: Path = DB_PATH) -> None:
+        self.db_path = db_path / "trophy_viewer.db"
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         self._create_database()
         self._insert_trophy_animals(loadTrophyAnimals(loadPath))
