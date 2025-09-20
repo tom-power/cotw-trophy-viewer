@@ -60,10 +60,10 @@ def homePage(paths=Paths(get_save_path())):
             with ui.grid(columns='auto 200px 200px'):
                 with ui.row():
                     ui.button(text='FILTER', on_click=lambda: updateGrid())
-                    ui.button(text='CLEAR', on_click=lambda: clearFilters())
-                    ui.checkbox(text='All animals')
+                    ui.button(text='CLEAR', on_click=lambda: clear())
+                    checkboxAllAnimals = ui.checkbox(text='All animals')
                 ui.space()
-                ui.select(options=['diamond checklist'], label='presets', with_input=True, clearable=True)
+                selectPresets = ui.select(options=['diamond checklist'], label='presets', with_input=True, clearable=True)
 
         with ui.card():  # files
             with ui.card():
@@ -92,11 +92,13 @@ def homePage(paths=Paths(get_save_path())):
             'rowData': (lambda: getRowData())()
         }, html_columns=[0]).style("height: 600px").classes('col-span-full border p-1')
 
-    def clearFilters():
+    def clear():
         selectLodges.set_value("")
         selectReserves.set_value("")
         selectBadges.set_value("")
         selectAnimals.set_value("")
+        checkboxAllAnimals.set_value(False)
+        selectPresets.set_value("")
 
     def updateGrid():
         dataGrid.options['rowData'] = getRowData()
