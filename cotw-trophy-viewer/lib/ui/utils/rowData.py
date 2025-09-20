@@ -2,11 +2,13 @@ import math
 from datetime import datetime
 from typing import List
 
+from lib.load.mapAnimalTypesNames import mapAnimalTypeName
 from lib.model.constants import RESERVES, GENDERS
+from lib.model.trophyanimal import TrophyAnimal
 from lib.ui.utils.ratings import getDifficultyName
 
 
-def rowData(trophyAnimals) -> List[dict]:
+def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
     rows = []
 
     for animal in trophyAnimals:
@@ -19,7 +21,7 @@ def rowData(trophyAnimals) -> List[dict]:
             # 'id': idDisplay,
             'lodge': _naIfNone(animal.lodge, lambda l: f'LODGE {l}'),
             'reserve': _naIfNone(animal.reserve, lambda r: list(RESERVES[r].keys())[0]),
-            'animal': animal.type,
+            'animal': _naIfNone(animal.type, lambda t: mapAnimalTypeName(t)),
             'gender': _naIfNone(animal.gender, lambda g: GENDERS[g]),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
             'rating': _naIfNone(animal.rating, lambda r: math.floor(r * 100) / 100),
