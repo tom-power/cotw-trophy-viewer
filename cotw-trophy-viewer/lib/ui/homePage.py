@@ -16,10 +16,8 @@ def homePage(paths=Paths(get_save_path())):
     queries = Queries()
     db = Db(paths.getLoadPath())
 
-    def reloadDb():
-        db = Db(paths.getLoadPath())
-
     def getDb():
+        nonlocal db
         return db
 
     def getRowData() -> list[dict]:
@@ -37,8 +35,9 @@ def homePage(paths=Paths(get_save_path())):
             paths.updateLoadPath(temp_dir)
             ui.notify('Trophy file uploaded successfully!', type='positive')
 
-    def resetLodge():
+    def reset():
         paths.resetToDefaultPath()
+        upload_component.reset()
 
     with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
         with ui.card():  # filter
@@ -49,12 +48,12 @@ def homePage(paths=Paths(get_save_path())):
         with ui.card():  # files
             with ui.card():
                 ui.label('LODGE FILE ' + ('FOUND' if trophyFileExists else 'NOT FOUND'))
-            ui.upload(label='UPLOAD LODGE FILE',
-                      on_upload=lambda e: uploadLodge(e),
-                      multiple=False,
-                      auto_upload=True).props('accept="*"').tooltip('Upload trophy_lodges_adf file')
-            ui.button(text='RESET', on_click=lambda: resetLodge())
-            ui.button(text='RELOAD', on_click=lambda: reloadDb())
+            upload_component = ui.upload(label='UPLOAD LODGE FILE',
+                                         on_upload=lambda e: uploadLodge(e),
+                                         multiple=False,
+                                         auto_upload=True).props('accept="*"').tooltip('Upload trophy_lodges_adf file')
+            ui.button(text='RESET', on_click=lambda: reset())
+            ui.button(text='RELOAD', on_click=lambda: reload())
 
         dataGrid = ui.aggrid({
             'defaultColDef': {'sortable': True},
@@ -75,5 +74,10 @@ def homePage(paths=Paths(get_save_path())):
     def updateGrid():
         dataGrid.options['rowData'] = getRowData()
         dataGrid.update()
+
+    def reload():
+        nonlocal db
+        db = Db(paths.getLoadPath())
+        updateGrid()
 
     footer()
