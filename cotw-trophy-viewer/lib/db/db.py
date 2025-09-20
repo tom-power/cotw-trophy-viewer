@@ -2,9 +2,11 @@ import sqlite3
 from pathlib import Path
 from typing import List
 import os
+import json
 
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.model.trophyanimal import TrophyAnimal
+from lib.deca.hashes import hash32_func
 
 DB_PATH = 'cotw-trophy-viewer/lib/db/data/'
 
@@ -14,6 +16,7 @@ class Db:
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         self._create_database()
         self._insert_trophy_animals(loadTrophyAnimals(loadPath))
+        self._insert_trophy_animals_reserves()
 
     def _create_database(self) -> None:
         conn = sqlite3.connect(self.db_path)
@@ -22,7 +25,7 @@ class Db:
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS TrophyAnimals (
                 id TEXT PRIMARY KEY,
-                type TEXT,
+                type INTEGER,
                 weight REAL,
                 gender INTEGER,
                 score REAL,
@@ -33,6 +36,14 @@ class Db:
                 furType INTEGER,
                 lodge INTEGER,
                 reserve INTEGER
+            )
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS TrophyAnimalsReserves (
+                reserve INTEGER,
+                type INTEGER,
+                PRIMARY KEY (reserve, type)
             )
         ''')
 
@@ -64,6 +75,30 @@ class Db:
                 int(animal.lodge) if animal.lodge is not None else None,
                 int(animal.reserve) if animal.reserve is not None else None
             ))
+
+        conn.commit()
+        conn.close()
+
+    def _insert_trophy_animals_reserves(self) -> None:
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute('DELETE FROM TrophyAnimalsReserves')
+
+        json_path = Path(__file__).parent.parent / 'config' / 'reserve_details.json'
+        with open(json_path, 'r') as f:
+            reserve_details = json.load(f)
+
+        for reserve_key, reserve_data in reserve_details.items():
+            reserve_index = reserve_data['index']
+            species_list = reserve_data['species']
+
+            for species in species_list:
+                species_hash = hash32_func(species)
+                cursor.execute('''
+                    INSERT OR IGNORE INTO TrophyAnimalsReserves (reserve, type)
+                    VALUES (?, ?)
+                ''', (reserve_index, species_hash))
 
         conn.commit()
         conn.close()
