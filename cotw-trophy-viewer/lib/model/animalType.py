@@ -53,7 +53,7 @@ class AnimalType(Enum):
     LION = auto()
     MAGPIE_GOOSE = auto()
     MALLARD = auto()
-    MERRIAM_TURKEY = auto()
+    WILD_TURKEY = auto()
     MEXICAN_BOBCAT = auto()
     MOOSE = auto()
     MOUNTAIN_GOAT = auto()
@@ -114,4 +114,5 @@ class AnimalType(Enum):
 
 _nameMap = {
     "EU_RABBIT": "EUROPEAN RABBIT",
+    "WILD_TURKEY": "MERRIAM TURKEY",
 }

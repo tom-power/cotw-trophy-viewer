@@ -40,5 +40,14 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.lodge, np.uint32(3))
         self.assertEqual(testAnimal.reserve, np.uint32(16))
 
+    def test_loadTrophyAnimalsNames(self):
+        trophyAnimals = loadTrophyAnimals(FIXTURES_PATH)
+
         testAnimal = list(filter(lambda a: a.type == "EUROPEAN RABBIT", trophyAnimals))[0]
+        self.assertIsInstance(testAnimal, TrophyAnimal)
+
+        testAnimal = list(filter(lambda a: a.type == "EASTERN GREY KANGAROO", trophyAnimals))[0]
+        self.assertIsInstance(testAnimal, TrophyAnimal)
+
+        testAnimal = list(filter(lambda a: a.type == "MERRIAM TURKEY", trophyAnimals))[0]
         self.assertIsInstance(testAnimal, TrophyAnimal)
