@@ -13,14 +13,22 @@ class Db:
         self._trophyAnimals = Table('TrophyAnimals')
         self._trophyAnimals.insert_many(loadTrophyAnimals(loadPath))
 
-    def trophyAnimals(self, query: dict) -> List[TrophyAnimal]:
-        _lodgesIds = query['lodges']
-        _reservesAndOr = query['reservesAndOr']
-        _reservesIds = query['reserves']
-        _badgesAndOr = query['badgesAndOr']
-        _badgesIds = query['badges']
-        _animalsAndOr = query['animalsAndOr']
-        _animalsIds = query['animals']
+    def trophyAnimals(self, query: dict = {}) -> List[TrophyAnimal]:
+        _lodgesIds = []
+        _reservesAndOr = []
+        _reservesIds = []
+        _badgesAndOr = []
+        _badgesIds = []
+        _animalsAndOr = []
+        _animalsIds = []
+        if query != {}:
+            _lodgesIds = query['lodges']
+            _reservesAndOr = query['reservesAndOr']
+            _reservesIds = query['reserves']
+            _badgesAndOr = query['badgesAndOr']
+            _badgesIds = query['badges']
+            _animalsAndOr = query['animalsAndOr']
+            _animalsIds = query['animals']
 
         def _getTables():
             if len(_lodgesIds) > 0 or len(_reservesIds) > 0 or len(_badgesIds) > 0 or len(_animalsIds) > 0:
@@ -49,6 +57,8 @@ class Db:
     def _isAnd(andOr):
         return andOr == 'and'
 
-    def lodges(self) -> List[str]:
-        return list(set(map(lambda a: a.lodge, self._trophyAnimals)))
+    def lodges(self) -> dict:
+        animals = sorted(self.trophyAnimals(), key=lambda x: x.lodge)
+        lodges = list(map(lambda t: t.lodge, animals))
+        return {l: f'LODGE {l}' for l in lodges}
 
