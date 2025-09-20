@@ -5,10 +5,11 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.ui.utils.rowData import rowData
+from lib.model.constants import RATING_BADGES, getKeyFor, presets
 from lib.ui.utils.formFilter import footer, select, andOrRadio, reservesOptions, badgeOptions, animalsOptions
 from lib.ui.utils.paths import Paths
 from lib.ui.utils.queries import Queries
+from lib.ui.utils.rowData import rowData
 
 
 def homePage(paths=Paths(get_save_path())):
@@ -56,14 +57,15 @@ def homePage(paths=Paths(get_save_path())):
 
                 andOrRadio(queries.updateQueryFor('animalsAndOr'))
                 ui.space()
-                selectAnimals = select({0: "ALL"} | animalsOptions(), "animal", queries.updateQueryFor('animals'))
+                selectAnimals = select(animalsOptions(), "animal", queries.updateQueryFor('animals'))
             with ui.grid(columns='auto 200px 200px'):
                 with ui.row():
                     ui.button(text='FILTER', on_click=lambda: updateGrid())
                     ui.button(text='CLEAR', on_click=lambda: clear())
                     checkboxAllAnimals = ui.checkbox(text='All animals')
                 ui.space()
-                selectPresets = ui.select(options=['diamond checklist'], label='presets', with_input=True, clearable=True)
+                selectPresets = ui.select(options=presets(), label='presets', with_input=True,
+                                          clearable=True, on_change=lambda e: applyPreset(e))
 
         with ui.card():  # files
             with ui.card():
@@ -92,13 +94,19 @@ def homePage(paths=Paths(get_save_path())):
             'rowData': (lambda: getRowData())()
         }, html_columns=[0]).style("height: 600px").classes('col-span-full border p-1')
 
+    def applyPreset(e):
+        match e.value:
+            case 'diamond checklist':
+                checkboxAllAnimals.set_value(True)
+                selectBadges.set_value([(getKeyFor(RATING_BADGES, 'DIAMOND'))])
+
     def clear():
-        selectLodges.set_value("")
-        selectReserves.set_value("")
-        selectBadges.set_value("")
-        selectAnimals.set_value("")
+        selectLodges.set_value('')
+        selectReserves.set_value('')
+        selectBadges.set_value('')
+        selectAnimals.set_value('')
         checkboxAllAnimals.set_value(False)
-        selectPresets.set_value("")
+        selectPresets.set_value('')
 
     def updateGrid():
         dataGrid.options['rowData'] = getRowData()

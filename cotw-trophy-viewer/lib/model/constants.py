@@ -1,5 +1,3 @@
-from typing import List
-
 from lib.model.reserve import Reserve
 
 RESERVES = {
@@ -210,15 +208,12 @@ GENDERS = {
 }
 
 RATING_BADGES = {
-    0: "DIAMOND",
-    1: "GOLD",
+    0: "NONE",
+    1: "BRONZE",
     2: "SILVER",
-    3: "BRONZE",
-    4: "NONE",
+    3: "GOLD",
+    4: "DIAMOND",
     5: "GREAT ONE",
-    6: "GREAT ONE",
-    7: "GREAT ONE",
-    8: "GREAT ONE"
 }
 
 DIFFICULTY_SCORE_THRESHOLDS = [0, 0.115, 0.225, 0.335, 0.445, 0.555, 0.665, 0.775, 0.885]
@@ -235,3 +230,11 @@ DIFFICULTIES = {
     8: "LEGENDARY",
     9: "FABLED",
 }
+
+
+def presets():
+    return ['diamond checklist']
+
+
+def getKeyFor(constant, label) -> int:
+    return next(key for key, labels in constant.items() if labels == label)
