@@ -70,7 +70,7 @@ class AnimalType(Enum):
     RING_NECKED_PHEASANT = auto()
     RIO_GRANDE_TURKEY = auto()
     ROCK_PTARMIGAN = auto()
-    ROCKY_MOUNTAIN_ELK = auto()
+    ROCKYMOUNTAIN_ELK = auto()
     ROE_DEER = auto()
     RONDA_IBEX = auto()
     ROOSEVELT_ELK = auto()
@@ -115,4 +115,5 @@ class AnimalType(Enum):
 _nameMap = {
     "EU_RABBIT": "EUROPEAN RABBIT",
     "WILD_TURKEY": "MERRIAM TURKEY",
+    "ROCKYMOUNTAIN_ELK": "ROCKY MOUNTAIN ELK",
 }

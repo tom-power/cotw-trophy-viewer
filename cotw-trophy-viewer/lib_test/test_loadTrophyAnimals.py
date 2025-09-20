@@ -51,3 +51,6 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
 
         testAnimal = list(filter(lambda a: a.type == "MERRIAM TURKEY", trophyAnimals))[0]
         self.assertIsInstance(testAnimal, TrophyAnimal)
+
+        testAnimal = list(filter(lambda a: a.type == "ROCKY MOUNTAIN ELK", trophyAnimals))[0]
+        self.assertIsInstance(testAnimal, TrophyAnimal)

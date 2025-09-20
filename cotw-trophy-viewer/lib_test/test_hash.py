@@ -64,6 +64,13 @@ class TestGetMapAnimalTypesFunctions(unittest.TestCase):
 
         self._hashCheck(names, _to_unsigned_32bit(-680325971))
 
+    def test_hashRockyMountainElk(self):
+        names = [
+            "rockymountain_elk"
+        ]
+
+        self._hashCheck(names, _to_unsigned_32bit(1162399024))
+
 
     def test_hashEgKangaroo(self):
         names = ["eastern_grey_kangaroo"]
