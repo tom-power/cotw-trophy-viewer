@@ -23,7 +23,7 @@ def andOr(callBack):
 
 
 def dropdown(options, label, callBack):
-    ui.select(options=options, multiple=True, label=label, with_input=True, on_change=callBack).props('use-chips')
+    return ui.select(options=options, multiple=True, label=label, with_input=True, on_change=callBack).props('use-chips')
 
 
 def checkbox(label, callback):
