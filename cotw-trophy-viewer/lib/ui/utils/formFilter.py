@@ -6,16 +6,12 @@ from lib.model.constants import RATING_BADGES
 from lib.model.reserve import ReserveEnum
 
 
-def andOrRadio(callBack):
-    ui.radio(['and', 'or'], value='and', on_change=callBack).props('inline')
+def andOrRadio():
+    return ui.radio(['and', 'or'], value='and').props('inline')
 
 
-def select(options, label, callBack):
-    return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True, on_change=callBack).props('use-chips')
-
-
-def checkbox(label, callback):
-    ui.checkbox(text=label, value=False, on_change=callback)
+def selectMulti(options, label):
+    return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True).props('use-chips')
 
 
 def footer():

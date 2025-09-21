@@ -4,11 +4,11 @@ class Queries(object):
     def __init__(self):
         self.queryDict = {
         'lodges': [],
-        'reservesAndOr': 'or',
+        'reservesAndOr': '',
         'reserves': [],
-        'ratingsAndOr': 'or',
+        'ratingsAndOr': '',
         'ratings': [],
-        'animalsAndOr': 'or',
+        'animalsAndOr': '',
         'animals': [],
         'animalsAll': False,
     }

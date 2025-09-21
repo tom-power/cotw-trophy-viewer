@@ -6,7 +6,7 @@ from nicegui import ui
 from lib.db.db import Db
 from lib.deca.config import get_save_path
 from lib.model.constants import RATING_BADGES, getKeyFor, presets
-from lib.ui.utils.formFilter import footer, select, andOrRadio, reservesOptions, badgeOptions, animalsOptions
+from lib.ui.utils.formFilter import footer, selectMulti, andOrRadio, reservesOptions, badgeOptions, animalsOptions
 from lib.ui.utils.paths import Paths
 from lib.ui.utils.queries import Queries
 from lib.ui.utils.rowData import rowData
@@ -45,19 +45,19 @@ def homePage(paths=Paths(get_save_path())):
             with ui.grid(columns='auto auto 600px'):
                 ui.space()
                 ui.space()
-                selectLodges = select(db.lodges(), "lodge", queries.updateQueryFor('lodges'))
+                selectLodges = selectMulti(db.lodges(), "lodge", )
 
-                andOrRadio(queries.updateQueryFor('reservesAndOr'))
+                radioReservesAndOr = andOrRadio()
                 ui.space()
-                selectReserves = select(reservesOptions(), "reserve", queries.updateQueryFor('reserves'))
+                selectReserves = selectMulti(reservesOptions(), "reserve", )
 
-                andOrRadio(queries.updateQueryFor('ratingsAndOr'))
+                radioRatingsAndOr = andOrRadio()
                 ui.space()
-                selectBadges = select(badgeOptions(), "badge", queries.updateQueryFor('ratings'))
+                selectBadges = selectMulti(badgeOptions(), "badge")
 
-                andOrRadio(queries.updateQueryFor('animalsAndOr'))
+                radioAnimalsAndOr = andOrRadio()
                 ui.space()
-                selectAnimals = select(animalsOptions(), "animal", queries.updateQueryFor('animals'))
+                selectAnimals = selectMulti(animalsOptions(), "animal")
             with ui.grid(columns='auto 200px 200px'):
                 with ui.row():
                     ui.button(text='FILTER', on_click=lambda: updateGrid())
@@ -111,7 +111,18 @@ def homePage(paths=Paths(get_save_path())):
         clearForm()
         selectPresets.set_value('')
 
+    def updateQueries():
+        queries.updateQuery('lodges', selectLodges.value)
+        queries.updateQuery('reservesAndOr', radioReservesAndOr.value)
+        queries.updateQuery('reserves', selectReserves.value)
+        queries.updateQuery('ratingsAndOr', radioRatingsAndOr.value)
+        queries.updateQuery('ratings', selectBadges.value)
+        queries.updateQuery('animalsAndOr', radioAnimalsAndOr.value)
+        queries.updateQuery('animals', selectAnimals.value)
+
+
     def updateGrid():
+        updateQueries()
         dataGrid.options['rowData'] = getRowData()
         dataGrid.update()
 
