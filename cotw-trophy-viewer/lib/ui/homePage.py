@@ -82,9 +82,9 @@ def homePage(paths=Paths(get_save_path())):
             'columnDefs': [
                 {'headerName': 'Lodge', 'field': 'lodge'},
                 {'headerName': 'Reserve', 'field': 'reserve'},
+                {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
                 {'headerName': 'Animal', 'field': 'animal'},
                 {'headerName': 'Rating', 'field': 'rating', 'width': '100'},
-                {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
                 {'headerName': 'Weight', 'field': 'weight', 'width': '100'},
                 {'headerName': 'Datetime', 'field': 'datetime', 'sort': 'desc'},
             ],
