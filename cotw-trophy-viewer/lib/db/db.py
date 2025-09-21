@@ -9,7 +9,8 @@ from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.model.trophyanimal import TrophyAnimal
 from lib.deca.hashes import hash32_func
 
-DB_PATH = Path('cotw-trophy-viewer/lib/db/data/')
+TEST_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
+DB_PATH = Path('data')
 
 class Db:
     def __init__(self, loadPath: Path, db_path: Path = DB_PATH) -> None:
@@ -31,7 +32,6 @@ class Db:
                 gender INTEGER,
                 score REAL,
                 rating REAL,
-                badge INTEGER,
                 difficulty REAL,
                 datetime TEXT,
                 furType INTEGER,
@@ -60,8 +60,8 @@ class Db:
         for animal in trophy_animals:
             cursor.execute('''
                 INSERT INTO TrophyAnimals
-                (id, type, weight, gender, score, rating, badge, difficulty, datetime, furType, lodge, reserve)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (id, type, weight, gender, score, rating, difficulty, datetime, furType, lodge, reserve)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 str(animal.id),
                 int(animal.type),
@@ -69,7 +69,6 @@ class Db:
                 int(animal.gender) if animal.gender is not None else None,
                 float(animal.score) if animal.score is not None else None,
                 float(animal.rating) if animal.rating is not None else None,
-                str(animal.badge) if animal.badge is not None else None,
                 float(animal.difficulty) if animal.difficulty is not None else None,
                 str(animal.datetime),
                 int(animal.furType) if animal.furType is not None else None,
@@ -111,8 +110,8 @@ class Db:
         _lodgesIds = []
         _reservesAndOr = []
         _reservesIds = []
-        _badgesAndOr = []
-        _badgesIds = []
+        _ratingsAndOr = []
+        _ratingsIds = []
         _animalsAndOr = []
         _animalsIds = []
 
@@ -120,8 +119,8 @@ class Db:
             _lodgesIds = query.get('lodges', [])
             _reservesAndOr = query.get('reservesAndOr', [])
             _reservesIds = query.get('reserves', [])
-            _badgesAndOr = query.get('badgesAndOr', [])
-            _badgesIds = query.get('badges', [])
+            _ratingsAndOr = query.get('ratingsAndOr', [])
+            _ratingsIds = query.get('ratings', [])
             _animalsAndOr = query.get('animalsAndOr', [])
             _animalsIds = query.get('animals', [])
 
@@ -133,15 +132,21 @@ class Db:
             where_clauses.append(f"lodge IN ({placeholders})")
             params.extend(_lodgesIds)
 
+        if _lodgesIds and _reservesIds:
+            where_clauses.append(f"{_reservesAndOr}")
+
         if _reservesIds:
             placeholders = ','.join(['?' for _ in _reservesIds])
             where_clauses.append(f"reserve IN ({placeholders})")
             params.extend(_reservesIds)
 
-        if _badgesIds:
-            placeholders = ','.join(['?' for _ in _badgesIds])
-            where_clauses.append(f"badge IN ({placeholders})")
-            params.extend(_badgesIds)
+        if _reservesIds and _ratingsIds:
+            where_clauses.append(f"{_ratingsAndOr}")
+
+        if _ratingsIds:
+            placeholders = ','.join(['?' for _ in _ratingsIds])
+            where_clauses.append(f"rating IN ({placeholders})")
+            params.extend(_ratingsIds)
 
         if _animalsIds:
             placeholders = ','.join(['?' for _ in _animalsIds])
@@ -150,7 +155,7 @@ class Db:
 
         sql = "SELECT * FROM TrophyAnimals"
         if where_clauses:
-            sql += " WHERE " + " AND ".join(where_clauses)
+            sql += " WHERE " + " ".join(where_clauses)
 
         cursor.execute(sql, params)
         rows = cursor.fetchall()
@@ -163,12 +168,11 @@ class Db:
                 gender=int(row[3]) if row[3] is not None else None,
                 score=float(row[4]) if row[4] is not None else None,
                 rating=float(row[5]) if row[5] is not None else None,
-                badge=str(row[6]) if row[6] is not None else None,
-                difficulty=float(row[7]) if row[7] is not None else None,
-                datetime=row[8],
-                furType=int(row[9]) if row[9] is not None else None,
-                lodge=int(row[10]) if row[10] is not None else None,
-                reserve=int(row[11]) if row[11] is not None else None
+                difficulty=float(row[6]) if row[6] is not None else None,
+                datetime=row[7],
+                furType=int(row[8]) if row[8] is not None else None,
+                lodge=int(row[9]) if row[9] is not None else None,
+                reserve=int(row[10]) if row[10] is not None else None
             )
             animal.id = row[0]
             trophy_animals.append(animal)

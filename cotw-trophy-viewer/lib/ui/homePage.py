@@ -51,9 +51,9 @@ def homePage(paths=Paths(get_save_path())):
                 ui.space()
                 selectReserves = select(reservesOptions(), "reserve", queries.updateQueryFor('reserves'))
 
-                andOrRadio(queries.updateQueryFor('badgesAndOr'))
+                andOrRadio(queries.updateQueryFor('ratingsAndOr'))
                 ui.space()
-                selectBadges = select(badgeOptions(), "badge", queries.updateQueryFor('badge'))
+                selectBadges = select(badgeOptions(), "badge", queries.updateQueryFor('ratings'))
 
                 andOrRadio(queries.updateQueryFor('animalsAndOr'))
                 ui.space()

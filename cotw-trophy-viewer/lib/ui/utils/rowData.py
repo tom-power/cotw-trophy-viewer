@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List
 
 from lib.load.mapAnimalTypesNames import mapAnimalTypeName
-from lib.model.constants import RESERVES, GENDERS
+from lib.model.constants import RESERVES, GENDERS, RATING_BADGES
 from lib.model.trophyanimal import TrophyAnimal
 from lib.ui.utils.ratings import getDifficultyName
 
@@ -24,8 +24,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'animal': _naIfNone(animal.type, lambda t: mapAnimalTypeName(t)),
             'gender': _naIfNone(animal.gender, lambda g: GENDERS[g]),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
-            'rating': _naIfNone(animal.rating, lambda r: math.floor(r * 100) / 100),
-            'badge': _naIfNone(animal.badge),
+            'badge': _naIfNone(animal.rating, lambda r: RATING_BADGES[int(r)]),
             'difficulty': _naIfNone(animal.difficulty, lambda d: getDifficultyName(d)),
             'difficultyScore': _naIfNone(animal.difficulty, lambda d: math.floor(d * 1000) / 1000),
             'furType': _naIfNone(furTypeName),

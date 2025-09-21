@@ -37,7 +37,8 @@ class LoadTrophyAnimals:
 
         return trophy_animals
 
-    def _toTrophyAnimalList(self, trophiesAnimalsDict: List[dict]) -> List[
+    @staticmethod
+    def _toTrophyAnimalList(trophiesAnimalsDict: List[dict]) -> List[
         TrophyAnimal]:
         trophiesAnimals = []
 
@@ -58,7 +59,6 @@ class LoadTrophyAnimals:
                 gender=gender,
                 score=score,
                 rating=rating,
-                badge=RATING_BADGES[rating] if RATING_BADGES.__contains__(rating) else 'UNKNOWN',
                 difficulty=difficulty,
                 datetime=datetime,
                 furType=fur_type,
