@@ -132,7 +132,7 @@ class Db:
             where_clauses.append(f"lodge IN ({placeholders})")
             params.extend(_lodgesIds)
 
-        if _lodgesIds and _reservesIds:
+        if where_clauses and _reservesIds:
             where_clauses.append(f"{_reservesAndOr}")
 
         if _reservesIds:
@@ -140,7 +140,7 @@ class Db:
             where_clauses.append(f"reserve IN ({placeholders})")
             params.extend(_reservesIds)
 
-        if _reservesIds and _ratingsIds:
+        if where_clauses and _ratingsIds:
             where_clauses.append(f"{_ratingsAndOr}")
 
         if _ratingsIds:
@@ -148,7 +148,7 @@ class Db:
             where_clauses.append(f"rating IN ({placeholders})")
             params.extend(_ratingsIds)
 
-        if _ratingsIds and _animalsIds:
+        if where_clauses and _animalsIds:
             where_clauses.append(f"{_animalsAndOr}")
 
         if _animalsIds:

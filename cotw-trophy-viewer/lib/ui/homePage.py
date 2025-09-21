@@ -64,8 +64,7 @@ def homePage(paths=Paths(get_save_path())):
                     ui.button(text='CLEAR', on_click=lambda: clear())
                     checkboxAllAnimals = ui.checkbox(text='All animals')
                 ui.space()
-                selectPresets = ui.select(options=presets(), label='presets', with_input=True,
-                                          clearable=True, on_change=lambda e: applyPreset(e))
+                selectPresets = ui.select(options=presets(), label='presets', on_change=lambda e: applyPreset(e))
 
         with ui.card():  # files
             with ui.card():
@@ -97,15 +96,19 @@ def homePage(paths=Paths(get_save_path())):
     def applyPreset(e):
         match e.value:
             case 'diamond checklist':
+                clearForm()
                 checkboxAllAnimals.set_value(True)
                 selectBadges.set_value([(getKeyFor(RATING_BADGES, 'DIAMOND'))])
 
-    def clear():
+    def clearForm():
         selectLodges.set_value('')
         selectReserves.set_value('')
         selectBadges.set_value('')
         selectAnimals.set_value('')
         checkboxAllAnimals.set_value(False)
+
+    def clear():
+        clearForm()
         selectPresets.set_value('')
 
     def updateGrid():
