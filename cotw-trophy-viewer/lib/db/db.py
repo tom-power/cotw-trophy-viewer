@@ -148,6 +148,9 @@ class Db:
             where_clauses.append(f"rating IN ({placeholders})")
             params.extend(_ratingsIds)
 
+        if _ratingsIds and _animalsIds:
+            where_clauses.append(f"{_animalsAndOr}")
+
         if _animalsIds:
             placeholders = ','.join(['?' for _ in _animalsIds])
             where_clauses.append(f"type IN ({placeholders})")

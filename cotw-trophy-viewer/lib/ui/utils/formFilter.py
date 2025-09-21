@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from lib.deca.hashes import hash32_func
 from lib.model.animalType import AnimalType
 from lib.model.constants import RATING_BADGES
 from lib.model.reserve import ReserveEnum
@@ -30,4 +31,4 @@ def badgeOptions() -> dict:
 
 
 def animalsOptions() -> dict:
-    return {a.value: a.animalName() for a in AnimalType}
+    return {hash32_func(a.name.lower()): a.animalName() for a in AnimalType}
