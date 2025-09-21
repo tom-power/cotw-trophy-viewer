@@ -2,6 +2,7 @@ from nicegui import ui
 
 from lib.ui.homePage import homePage
 
+
 @ui.page("/")
 def home():
     homePage()

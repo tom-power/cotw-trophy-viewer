@@ -1,8 +1,7 @@
 from pathlib import Path
-from typing import Callable, List
+from typing import List
 
 from lib.deca.adf import load_adf
-from lib.model.constants import MEDALS
 from lib.model.trophyanimal import TrophyAnimal
 
 

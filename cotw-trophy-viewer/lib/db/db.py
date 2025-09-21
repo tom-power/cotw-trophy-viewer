@@ -1,13 +1,13 @@
+import json
+import os
 import sqlite3
 import sys
 from pathlib import Path
 from typing import List
-import os
-import json
 
+from lib.deca.hashes import hash32_func
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.model.trophyanimal import TrophyAnimal
-from lib.deca.hashes import hash32_func
 
 TEST_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
 DB_PATH = Path('data')

@@ -1,4 +1,4 @@
-from nicegui import ui, app
+from nicegui import ui
 
 from lib.deca.hashes import hash32_func
 from lib.model.animalType import AnimalType
