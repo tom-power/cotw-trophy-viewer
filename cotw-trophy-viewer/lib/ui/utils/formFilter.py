@@ -2,7 +2,7 @@ from nicegui import ui, app
 
 from lib.deca.hashes import hash32_func
 from lib.model.animalType import AnimalType
-from lib.model.constants import RATING_BADGES
+from lib.model.constants import MEDALS
 from lib.model.reserve import ReserveEnum
 
 
@@ -22,8 +22,8 @@ def reservesOptions() -> dict:
     return {r.value: r.reserveName() for r in ReserveEnum}
 
 
-def badgeOptions() -> dict:
-    return RATING_BADGES
+def medalOptions() -> dict:
+    return MEDALS
 
 
 def animalsOptions() -> dict:

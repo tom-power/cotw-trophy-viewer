@@ -207,7 +207,7 @@ GENDERS = {
     1: "MALE"
 }
 
-RATING_BADGES = {
+MEDALS = {
     0: "DIAMOND",
     1: "GOLD",
     2: "SILVER",

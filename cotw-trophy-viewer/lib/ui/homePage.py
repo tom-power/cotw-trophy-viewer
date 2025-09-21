@@ -5,8 +5,8 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.model.constants import RATING_BADGES, getKeyFor, presets
-from lib.ui.utils.formFilter import footer, selectMulti, andOrRadio, reservesOptions, badgeOptions, animalsOptions
+from lib.model.constants import MEDALS, getKeyFor, presets
+from lib.ui.utils.formFilter import footer, selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.paths import Paths
 from lib.ui.utils.queries import Queries
 from lib.ui.utils.rowData import rowData
@@ -51,9 +51,9 @@ def homePage(paths=Paths(get_save_path())):
                 ui.space()
                 selectReserves = selectMulti(reservesOptions(), 'reserve', )
 
-                radioRatingsAndOr = andOrRadio('ratingsAndOr')
+                radioMedalsAndOr = andOrRadio('medalsAndOr')
                 ui.space()
-                selectBadges = selectMulti(badgeOptions(), 'badge')
+                selectMedals = selectMulti(medalOptions(), 'medal')
 
                 radioAnimalsAndOr = andOrRadio('animalsAndOr')
                 ui.space()
@@ -83,8 +83,8 @@ def homePage(paths=Paths(get_save_path())):
                 {'headerName': 'Lodge', 'field': 'lodge'},
                 {'headerName': 'Reserve', 'field': 'reserve'},
                 {'headerName': 'Animal', 'field': 'animal'},
-                {'headerName': 'Badge', 'field': 'badge', 'width': '100'},
-                {'headerName': 'Score', 'field': 'score', 'width': '100'},
+                {'headerName': 'Rating', 'field': 'rating', 'width': '100'},
+                {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
                 {'headerName': 'Weight', 'field': 'weight', 'width': '100'},
                 {'headerName': 'Datetime', 'field': 'datetime', 'sort': 'desc'},
             ],
@@ -98,12 +98,12 @@ def homePage(paths=Paths(get_save_path())):
             case 'diamond checklist':
                 clearForm()
                 checkboxAllAnimals.set_value(True)
-                selectBadges.set_value([(getKeyFor(RATING_BADGES, 'DIAMOND'))])
+                selectMedals.set_value([(getKeyFor(MEDALS, 'DIAMOND'))])
 
     def clearForm():
         selectLodges.set_value('')
         selectReserves.set_value('')
-        selectBadges.set_value('')
+        selectMedals.set_value('')
         selectAnimals.set_value('')
         checkboxAllAnimals.set_value(False)
 
@@ -115,8 +115,8 @@ def homePage(paths=Paths(get_save_path())):
         queries.updateQuery('lodges', selectLodges.value)
         queries.updateQuery('reservesAndOr', radioReservesAndOr.value)
         queries.updateQuery('reserves', selectReserves.value)
-        queries.updateQuery('ratingsAndOr', radioRatingsAndOr.value)
-        queries.updateQuery('ratings', selectBadges.value)
+        queries.updateQuery('medalsAndOr', radioMedalsAndOr.value)
+        queries.updateQuery('medals', selectMedals.value)
         queries.updateQuery('animalsAndOr', radioAnimalsAndOr.value)
         queries.updateQuery('animals', selectAnimals.value)
 

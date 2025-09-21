@@ -30,8 +30,8 @@ class Db:
                 type INTEGER,
                 weight REAL,
                 gender INTEGER,
-                score REAL,
                 rating REAL,
+                medal REAL,
                 difficulty REAL,
                 datetime TEXT,
                 furType INTEGER,
@@ -60,15 +60,15 @@ class Db:
         for animal in trophy_animals:
             cursor.execute('''
                 INSERT INTO TrophyAnimals
-                (id, type, weight, gender, score, rating, difficulty, datetime, furType, lodge, reserve)
+                (id, type, weight, gender, rating, medal, difficulty, datetime, furType, lodge, reserve)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 str(animal.id),
                 int(animal.type),
                 float(animal.weight) if animal.weight is not None else None,
                 int(animal.gender) if animal.gender is not None else None,
-                float(animal.score) if animal.score is not None else None,
                 float(animal.rating) if animal.rating is not None else None,
+                float(animal.medal) if animal.medal is not None else None,
                 float(animal.difficulty) if animal.difficulty is not None else None,
                 str(animal.datetime),
                 int(animal.furType) if animal.furType is not None else None,
@@ -110,8 +110,8 @@ class Db:
         _lodgesIds = []
         _reservesAndOr = []
         _reservesIds = []
-        _ratingsAndOr = []
-        _ratingsIds = []
+        _medalsAndOr = []
+        _medalsIds = []
         _animalsAndOr = []
         _animalsIds = []
 
@@ -119,8 +119,8 @@ class Db:
             _lodgesIds = query.get('lodges', [])
             _reservesAndOr = query.get('reservesAndOr', [])
             _reservesIds = query.get('reserves', [])
-            _ratingsAndOr = query.get('ratingsAndOr', [])
-            _ratingsIds = query.get('ratings', [])
+            _medalsAndOr = query.get('medalsAndOr', [])
+            _medalsIds = query.get('medals', [])
             _animalsAndOr = query.get('animalsAndOr', [])
             _animalsIds = query.get('animals', [])
 
@@ -140,13 +140,13 @@ class Db:
             where_clauses.append(f"reserve IN ({placeholders})")
             params.extend(_reservesIds)
 
-        if where_clauses and _ratingsIds:
-            where_clauses.append(f"{_ratingsAndOr}")
+        if where_clauses and _medalsIds:
+            where_clauses.append(f"{_medalsAndOr}")
 
-        if _ratingsIds:
-            placeholders = ','.join(['?' for _ in _ratingsIds])
-            where_clauses.append(f"rating IN ({placeholders})")
-            params.extend(_ratingsIds)
+        if _medalsIds:
+            placeholders = ','.join(['?' for _ in _medalsIds])
+            where_clauses.append(f"medal IN ({placeholders})")
+            params.extend(_medalsIds)
 
         if where_clauses and _animalsIds:
             where_clauses.append(f"{_animalsAndOr}")
@@ -169,8 +169,8 @@ class Db:
                 animalType=int(row[1]) if row[1] is not None else None,
                 weight=float(row[2]) if row[2] is not None else None,
                 gender=int(row[3]) if row[3] is not None else None,
-                score=float(row[4]) if row[4] is not None else None,
-                rating=float(row[5]) if row[5] is not None else None,
+                rating=float(row[4]) if row[4] is not None else None,
+                medal=float(row[5]) if row[5] is not None else None,
                 difficulty=float(row[6]) if row[6] is not None else None,
                 datetime=row[7],
                 furType=int(row[8]) if row[8] is not None else None,

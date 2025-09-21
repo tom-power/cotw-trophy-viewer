@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Callable, List
 
 from lib.deca.adf import load_adf
-from lib.model.constants import RATING_BADGES
+from lib.model.constants import MEDALS
 from lib.model.trophyanimal import TrophyAnimal
 
 
@@ -45,8 +45,8 @@ class LoadTrophyAnimals:
         for animal_data in trophiesAnimalsDict:
             weight = animal_data.get("Weight", 0.0)
             gender = animal_data.get("IsMale", 0)
-            score = animal_data.get("TrophyScore", 0.0)
-            rating = animal_data.get("ScoreRank", 0)
+            rating = animal_data.get("TrophyScore", 0.0)
+            medal = animal_data.get("ScoreRank", 0)
             difficulty = animal_data.get("Difficulty", 0.0)
             datetime = str(animal_data.get("HarvestedAt", 0))
             fur_type = animal_data.get("VariationIndex", 0)
@@ -57,8 +57,8 @@ class LoadTrophyAnimals:
                 animalType=animal_type,
                 weight=weight,
                 gender=gender,
-                score=score,
                 rating=rating,
+                medal=medal,
                 difficulty=difficulty,
                 datetime=datetime,
                 furType=fur_type,

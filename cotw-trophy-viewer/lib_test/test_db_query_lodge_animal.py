@@ -15,10 +15,10 @@ class TestDbFunctions(unittest.TestCase):
             {
                 "lodges": [1],
                 "reserves": [],
-                "ratings": [],
+                "medals": [],
                 "animals": [1511159411],
                 "reservesAndOr": "and",
-                "ratingsAndOr": "and",
+                "medalsAndOr": "and",
                 "animalsAndOr": "and"
             }
 
@@ -30,10 +30,10 @@ class TestDbFunctions(unittest.TestCase):
             {
                 "lodges": [1],
                 "reserves": [],
-                "ratings": [],
+                "medals": [],
                 "animals": [1511159411],
                 "reservesAndOr": "and",
-                "ratingsAndOr": "and",
+                "medalsAndOr": "and",
                 "animalsAndOr": "or"
             }
 
