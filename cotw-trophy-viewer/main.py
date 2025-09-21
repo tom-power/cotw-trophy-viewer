@@ -7,5 +7,5 @@ def home():
     homePage()
 
 
-ui.run(title="cotw: Trophy Viewer")
+ui.run(title="cotw: Trophy Viewer", storage_secret='secret')
 

@@ -27,7 +27,7 @@ def homePage(paths=Paths(get_save_path())):
     async def uploadLodge(e):
         if e.content:
             temp_dir = Path(tempfile.mkdtemp())
-            temp_file_path = temp_dir / "trophy_lodges_adf"
+            temp_file_path = temp_dir / 'trophy_lodges_adf'
 
             with open(temp_file_path, 'wb') as f:
                 e.content.seek(0)  # Reset file pointer to beginning
@@ -45,19 +45,19 @@ def homePage(paths=Paths(get_save_path())):
             with ui.grid(columns='auto auto 600px'):
                 ui.space()
                 ui.space()
-                selectLodges = selectMulti(db.lodges(), "lodge", )
+                selectLodges = selectMulti(db.lodges(), 'lodge', )
 
-                radioReservesAndOr = andOrRadio()
+                radioReservesAndOr = andOrRadio('reservesAndOr')
                 ui.space()
-                selectReserves = selectMulti(reservesOptions(), "reserve", )
+                selectReserves = selectMulti(reservesOptions(), 'reserve', )
 
-                radioRatingsAndOr = andOrRadio()
+                radioRatingsAndOr = andOrRadio('ratingsAndOr')
                 ui.space()
-                selectBadges = selectMulti(badgeOptions(), "badge")
+                selectBadges = selectMulti(badgeOptions(), 'badge')
 
-                radioAnimalsAndOr = andOrRadio()
+                radioAnimalsAndOr = andOrRadio('animalsAndOr')
                 ui.space()
-                selectAnimals = selectMulti(animalsOptions(), "animal")
+                selectAnimals = selectMulti(animalsOptions(), 'animal')
             with ui.grid(columns='auto 200px 200px'):
                 with ui.row():
                     ui.button(text='FILTER', on_click=lambda: updateGrid())
@@ -91,7 +91,7 @@ def homePage(paths=Paths(get_save_path())):
             'pagination': True,
             'paginationPageSize': 50,
             'rowData': (lambda: getRowData())()
-        }, html_columns=[0]).style("height: 600px").classes('col-span-full border p-1')
+        }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1')
 
     def applyPreset(e):
         match e.value:
