@@ -47,15 +47,15 @@ def homePage(paths=Paths(get_save_path())):
                 ui.space()
                 selectLodges = selectMulti(db.lodges(), 'lodge', )
 
-                radioReservesAndOr = andOrRadio('reservesAndOr')
+                radioReservesAndOr = andOrRadio()
                 ui.space()
                 selectReserves = selectMulti(reservesOptions(), 'reserve', )
 
-                radioMedalsAndOr = andOrRadio('medalsAndOr')
+                radioMedalsAndOr = andOrRadio()
                 ui.space()
                 selectMedals = selectMulti(medalOptions(), 'medal')
 
-                radioAnimalsAndOr = andOrRadio('animalsAndOr')
+                radioAnimalsAndOr = andOrRadio()
                 ui.space()
                 selectAnimals = selectMulti(animalsOptions(), 'animal')
             with ui.grid(columns='auto 200px 200px'):

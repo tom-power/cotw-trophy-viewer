@@ -10,6 +10,7 @@ from lib_test.fixtures import FIXTURES_PATH
 
 pytest_plugins = ['nicegui.testing.user_plugin']
 
+
 async def test_click(user: User) -> None:
     homePage(Paths(FIXTURES_PATH))
     await user.open('/')
