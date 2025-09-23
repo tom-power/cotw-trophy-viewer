@@ -170,24 +170,45 @@ class Db:
             type 
             FROM TrophyAnimals
             """
-            allAnimalsSql = """
-            SELECT DISTINCT
-            NULL as id,
-            type,
-            NULL as weight,
-            NULL as gender,
-            NULL as rating,
-            NULL as medal,
-            NULL as difficulty,
-            NULL as datetime,
-            NULL as furType,
-            NULL as lodge,
-            NULL as reserve
-            FROM AllAnimals
-            """
+            if _reservesIds:
+                placeholders = ','.join(['?' for _ in _reservesIds])
+                params.extend(_reservesIds)
+                allAnimalsSql = f"""
+                    SELECT DISTINCT
+                    NULL as id,
+                    type,
+                    NULL as weight,
+                    NULL as gender,
+                    NULL as rating,
+                    NULL as medal,
+                    NULL as difficulty,
+                    NULL as datetime,
+                    NULL as furType,
+                    NULL as lodge,
+                    NULL as reserve
+                    FROM AllAnimals
+                    WHERE reserve IN ({placeholders}) AND type NOT IN ({distinctTrophyAnimalsSql})
+                    """
+            else:
+                allAnimalsSql = f"""
+                    SELECT DISTINCT
+                    NULL as id,
+                    type,
+                    NULL as weight,
+                    NULL as gender,
+                    NULL as rating,
+                    NULL as medal,
+                    NULL as difficulty,
+                    NULL as datetime,
+                    NULL as furType,
+                    NULL as lodge,
+                    NULL as reserve
+                    FROM AllAnimals
+                    WHERE type NOT IN ({distinctTrophyAnimalsSql})
+                    """
 
             sql=(f'WITH '
-                 f'aa AS ({allAnimalsSql} WHERE type NOT IN ({distinctTrophyAnimalsSql})), '
+                 f'aa AS ({allAnimalsSql}), '
                  f'ta AS ({trophyAnimalsSql}) '
                  f'SELECT * FROM ta '
                  f'UNION '
