@@ -25,7 +25,7 @@ class TestDbFunctions(unittest.TestCase):
         trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOneAndHirsh)
         self.assertEqual(1, len(trophyAnimals))
 
-    def test_db_trophyAnimals_query_lodge_or_animal(self):
+    def test_db_trophyAnimals_query_lodge_or_medal(self):
         lodgeOneOrHirsh = \
             {
                 "lodges": [2],
