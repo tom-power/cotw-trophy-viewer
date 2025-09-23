@@ -2,6 +2,8 @@ from pathlib import Path
 from typing import List
 
 from lib.deca.adf import load_adf
+from lib.deca.hashes import hash32_func
+from lib.model.animalType import AnimalType
 from lib.model.trophyanimal import TrophyAnimal
 
 
@@ -49,7 +51,7 @@ class LoadTrophyAnimals:
             difficulty = animal_data.get("Difficulty", 0.0)
             datetime = str(animal_data.get("HarvestedAt", 0))
             fur_type = animal_data.get("VariationIndex", 0)
-            animal_type = animal_data.get("Type", 0)
+            animal_type = _find_animal_type(animal_data.get("Type", 0)).value
             lodge = animal_data.get("LodgeId", 0) + 1
             reserve = animal_data.get("HarvestReserve", 0)
             animal = TrophyAnimal(
@@ -68,3 +70,9 @@ class LoadTrophyAnimals:
             trophiesAnimals.append(animal)
 
         return trophiesAnimals
+
+def _find_animal_type(trophyAnimalType) -> AnimalType | None:
+    for a in AnimalType:
+        if trophyAnimalType == hash32_func(a.name.lower()):
+            return a
+    return None

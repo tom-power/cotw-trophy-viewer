@@ -2,7 +2,7 @@ import math
 from datetime import datetime
 from typing import List
 
-from lib.load.mapAnimalTypesNames import mapAnimalTypeName
+from lib.model.animalType import AnimalType
 from lib.model.constants import RESERVES, GENDERS, MEDALS
 from lib.model.trophyanimal import TrophyAnimal
 from lib.ui.utils.difficulty import getDifficultyName
@@ -20,8 +20,8 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
         rows.append({
             # 'id': idDisplay,
             'lodge': _naIfNone(animal.lodge, lambda l: f'LODGE {l}'),
-            'reserve': _naIfNone(animal.reserve, lambda r: list(RESERVES[r].keys())[0]),
-            'animal': _naIfNone(animal.type, lambda t: mapAnimalTypeName(t)),
+            'reserve': _naIfNone(animal.reserve, lambda r: _getReserveName(r)),
+            'animal': _naIfNone(animal.type, lambda t: _getAnimalTypeName(t)),
             'gender': _naIfNone(animal.gender, lambda g: GENDERS[g]),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
             'rating': _naIfNone(animal.rating),
@@ -32,6 +32,18 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'datetime': _naIfNone(animal.datetime, lambda d: datetime.fromtimestamp(int(d))),
         })
     return rows
+
+
+def _getReserveName(reserve) -> str:
+    return list(filter(lambda r: r.value == reserve, RESERVES.keys()))[0].reserveName()
+
+
+def _getAnimalTypeName(key: int) -> str:
+    try:
+        animal_type = AnimalType(key)
+        return animal_type.animalName()
+    except ValueError:
+        return f'UNKNOWN ANIMAL ({key})'
 
 
 def _naIfNone(value, fn=lambda a: a):

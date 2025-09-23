@@ -1,12 +1,11 @@
-import json
 import os
 import sqlite3
 import sys
 from pathlib import Path
 from typing import List
 
-from lib.deca.hashes import hash32_func
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
+from lib.model.constants import RESERVES
 from lib.model.trophyanimal import TrophyAnimal
 
 TEST_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
@@ -85,20 +84,16 @@ class Db:
 
         cursor.execute('DELETE FROM AllAnimals')
 
-        json_path = Path(__file__).parent.parent / 'config' / 'reserve_details.json'
-        with open(json_path, 'r') as f:
-            reserve_details = json.load(f)
+        for reserve_enum, reserve_data in RESERVES.items():
+            reserve_index = reserve_enum.value
+            reserve_obj = reserve_data if hasattr(reserve_data, 'animalsPerClass') else list(reserve_data.values())[0]
 
-        for reserve_key, reserve_data in reserve_details.items():
-            reserve_index = reserve_data['index']
-            species_list = reserve_data['species']
-
-            for species in species_list:
-                species_hash = hash32_func(species)
-                cursor.execute('''
-                    INSERT OR IGNORE INTO AllAnimals (reserve, type)
-                    VALUES (?, ?)
-                ''', (reserve_index, species_hash))
+            for class_level, animals_list in reserve_obj.animalsPerClass.items():
+                for animal_type in animals_list:
+                    cursor.execute('''
+                        INSERT OR IGNORE INTO AllAnimals (reserve, type)
+                        VALUES (?, ?)
+                    ''', (reserve_index, animal_type.value))
 
         conn.commit()
         conn.close()
