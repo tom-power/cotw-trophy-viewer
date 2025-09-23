@@ -41,7 +41,7 @@ class Db:
         ''')
 
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS TrophyAnimalsReserves (
+            CREATE TABLE IF NOT EXISTS AllAnimals (
                 reserve INTEGER,
                 type INTEGER,
                 PRIMARY KEY (reserve, type)
@@ -83,7 +83,7 @@ class Db:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute('DELETE FROM TrophyAnimalsReserves')
+        cursor.execute('DELETE FROM AllAnimals')
 
         json_path = Path(__file__).parent.parent / 'config' / 'reserve_details.json'
         with open(json_path, 'r') as f:
@@ -96,7 +96,7 @@ class Db:
             for species in species_list:
                 species_hash = hash32_func(species)
                 cursor.execute('''
-                    INSERT OR IGNORE INTO TrophyAnimalsReserves (reserve, type)
+                    INSERT OR IGNORE INTO AllAnimals (reserve, type)
                     VALUES (?, ?)
                 ''', (reserve_index, species_hash))
 
@@ -108,21 +108,23 @@ class Db:
         cursor = conn.cursor()
 
         _lodgesIds = []
-        _reservesAndOr = []
+        _reservesAndOr = ''
         _reservesIds = []
-        _medalsAndOr = []
+        _medalsAndOr = ''
         _medalsIds = []
-        _animalsAndOr = []
+        _animalsAndOr = ''
         _animalsIds = []
+        _allAnimals = False
 
         if query != {}:
             _lodgesIds = query.get('lodges', [])
-            _reservesAndOr = query.get('reservesAndOr', [])
+            _reservesAndOr = query.get('reservesAndOr', '')
             _reservesIds = query.get('reserves', [])
-            _medalsAndOr = query.get('medalsAndOr', [])
+            _medalsAndOr = query.get('medalsAndOr', '')
             _medalsIds = query.get('medals', [])
-            _animalsAndOr = query.get('animalsAndOr', [])
+            _animalsAndOr = query.get('animalsAndOr', '')
             _animalsIds = query.get('animals', [])
+            _allAnimals = query.get('allAnimals', False)
 
         where_clauses = []
         params = []
@@ -156,9 +158,40 @@ class Db:
             where_clauses.append(f"type IN ({placeholders})")
             params.extend(_animalsIds)
 
-        sql = "SELECT * FROM TrophyAnimals"
+        trophyAnimalsSql = """
+        SELECT * FROM TrophyAnimals
+        """
         if where_clauses:
-            sql += " WHERE " + " ".join(where_clauses)
+            trophyAnimalsSql += " WHERE " + " ".join(where_clauses)
+        sql=trophyAnimalsSql
+        if _allAnimals:
+            distinctTrophyAnimalsSql="""
+            SELECT DISTINCT 
+            type 
+            FROM TrophyAnimals
+            """
+            allAnimalsSql = """
+            SELECT DISTINCT
+            NULL as id,
+            type,
+            NULL as weight,
+            NULL as gender,
+            NULL as rating,
+            NULL as medal,
+            NULL as difficulty,
+            NULL as datetime,
+            NULL as furType,
+            NULL as lodge,
+            NULL as reserve
+            FROM AllAnimals
+            """
+
+            sql=(f'WITH '
+                 f'aa AS ({allAnimalsSql} WHERE type NOT IN ({distinctTrophyAnimalsSql})), '
+                 f'ta AS ({trophyAnimalsSql}) '
+                 f'SELECT * FROM ta '
+                 f'UNION '
+                 f'SELECT * FROM aa')
 
         cursor.execute(sql, params)
         rows = cursor.fetchall()

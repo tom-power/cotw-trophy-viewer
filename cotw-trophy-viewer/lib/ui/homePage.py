@@ -119,6 +119,7 @@ def homePage(paths=Paths(get_save_path())):
         queries.updateQuery('medals', selectMedals.value)
         queries.updateQuery('animalsAndOr', radioAnimalsAndOr.value)
         queries.updateQuery('animals', selectAnimals.value)
+        queries.updateQuery('allAnimals', checkboxAllAnimals.value)
 
 
     def updateGrid():

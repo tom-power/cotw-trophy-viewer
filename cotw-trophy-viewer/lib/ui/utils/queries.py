@@ -10,7 +10,7 @@ class Queries(object):
         'medals': [],
         'animalsAndOr': '',
         'animals': [],
-        'animalsAll': False,
+        'allAnimals': False,
     }
 
     def updateQuery(self, key, value):
