@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import List
 
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
+from lib.model.animalType import AnimalType
 from lib.model.constants import RESERVES_ANIMALS_CLASSES
 from lib.model.trophyanimal import TrophyAnimal
 
@@ -122,91 +123,85 @@ class Db:
 
         where_clauses = []
         params = []
+        trophyParams = []
 
         if _lodgesIds:
-            placeholders = ','.join(['?' for _ in _lodgesIds])
-            where_clauses.append(f"lodge IN ({placeholders})")
-            params.extend(_lodgesIds)
+            reservePlaceholders = ','.join(['?' for _ in _lodgesIds])
+            where_clauses.append(f"lodge IN ({reservePlaceholders})")
+            trophyParams.extend(_lodgesIds)
 
         if where_clauses and _reservesIds:
             where_clauses.append(f"{_reservesAndOr}")
 
         if _reservesIds:
-            placeholders = ','.join(['?' for _ in _reservesIds])
-            where_clauses.append(f"reserve IN ({placeholders})")
-            params.extend(_reservesIds)
+            reservePlaceholders = ','.join(['?' for _ in _reservesIds])
+            where_clauses.append(f"reserve IN ({reservePlaceholders})")
+            trophyParams.extend(_reservesIds)
 
         if where_clauses and _medalsIds:
             where_clauses.append(f"{_medalsAndOr}")
 
         if _medalsIds:
-            placeholders = ','.join(['?' for _ in _medalsIds])
-            where_clauses.append(f"medal IN ({placeholders})")
-            params.extend(_medalsIds)
+            reservePlaceholders = ','.join(['?' for _ in _medalsIds])
+            where_clauses.append(f"medal IN ({reservePlaceholders})")
+            trophyParams.extend(_medalsIds)
 
         if where_clauses and _animalsIds:
             where_clauses.append(f"{_animalsAndOr}")
 
         if _animalsIds:
-            placeholders = ','.join(['?' for _ in _animalsIds])
-            where_clauses.append(f"type IN ({placeholders})")
-            params.extend(_animalsIds)
+            reservePlaceholders = ','.join(['?' for _ in _animalsIds])
+            where_clauses.append(f"type IN ({reservePlaceholders})")
+            trophyParams.extend(_animalsIds)
+
 
         trophyAnimalsSql = """
         SELECT * FROM TrophyAnimals
         """
         if where_clauses:
             trophyAnimalsSql += " WHERE " + " ".join(where_clauses)
+
+        params = trophyParams
         sql=trophyAnimalsSql
+
         if _allAnimals:
-            distinctTrophyAnimalsSql="""
-            SELECT DISTINCT 
-            type 
-            FROM TrophyAnimals
-            """
+            allAnimalsParams = []
+
+            trophyTypesSubquery = f"SELECT DISTINCT type FROM ({trophyAnimalsSql})"
+
+            allAnimalsSelectSql = """
+                SELECT DISTINCT
+                NULL as id,
+                type,
+                NULL as weight,
+                NULL as gender,
+                NULL as rating,
+                NULL as medal,
+                NULL as difficulty,
+                NULL as datetime,
+                NULL as furType,
+                NULL as lodge,
+                NULL as reserve
+                FROM AllAnimals
+                """
+
+            allAnimalsSql = (allAnimalsSelectSql
+                             + f""" WHERE type NOT IN ({trophyTypesSubquery})""")
+
             if _reservesIds:
-                placeholders = ','.join(['?' for _ in _reservesIds])
-                params.extend(_reservesIds)
-                allAnimalsSql = f"""
-                    SELECT DISTINCT
-                    NULL as id,
-                    type,
-                    NULL as weight,
-                    NULL as gender,
-                    NULL as rating,
-                    NULL as medal,
-                    NULL as difficulty,
-                    NULL as datetime,
-                    NULL as furType,
-                    NULL as lodge,
-                    NULL as reserve
-                    FROM AllAnimals
-                    WHERE reserve IN ({placeholders}) AND type NOT IN ({distinctTrophyAnimalsSql})
-                    """
-            else:
-                allAnimalsSql = f"""
-                    SELECT DISTINCT
-                    NULL as id,
-                    type,
-                    NULL as weight,
-                    NULL as gender,
-                    NULL as rating,
-                    NULL as medal,
-                    NULL as difficulty,
-                    NULL as datetime,
-                    NULL as furType,
-                    NULL as lodge,
-                    NULL as reserve
-                    FROM AllAnimals
-                    WHERE type NOT IN ({distinctTrophyAnimalsSql})
-                    """
+                reservePlaceholders = ','.join(['?' for _ in _reservesIds])
+                allAnimalsSql = (allAnimalsSelectSql
+                                 + f""" WHERE type NOT IN ({trophyTypesSubquery}) AND reserve IN ({reservePlaceholders}) """)
+                allAnimalsParams.extend(_reservesIds)
 
             sql=(f'WITH '
-                 f'aa AS ({allAnimalsSql}), '
-                 f'ta AS ({trophyAnimalsSql}) '
+                 f'ta AS ({trophyAnimalsSql}), '
+                 f'aa AS ({allAnimalsSql}) '
                  f'SELECT * FROM ta '
                  f'UNION '
                  f'SELECT * FROM aa')
+
+            params = trophyParams + trophyParams + allAnimalsParams
 
         cursor.execute(sql, params)
         rows = cursor.fetchall()
@@ -214,7 +209,7 @@ class Db:
         trophy_animals = []
         for row in rows:
             animal = TrophyAnimal(
-                animalType=int(row[1]) if row[1] is not None else None,
+                animalType=AnimalType(int(row[1])) if row[1] is not None else None,
                 weight=float(row[2]) if row[2] is not None else None,
                 gender=int(row[3]) if row[3] is not None else None,
                 rating=float(row[4]) if row[4] is not None else None,
