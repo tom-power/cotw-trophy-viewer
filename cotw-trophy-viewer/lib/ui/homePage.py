@@ -80,12 +80,14 @@ def homePage(paths=Paths(get_save_path())):
         dataGrid = ui.aggrid({
             'defaultColDef': {'sortable': True},
             'columnDefs': [
-                {'headerName': 'Lodge', 'field': 'lodge'},
+                {'headerName': 'Lodge', 'field': 'lodge', 'width': '100'},
                 {'headerName': 'Reserve', 'field': 'reserve'},
                 {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
                 {'headerName': 'Animal', 'field': 'animal'},
                 {'headerName': 'Rating', 'field': 'rating', 'width': '100'},
                 {'headerName': 'Weight', 'field': 'weight', 'width': '100'},
+                {'headerName': 'Difficulty', 'field': 'difficulty', 'width': '100'},
+                {'headerName': 'Fur type', 'field': 'furType', 'width': '100'},
                 {'headerName': 'Datetime', 'field': 'datetime', 'sort': 'desc'},
             ],
             'pagination': True,
