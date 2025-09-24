@@ -1,6 +1,7 @@
 import uuid
 
 from lib.model.animalType import AnimalType
+from lib.model.reserve import Reserve
 
 
 class TrophyAnimal:
@@ -15,4 +16,4 @@ class TrophyAnimal:
         self.datetime = datetime
         self.furType: int = furType
         self.lodge: int = lodge
-        self.reserve: int = reserve
+        self.reserve: Reserve = reserve

@@ -7,6 +7,7 @@ from typing import List
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.model.animalType import AnimalType
 from lib.model.constants import RESERVES_ANIMALS_CLASSES
+from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
 
 TEST_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
@@ -73,7 +74,7 @@ class Db:
                 str(animal.datetime),
                 int(animal.furType) if animal.furType is not None else None,
                 int(animal.lodge) if animal.lodge is not None else None,
-                int(animal.reserve) if animal.reserve is not None else None
+                int(animal.reserve.value) if animal.reserve is not None else None
             ))
 
         conn.commit()
@@ -218,7 +219,7 @@ class Db:
                 datetime=row[7],
                 furType=int(row[8]) if row[8] is not None else None,
                 lodge=int(row[9]) if row[9] is not None else None,
-                reserve=int(row[10]) if row[10] is not None else None
+                reserve=Reserve(int(row[10])) if row[10] is not None else None
             )
             animal.id = row[0]
             trophy_animals.append(animal)

@@ -4,6 +4,7 @@ from typing import List
 from lib.deca.adf import load_adf
 from lib.deca.hashes import hash32_func
 from lib.model.animalType import AnimalType
+from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
 
 
@@ -37,7 +38,7 @@ def loadTrophyAnimals(loadPath: Path) -> List[TrophyAnimal]:
                 difficulty=(animal_data.get("Difficulty", 0.0)),
                 datetime=(str(animal_data.get("HarvestedAt", 0))),
                 furType=(animal_data.get("VariationIndex", 0)),
-                reserve=(animal_data.get("HarvestReserve", 0)),
+                reserve=(Reserve(animal_data.get("HarvestReserve", 0))),
                 lodge=(animal_data.get("LodgeId", 0) + 1),
             )
             trophiesAnimals.append(animal)
