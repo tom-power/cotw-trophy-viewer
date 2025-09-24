@@ -47,7 +47,7 @@ def _getAnimalTypeName(key: int) -> str:
         animal_type = AnimalType(key)
         return animal_type.animalName()
     except ValueError:
-        return f'UNKNOWN ANIMAL ({key})'
+        return f'{key}'
 
 
 def _naIfNone(value, fn=lambda a: a):
