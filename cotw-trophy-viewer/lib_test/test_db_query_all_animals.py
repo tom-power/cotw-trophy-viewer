@@ -24,7 +24,7 @@ class TestAllAnimalsFunctions(unittest.TestCase):
             }
 
         trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOne)
-        self.assertEqual(108, len(trophyAnimals))
+        self.assertEqual(117, len(trophyAnimals))
 
     def test_db_trophyAnimals_all_animals_reserve(self):
         lodgeOne = \

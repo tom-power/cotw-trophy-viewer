@@ -1,12 +1,12 @@
 import uuid
 
+from lib.model.animalType import AnimalType
+
 
 class TrophyAnimal:
-    type: ""
-
     def __init__(self, animalType, weight, gender, rating, medal, difficulty, datetime, furType, lodge, reserve):
         self.id = uuid.uuid4()
-        self.type: int = animalType
+        self.type: AnimalType = animalType
         self.weight: float = weight
         self.gender: int = gender
         self.rating: float = rating

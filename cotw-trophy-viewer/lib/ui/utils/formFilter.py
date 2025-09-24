@@ -2,7 +2,7 @@ from nicegui import ui
 
 from lib.model.animalType import AnimalType
 from lib.model.constants import MEDALS
-from lib.model.reserve import ReserveEnum
+from lib.model.reserve import Reserve
 
 
 def andOrRadio():
@@ -18,7 +18,7 @@ def footer():
 
 
 def reservesOptions() -> dict:
-    return {r.value: r.reserveName() for r in ReserveEnum}
+    return {r.value: r.reserveName() for r in Reserve}
 
 
 def medalOptions() -> dict:

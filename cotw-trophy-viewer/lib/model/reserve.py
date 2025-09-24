@@ -1,11 +1,6 @@
 from enum import Enum
 
-
-class Reserve:
-    def __init__(self, animalsPerClass):
-        self.animalsPerClass = animalsPerClass
-
-class ReserveEnum(Enum):
+class Reserve(Enum):
     HIRSCHFELDEN=0
     LAYTON_LAKE=1
     MEDVED_TAIGA=2

@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List
 
 from lib.model.animalType import AnimalType
-from lib.model.constants import RESERVES, GENDERS, MEDALS
+from lib.model.constants import RESERVES_ANIMALS_CLASSES, GENDERS, MEDALS
 from lib.model.trophyanimal import TrophyAnimal
 from lib.ui.utils.difficulty import getDifficultyName
 
@@ -35,7 +35,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
 
 
 def _getReserveName(reserve) -> str:
-    return list(filter(lambda r: r.value == reserve, RESERVES.keys()))[0].reserveName()
+    return list(filter(lambda r: r.value == reserve, RESERVES_ANIMALS_CLASSES.keys()))[0].reserveName()
 
 
 def _getAnimalTypeName(key: int) -> str:

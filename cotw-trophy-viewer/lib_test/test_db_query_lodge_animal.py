@@ -16,7 +16,7 @@ class TestDbFunctions(unittest.TestCase):
                 "lodges": [1],
                 "reserves": [],
                 "medals": [],
-                "animals": [1511159411],
+                "animals": [31],
                 "reservesAndOr": "and",
                 "medalsAndOr": "and",
                 "animalsAndOr": "and"
@@ -31,7 +31,7 @@ class TestDbFunctions(unittest.TestCase):
                 "lodges": [1],
                 "reserves": [],
                 "medals": [],
-                "animals": [1511159411],
+                "animals": [31],
                 "reservesAndOr": "and",
                 "medalsAndOr": "and",
                 "animalsAndOr": "or"

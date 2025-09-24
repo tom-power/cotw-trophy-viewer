@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import List
 
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
-from lib.model.constants import RESERVES
+from lib.model.constants import RESERVES_ANIMALS_CLASSES
 from lib.model.trophyanimal import TrophyAnimal
 
 TEST_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
@@ -63,7 +63,7 @@ class Db:
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 str(animal.id),
-                int(animal.type),
+                int(animal.type.value) if animal.type is not None else None,
                 float(animal.weight) if animal.weight is not None else None,
                 int(animal.gender) if animal.gender is not None else None,
                 float(animal.rating) if animal.rating is not None else None,
@@ -84,11 +84,10 @@ class Db:
 
         cursor.execute('DELETE FROM AllAnimals')
 
-        for reserve_enum, reserve_data in RESERVES.items():
+        for reserve_enum, reserve_dict in RESERVES_ANIMALS_CLASSES.items():
             reserve_index = reserve_enum.value
-            reserve_obj = reserve_data if hasattr(reserve_data, 'animalsPerClass') else list(reserve_data.values())[0]
 
-            for class_level, animals_list in reserve_obj.animalsPerClass.items():
+            for class_level, animals_list in reserve_dict.items():
                 for animal_type in animals_list:
                     cursor.execute('''
                         INSERT OR IGNORE INTO AllAnimals (reserve, type)
@@ -98,7 +97,7 @@ class Db:
         conn.commit()
         conn.close()
 
-    def trophyAnimals(self, query: dict = {}) -> List[TrophyAnimal]:
+    def trophyAnimals(self, query: dict | None = None) -> List[TrophyAnimal]:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
@@ -111,7 +110,7 @@ class Db:
         _animalsIds = []
         _allAnimals = False
 
-        if query != {}:
+        if query is not None:
             _lodgesIds = query.get('lodges', [])
             _reservesAndOr = query.get('reservesAndOr', '')
             _reservesIds = query.get('reserves', [])

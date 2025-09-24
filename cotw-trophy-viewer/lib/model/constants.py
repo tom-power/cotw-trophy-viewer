@@ -1,8 +1,8 @@
 from lib.model.animalType import AnimalType
-from lib.model.reserve import Reserve, ReserveEnum
+from lib.model.reserve import Reserve
 
-RESERVES = {
-    ReserveEnum.HIRSCHFELDEN: Reserve({
+RESERVES_ANIMALS_CLASSES = {
+    Reserve.HIRSCHFELDEN: {
         1: [AnimalType.CANADA_GOOSE, AnimalType.RING_NECKED_PHEASANT, AnimalType.EU_RABBIT],
         2: [AnimalType.RED_FOX],
         3: [AnimalType.ROE_DEER],
@@ -12,8 +12,8 @@ RESERVES = {
         7: [],
         8: [],
         9: [AnimalType.EU_BISON],
-    }),
-    ReserveEnum.LAYTON_LAKE: Reserve({
+    },
+    Reserve.LAYTON_LAKE: {
         1: [AnimalType.MALLARD, AnimalType.WILD_TURKEY, AnimalType.WHITE_TAILED_JACKRABBIT],
         2: [AnimalType.COYOTE],
         3: [],
@@ -23,8 +23,8 @@ RESERVES = {
         7: [AnimalType.BLACK_BEAR],
         8: [AnimalType.ROOSEVELT_ELK, AnimalType.MOOSE],
         9: [],
-    }),
-    ReserveEnum.MEDVED_TAIGA: Reserve({
+    },
+    Reserve.MEDVED_TAIGA: {
         1: [AnimalType.WESTERN_CAPERCAILLIE],
         2: [AnimalType.SIBERIAN_MUSK_DEER],
         3: [AnimalType.EURASIAN_LYNX],
@@ -34,8 +34,8 @@ RESERVES = {
         7: [AnimalType.BROWN_BEAR],
         8: [AnimalType.MOOSE],
         9: [],
-    }),
-    ReserveEnum.VURHONGA_SAVANNA: Reserve({
+    },
+    Reserve.VURHONGA_SAVANNA: {
         1: [AnimalType.EURASIAN_WIGEON, AnimalType.SCRUB_HARE],
         2: [AnimalType.SIDE_STRIPED_JACKAL],
         3: [AnimalType.SPRINGBOK],
@@ -45,8 +45,8 @@ RESERVES = {
         7: [],
         8: [AnimalType.GEMSBOK],
         9: [AnimalType.CAPE_BUFFALO, AnimalType.LION],
-    }),
-    ReserveEnum.PARQUE_FERNANDO: Reserve({
+    },
+    Reserve.PARQUE_FERNANDO: {
         1: [AnimalType.CINNAMON_TEAL],
         2: [],
         3: [AnimalType.BLACKBUCK, AnimalType.AXIS_DEER],
@@ -56,8 +56,8 @@ RESERVES = {
         7: [],
         8: [],
         9: [AnimalType.WATER_BUFFALO],
-    }),
-    ReserveEnum.YUKON_VALLEY: Reserve({
+    },
+    Reserve.YUKON_VALLEY: {
         1: [AnimalType.HARLEQUIN_DUCK, AnimalType.CANADA_GOOSE],
         2: [AnimalType.RED_FOX],
         3: [],
@@ -67,8 +67,8 @@ RESERVES = {
         7: [AnimalType.GRIZZLY_BEAR],
         8: [AnimalType.MOOSE],
         9: [AnimalType.PLAINS_BISON],
-    }),
-    ReserveEnum.CUATRO_COLINAS: Reserve({
+    },
+    Reserve.CUATRO_COLINAS: {
         1: [AnimalType.RING_NECKED_PHEASANT, AnimalType.EU_HARE],
         2: [],
         3: [AnimalType.ROE_DEER],
@@ -79,8 +79,8 @@ RESERVES = {
         7: [],
         8: [],
         9: [],
-    }),
-    ReserveEnum.SILVER_RIDGE_PEAKS: Reserve({
+    },
+    Reserve.SILVER_RIDGE_PEAKS: {
         1: [AnimalType.WILD_TURKEY],
         2: [],
         3: [],
@@ -90,8 +90,8 @@ RESERVES = {
         7: [AnimalType.BLACK_BEAR],
         8: [AnimalType.ROCKYMOUNTAIN_ELK],
         9: [AnimalType.PLAINS_BISON],
-    }),
-    ReserveEnum.TE_AWAROA_NATIONAL_PARK: Reserve({
+    },
+    Reserve.TE_AWAROA_NATIONAL_PARK: {
         1: [AnimalType.WILD_TURKEY, AnimalType.MALLARD, AnimalType.EU_RABBIT],
         2: [],
         3: [AnimalType.CHAMOIS, AnimalType.FERAL_GOAT],
@@ -101,8 +101,8 @@ RESERVES = {
         7: [],
         8: [],
         9: [],
-    }),
-    ReserveEnum.RANCHO_DEL_ARROYO: Reserve({
+    },
+    Reserve.RANCHO_DEL_ARROYO: {
         1: [AnimalType.RIO_GRANDE_TURKEY, AnimalType.RING_NECKED_PHEASANT, AnimalType.ANTELOPE_JACKRABBIT],
         2: [AnimalType.COYOTE],
         3: [AnimalType.MEXICAN_BOBCAT],
@@ -112,8 +112,8 @@ RESERVES = {
         7: [],
         8: [],
         9: [],
-    }),
-    ReserveEnum.MISSISSIPPI_ACRES_PRESERVE: Reserve({
+    },
+    Reserve.MISSISSIPPI_ACRES_PRESERVE: {
         1: [AnimalType.BOBWHITE_QUAIL, AnimalType.EASTERN_WILD_TURKEY, AnimalType.GREEN_WINGED_TEAL, AnimalType.EASTERN_COTTONTAIL_RABBIT],
         2: [AnimalType.GREY_FOX, AnimalType.COMMON_RACCOON],
         3: [],
@@ -123,8 +123,8 @@ RESERVES = {
         7: [AnimalType.BLACK_BEAR],
         8: [],
         9: [],
-    }),
-    ReserveEnum.REVONTULI_COAST: Reserve({
+    },
+    Reserve.REVONTULI_COAST: {
         1: [AnimalType.EURASIAN_WIGEON, AnimalType.EURASIAN_TEAL, AnimalType.GOLDENEYE, AnimalType.MALLARD, AnimalType.TUFTED_DUCK, AnimalType.CANADA_GOOSE,
             AnimalType.GREYLAG_GOOSE, AnimalType.TUNDRA_BEAN_GOOSE, AnimalType.BLACK_GROUSE, AnimalType.HAZEL_GROUSE, AnimalType.WESTERN_CAPERCAILLIE,
             AnimalType.ROCK_PTARMIGAN, AnimalType.WILLOW_PTARMIGAN, AnimalType.MOUNTAIN_HARE],
@@ -136,8 +136,8 @@ RESERVES = {
         7: [AnimalType.BROWN_BEAR],
         8: [AnimalType.MOOSE],
         9: [],
-    }),
-    ReserveEnum.NEW_ENGLAND_MOUNTAINS: Reserve({
+    },
+    Reserve.NEW_ENGLAND_MOUNTAINS: {
         1: [AnimalType.RING_NECKED_PHEASANT, AnimalType.BOBWHITE_QUAIL, AnimalType.EASTERN_WILD_TURKEY, AnimalType.GOLDENEYE, AnimalType.MALLARD,
             AnimalType.GREEN_WINGED_TEAL, AnimalType.EASTERN_COTTONTAIL_RABBIT],
         2: [AnimalType.RED_FOX, AnimalType.GREY_FOX, AnimalType.COYOTE, AnimalType.COMMON_RACCOON],
@@ -148,8 +148,8 @@ RESERVES = {
         7: [AnimalType.BLACK_BEAR],
         8: [AnimalType.MOOSE],
         9: [],
-    }),
-    ReserveEnum.SUNDARPATAN: Reserve({
+    },
+    Reserve.SUNDARPATAN: {
         1: [AnimalType.GREYLAG_GOOSE, AnimalType.WOOLLY_HARE],
         2: [AnimalType.NORTHERN_RED_MUNTJAC, AnimalType.TIBETAN_FOX],
         3: [AnimalType.BLACKBUCK],
@@ -159,8 +159,8 @@ RESERVES = {
         7: [],
         8: [],
         9: [AnimalType.BENGAL_TIGER, AnimalType.WATER_BUFFALO, AnimalType.WILD_YAK],
-    }),
-    ReserveEnum.EMERALD_COAST: Reserve({
+    },
+    Reserve.EMERALD_COAST: {
         1: [AnimalType.MAGPIE_GOOSE, AnimalType.STUBBLE_QUAIL],
         2: [AnimalType.RED_FOX],
         3: [AnimalType.HOG_DEER, AnimalType.AXIS_DEER, AnimalType.FERAL_GOAT],
@@ -170,7 +170,7 @@ RESERVES = {
         7: [AnimalType.SALTWATER_CROCODILE],
         8: [],
         9: [AnimalType.BANTENG],
-    }),
+    },
 }
 
 GENDERS = {
