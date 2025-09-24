@@ -7,6 +7,7 @@ from typing import List
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.model.animalType import AnimalType
 from lib.model.constants import RESERVES_ANIMALS_CLASSES
+from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
 
@@ -69,7 +70,7 @@ class Db:
                 float(animal.weight) if animal.weight is not None else None,
                 int(animal.gender) if animal.gender is not None else None,
                 float(animal.rating) if animal.rating is not None else None,
-                float(animal.medal) if animal.medal is not None else None,
+                int(animal.medal.value) if animal.medal is not None else None,
                 float(animal.difficulty) if animal.difficulty is not None else None,
                 str(animal.datetime),
                 int(animal.furType) if animal.furType is not None else None,
@@ -214,7 +215,7 @@ class Db:
                 weight=float(row[2]) if row[2] is not None else None,
                 gender=int(row[3]) if row[3] is not None else None,
                 rating=float(row[4]) if row[4] is not None else None,
-                medal=float(row[5]) if row[5] is not None else None,
+                medal=Medal(int(row[5])) if row[5] is not None else None,
                 difficulty=float(row[6]) if row[6] is not None else None,
                 datetime=row[7],
                 furType=int(row[8]) if row[8] is not None else None,

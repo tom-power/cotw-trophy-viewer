@@ -4,6 +4,7 @@ import numpy as np
 
 from lib.load.loadTrophiesAnimals import loadTrophyAnimals
 from lib.model.animalType import AnimalType
+from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
 from lib_test.fixtures import FIXTURES_PATH
@@ -21,7 +22,7 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.weight, 90)
         self.assertEqual(testAnimal.gender, 1)
         self.assertEqual(testAnimal.rating, 215.97388)
-        self.assertEqual(testAnimal.medal, 1)
+        self.assertEqual(testAnimal.medal, Medal.GOLD)
         self.assertEqual(testAnimal.difficulty, 0.39767796)
         self.assertEqual(testAnimal.datetime, '1738269517')
         self.assertEqual(testAnimal.furType, 9)
@@ -35,7 +36,7 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.weight, 1064.090087890625)
         self.assertEqual(testAnimal.gender, 1)
         self.assertEqual(testAnimal.rating, 1068.0112)
-        self.assertEqual(testAnimal.medal, 0)
+        self.assertEqual(testAnimal.medal, Medal.DIAMOND)
         self.assertEqual(testAnimal.difficulty, 0.9627677202224731)
         self.assertEqual(testAnimal.datetime, '1756497993')
         self.assertEqual(testAnimal.furType, 1)

@@ -4,6 +4,7 @@ from typing import List
 
 from lib.model.animalType import AnimalType
 from lib.model.constants import RESERVES_ANIMALS_CLASSES, GENDERS, MEDALS
+from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
 from lib.ui.utils.difficulty import getDifficultyName
@@ -26,7 +27,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'gender': _naIfNone(animal.gender, lambda g: GENDERS[g]),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
             'rating': _naIfNone(animal.rating),
-            'medal': _naIfNone(animal.medal, lambda r: MEDALS[int(r)]),
+            'medal': _naIfNone(animal.medal, lambda m: Medal(m).name),
             'difficulty': _naIfNone(animal.difficulty, lambda d: getDifficultyName(d)),
             'difficultyScore': _naIfNone(animal.difficulty, lambda d: math.floor(d * 1000) / 1000),
             'furType': _naIfNone(furTypeName),

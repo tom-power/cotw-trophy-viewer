@@ -3,6 +3,8 @@ import sys
 import unittest
 
 from lib.db.db import Db
+from lib.model.animalType import AnimalType
+from lib.model.medal import Medal
 from lib_test.fixtures import FIXTURES_PATH
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -73,7 +75,7 @@ class TestAllAnimalsFunctions(unittest.TestCase):
 
         trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOne)
         self.assertEqual(9, len(trophyAnimals))
-        self.assertEqual(0, list(filter(lambda a: a.type.animalName() == "RED DEER", trophyAnimals))[0].medal)
+        self.assertEqual(Medal.DIAMOND, list(filter(lambda a: a.type == AnimalType.RED_DEER, trophyAnimals))[0].medal)
 
     def test_db_trophyAnimals_all_animals_gold_hirsch(self):
         lodgeOne = \
@@ -90,8 +92,8 @@ class TestAllAnimalsFunctions(unittest.TestCase):
 
         trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOne)
         self.assertEqual(10, len(trophyAnimals))
-        self.assertEqual(1, list(filter(lambda a: a.type.animalName() == "FALLOW DEER", trophyAnimals))[0].medal)
-        self.assertEqual(1, list(filter(lambda a: a.type.animalName() == "FALLOW DEER", trophyAnimals))[1].medal)
+        self.assertEqual(Medal.GOLD, list(filter(lambda a: a.type == AnimalType.FALLOW_DEER, trophyAnimals))[0].medal)
+        self.assertEqual(Medal.GOLD, list(filter(lambda a: a.type == AnimalType.FALLOW_DEER, trophyAnimals))[1].medal)
 
     def test_db_trophyAnimals_all_animals_diamond_emerald(self):
         lodgeOne = \
@@ -108,5 +110,5 @@ class TestAllAnimalsFunctions(unittest.TestCase):
 
         trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOne)
         # self.assertEqual(9, len(trophyAnimals))
-        self.assertEqual(0, list(filter(lambda a: a.type.animalName() == "STUBBLE QUAIL", trophyAnimals))[0].medal)
-        self.assertEqual(0, list(filter(lambda a: a.type.animalName() == "BANTENG", trophyAnimals))[0].medal)
+        self.assertEqual(Medal.DIAMOND, list(filter(lambda a: a.type == AnimalType.STUBBLE_QUAIL, trophyAnimals))[0].medal)
+        self.assertEqual(Medal.DIAMOND, list(filter(lambda a: a.type == AnimalType.BANTENG, trophyAnimals))[0].medal)

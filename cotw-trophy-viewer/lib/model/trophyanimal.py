@@ -1,6 +1,7 @@
 import uuid
 
 from lib.model.animalType import AnimalType
+from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 
 
@@ -11,7 +12,7 @@ class TrophyAnimal:
         self.weight: float = weight
         self.gender: int = gender
         self.rating: float = rating
-        self.medal: float = medal
+        self.medal: Medal = medal
         self.difficulty: float = difficulty
         self.datetime = datetime
         self.furType: int = furType
