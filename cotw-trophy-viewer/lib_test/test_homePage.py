@@ -16,7 +16,7 @@ async def test_click(user: User) -> None:
     await user.open('/')
 
 async def test_upload_lodge(user: User) -> None:
-    homePage()
+    homePage(Paths(FIXTURES_PATH))
     await user.open('/')
 
     upload = user.find(ui.upload).elements.pop()
