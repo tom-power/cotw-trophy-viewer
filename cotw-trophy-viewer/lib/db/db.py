@@ -8,7 +8,11 @@ from .preset_manager import PresetManager
 from .trophy_animal_manager import TrophyAnimalManager
 
 TEST_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
-DB_PATH = Path('data')
+
+if sys.platform == 'win32':
+    DB_PATH = Path.home() / 'AppData' / 'Local' / 'cotw-trophy-viewer' / 'data'
+else:
+    DB_PATH = Path.home() / '.cotw-trophy-viewer' / 'data'
 
 class Db:
     def __init__(self, loadPath: Path, db_path: Path = DB_PATH) -> None:
