@@ -51,7 +51,7 @@ def homePage(paths=Paths(get_save_path())):
     addPresetDialog = ui.dialog()
     with addPresetDialog, ui.card():
         ui.input(label="preset name").bind_value(presetName, "text")
-        ui.button(text="save", on_click=lambda: savePreset())
+        ui.button(text="save", on_click=lambda: addPreset())
 
     with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
         with ui.card():  # filter
@@ -95,7 +95,7 @@ def homePage(paths=Paths(get_save_path())):
                     selectPresets = ui.select(options=presets(), label='presets',
                                               on_change=lambda e: applyPreset(e)).classes('w-48')
                     ui.button(text='+', on_click=addPresetDialog.open)
-                    ui.button(text='-')
+                    ui.button(text='-', on_click=lambda: removePreset())
 
         dataGrid = ui.aggrid({
             'defaultColDef': {'sortable': True},
@@ -114,6 +114,22 @@ def homePage(paths=Paths(get_save_path())):
             'paginationPageSize': 50,
             'rowData': (lambda: getRowData())()
         }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1')
+
+    def removePreset():
+        db.presetRemove(selectPresets.value)
+        _updatePresets()
+
+    def addPreset():
+        updateQueries()
+        db.presetAdd(presetName.text, queries.queryDict)
+        _updatePresets()
+        addPresetDialog.close()
+
+    def _updatePresets():
+        new_presets = db.presets()
+        selectPresets.set_options(new_presets)
+        selectPresets.set_value(list(new_presets.keys())[-1])
+
 
     def applyPreset(e):
         clearForm()
@@ -140,12 +156,6 @@ def homePage(paths=Paths(get_save_path())):
     def clear():
         clearForm()
         selectPresets.set_value('')
-
-    def savePreset():
-        updateQueries()
-        db.presetAdd(presetName.text, queries.queryDict)
-        selectPresets.set_options(db.presets())
-        addPresetDialog.close()
 
     def updateQueries():
         queries.updateQuery('lodges', selectLodges.value)

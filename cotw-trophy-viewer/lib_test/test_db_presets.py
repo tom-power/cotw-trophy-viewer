@@ -12,7 +12,7 @@ class TestAllPresetsFunctions(unittest.TestCase):
 
     def setUp(self):
         self.db = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data')
-        self.db.presetClear()
+        self.db.presetsClear()
         self.db.presetInit()
 
     def test_db_preset(self):
@@ -92,3 +92,36 @@ class TestAllPresetsFunctions(unittest.TestCase):
         self.assertIsNotNone(preset_id)
         retrieved_query = self.db.preset(preset_id)
         self.assertEqual(test_query1, retrieved_query)
+
+    def test_db_preset_remove(self):
+        test_query = {
+            "lodges": [1, 2],
+            "reserves": [3, 4],
+            "medals": [1, 2],
+            "animals": [5, 6],
+            "reservesAndOr": "or",
+            "medalsAndOr": "or",
+            "animalsAndOr": "or",
+            "allAnimals": False
+        }
+
+        self.db.presetAdd("test preset to remove", test_query)
+
+        presets_before = self.db.presets()
+        self.assertEqual(2, len(presets_before))
+        self.assertIn('test preset to remove', presets_before.values())
+
+        preset_id_to_remove = None
+        for preset_id, name in presets_before.items():
+            if name == "test preset to remove":
+                preset_id_to_remove = preset_id
+                break
+
+        self.assertIsNotNone(preset_id_to_remove)
+
+        self.db.presetRemove(preset_id_to_remove)
+
+        presets_after = self.db.presets()
+        self.assertEqual(1, len(presets_after))
+        self.assertNotIn('test preset to remove', presets_after.values())
+        self.assertIn('diamond checklist', presets_after.values())

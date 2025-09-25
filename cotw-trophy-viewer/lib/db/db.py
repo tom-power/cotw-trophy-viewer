@@ -291,7 +291,7 @@ class Db:
         else:
             return {}
 
-    def presetClear(self):
+    def presetsClear(self):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
@@ -312,6 +312,18 @@ class Db:
         cursor.execute(
             'INSERT OR IGNORE INTO Preset (name, query) VALUES (?, ?)',
             (name, json.dumps(queryDict))
+        )
+
+        conn.commit()
+        conn.close()
+
+    def presetRemove(self, presetId):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute(
+            'DELETE FROM Preset WHERE id = ?',
+            (presetId,)
         )
 
         conn.commit()
