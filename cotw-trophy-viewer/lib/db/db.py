@@ -11,6 +11,7 @@ from lib.model.constants import RESERVES_ANIMALS_CLASSES
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
+from .preset_manager import PresetManager
 
 TEST_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
 DB_PATH = Path('data')
@@ -22,7 +23,8 @@ class Db:
         self._create_database()
         self._insert_trophy_animals(loadTrophyAnimals(loadPath))
         self._insert_trophy_animals_reserves()
-        self._insert_default_presets()
+        self.preset_manager = PresetManager(self.db_path)
+        self.preset_manager.presetInit()
 
     def _create_database(self) -> None:
         conn = sqlite3.connect(self.db_path)
@@ -110,30 +112,6 @@ class Db:
         conn.commit()
         conn.close()
 
-    def _insert_default_presets(self) -> None:
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-
-        cursor.execute('SELECT COUNT(*) FROM Preset')
-        if cursor.fetchone()[0] == 0:
-            default_preset_query = {
-                "lodges": [],
-                "reserves": [],
-                "medals": [0],
-                "animals": [],
-                "reservesAndOr": "and",
-                "medalsAndOr": "and",
-                "animalsAndOr": "and",
-                "allAnimals": True
-            }
-
-            cursor.execute(
-                'INSERT INTO Preset (name, query) VALUES (?, ?)',
-                ('diamond checklist', json.dumps(default_preset_query))
-            )
-
-        conn.commit()
-        conn.close()
 
     def trophyAnimals(self, query: dict | None = None) -> List[TrophyAnimal]:
         conn = sqlite3.connect(self.db_path)
@@ -269,62 +247,19 @@ class Db:
         return {l: f'LODGE {l}' for l in lodges}
 
     def presets(self):
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-
-        cursor.execute('SELECT id, name FROM Preset ORDER BY id')
-        rows = cursor.fetchall()
-
-        conn.close()
-        return {row[0]: row[1] for row in rows}
+        return self.preset_manager.presets()
 
     def preset(self, i: int) -> dict:
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-
-        cursor.execute('SELECT query FROM Preset WHERE id = ?', (i,))
-        row = cursor.fetchone()
-
-        conn.close()
-        if row:
-            return json.loads(row[0])
-        else:
-            return {}
+        return self.preset_manager.preset(i)
 
     def presetsClear(self):
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-
-        cursor.execute(
-            'DELETE FROM Preset'
-        )
-
-        conn.commit()
-        conn.close()
+        return self.preset_manager.presetsClear()
 
     def presetInit(self):
-        self._insert_default_presets()
+        return self.preset_manager.presetInit()
 
     def presetAdd(self, name, queryDict):
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-
-        cursor.execute(
-            'INSERT OR IGNORE INTO Preset (name, query) VALUES (?, ?)',
-            (name, json.dumps(queryDict))
-        )
-
-        conn.commit()
-        conn.close()
+        return self.preset_manager.presetAdd(name, queryDict)
 
     def presetRemove(self, presetId):
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-
-        cursor.execute(
-            'DELETE FROM Preset WHERE id = ?',
-            (presetId,)
-        )
-
-        conn.commit()
-        conn.close()
+        return self.preset_manager.presetRemove(presetId)
