@@ -1,11 +1,10 @@
 import tempfile
 from pathlib import Path
 
-from nicegui import ui
+from nicegui import ui, binding
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.model.constants import MEDALS, getKeyFor
 from lib.ui.utils.formFilter import footer, selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.paths import Paths
 from lib.ui.utils.queries import Queries
@@ -43,6 +42,17 @@ def homePage(paths=Paths(get_save_path())):
     def presets() -> dict:
         return db.presets()
 
+    @binding.bindable_dataclass
+    class Data:
+        text: str
+
+    presetName = Data(text="")
+
+    addPresetDialog = ui.dialog()
+    with addPresetDialog, ui.card():
+        ui.input(label="preset name").bind_value(presetName, "text")
+        ui.button(text="save", on_click=lambda: savePreset())
+
     with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
         with ui.card():  # filter
             with ui.grid(columns='auto auto 600px'):
@@ -74,7 +84,8 @@ def homePage(paths=Paths(get_save_path())):
                 upload_component = ui.upload(label='UPLOAD LODGE FILE',
                                              on_upload=lambda e: uploadLodge(e),
                                              multiple=False,
-                                             auto_upload=True).props('accept="*"').tooltip('Upload trophy_lodges_adf file')
+                                             auto_upload=True).props('accept="*"').tooltip(
+                    'Upload trophy_lodges_adf file')
                 with ui.row():
                     ui.button(text='RELOAD', on_click=lambda: reload())
                     ui.button(text='RESET', on_click=lambda: reset())
@@ -83,9 +94,8 @@ def homePage(paths=Paths(get_save_path())):
                 with ui.row():
                     selectPresets = ui.select(options=presets(), label='presets',
                                               on_change=lambda e: applyPreset(e)).classes('w-48')
-                    ui.button(text='+')
+                    ui.button(text='+', on_click=addPresetDialog.open)
                     ui.button(text='-')
-
 
         dataGrid = ui.aggrid({
             'defaultColDef': {'sortable': True},
@@ -131,6 +141,12 @@ def homePage(paths=Paths(get_save_path())):
         clearForm()
         selectPresets.set_value('')
 
+    def savePreset():
+        updateQueries()
+        db.presetAdd(presetName.text, queries.queryDict)
+        selectPresets.set_options(db.presets())
+        addPresetDialog.close()
+
     def updateQueries():
         queries.updateQuery('lodges', selectLodges.value)
         queries.updateQuery('reservesAndOr', radioReservesAndOr.value)
@@ -140,7 +156,6 @@ def homePage(paths=Paths(get_save_path())):
         queries.updateQuery('animalsAndOr', radioAnimalsAndOr.value)
         queries.updateQuery('animals', selectAnimals.value)
         queries.updateQuery('allAnimals', checkboxAllAnimals.value)
-
 
     def updateGrid():
         updateQueries()

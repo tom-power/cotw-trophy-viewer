@@ -55,7 +55,7 @@ class Db:
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS Preset (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
+                name TEXT NOT NULL UNIQUE,
                 query TEXT NOT NULL
             )
         ''')
@@ -290,3 +290,29 @@ class Db:
             return json.loads(row[0])
         else:
             return {}
+
+    def presetClear(self):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute(
+            'DELETE FROM Preset'
+        )
+
+        conn.commit()
+        conn.close()
+
+    def presetInit(self):
+        self._insert_default_presets()
+
+    def presetAdd(self, name, queryDict):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute(
+            'INSERT OR IGNORE INTO Preset (name, query) VALUES (?, ?)',
+            (name, json.dumps(queryDict))
+        )
+
+        conn.commit()
+        conn.close()
