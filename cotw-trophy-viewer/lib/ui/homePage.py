@@ -5,7 +5,7 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.model.constants import MEDALS, getKeyFor, presets
+from lib.model.constants import MEDALS, getKeyFor
 from lib.ui.utils.formFilter import footer, selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.paths import Paths
 from lib.ui.utils.queries import Queries
@@ -39,6 +39,9 @@ def homePage(paths=Paths(get_save_path())):
     def reset():
         paths.resetToDefaultPath()
         upload_component.reset()
+
+    def presets() -> dict:
+        return db.presets()
 
     with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
         with ui.card():  # filter
@@ -103,11 +106,19 @@ def homePage(paths=Paths(get_save_path())):
         }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1')
 
     def applyPreset(e):
-        match e.value:
-            case 'diamond checklist':
-                clearForm()
-                checkboxAllAnimals.set_value(True)
-                selectMedals.set_value([(getKeyFor(MEDALS, 'DIAMOND'))])
+        clearForm()
+        preset = db.preset(e.value)
+        updateFilterFromPreset(preset)
+
+    def updateFilterFromPreset(preset: dict):
+        selectLodges.set_value(preset['lodges'])
+        radioReservesAndOr.set_value(preset['medals'])
+        selectReserves.set_value(preset['reserves'])
+        radioMedalsAndOr.set_value(preset['medalsAndOr'])
+        selectMedals.set_value(preset['medals'])
+        radioAnimalsAndOr.set_value(preset['animalsAndOr'])
+        selectAnimals.set_value(preset['animals'])
+        checkboxAllAnimals.set_value(preset['allAnimals'])
 
     def clearForm():
         selectLodges.set_value('')

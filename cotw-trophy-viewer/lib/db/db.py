@@ -232,3 +232,21 @@ class Db:
         animals = sorted(self.trophyAnimals(), key=lambda x: x.lodge)
         lodges = list(map(lambda t: t.lodge, animals))
         return {l: f'LODGE {l}' for l in lodges}
+
+    def presets(self):
+        return {
+            0: 'diamond checklist'
+        }
+
+    def preset(self, i: int) -> dict:
+        diamond_checklist = {
+            "lodges": [],
+            "reserves": [],
+            "medals": [0],
+            "animals": [],
+            "reservesAndOr": "and",
+            "medalsAndOr": "and",
+            "animalsAndOr": "and",
+            "allAnimals": True
+        }
+        return diamond_checklist

@@ -202,10 +202,5 @@ DIFFICULTIES = {
     9: "FABLED",
 }
 
-
-def presets():
-    return ['diamond checklist']
-
-
 def getKeyFor(constant, label) -> int:
     return next(key for key, labels in constant.items() if labels == label)
