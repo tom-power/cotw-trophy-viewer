@@ -1,3 +1,4 @@
+import json
 import os
 import sqlite3
 import sys
@@ -21,6 +22,7 @@ class Db:
         self._create_database()
         self._insert_trophy_animals(loadTrophyAnimals(loadPath))
         self._insert_trophy_animals_reserves()
+        self._insert_default_presets()
 
     def _create_database(self) -> None:
         conn = sqlite3.connect(self.db_path)
@@ -47,6 +49,14 @@ class Db:
                 reserve INTEGER,
                 type INTEGER,
                 PRIMARY KEY (reserve, type)
+            )
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Preset (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                query TEXT NOT NULL
             )
         ''')
 
@@ -96,6 +106,31 @@ class Db:
                         INSERT OR IGNORE INTO AllAnimals (reserve, type)
                         VALUES (?, ?)
                     ''', (reserve_index, animal_type.value))
+
+        conn.commit()
+        conn.close()
+
+    def _insert_default_presets(self) -> None:
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT COUNT(*) FROM Preset')
+        if cursor.fetchone()[0] == 0:
+            default_preset_query = {
+                "lodges": [],
+                "reserves": [],
+                "medals": [0],
+                "animals": [],
+                "reservesAndOr": "and",
+                "medalsAndOr": "and",
+                "animalsAndOr": "and",
+                "allAnimals": True
+            }
+
+            cursor.execute(
+                'INSERT INTO Preset (name, query) VALUES (?, ?)',
+                ('diamond checklist', json.dumps(default_preset_query))
+            )
 
         conn.commit()
         conn.close()
@@ -234,19 +269,24 @@ class Db:
         return {l: f'LODGE {l}' for l in lodges}
 
     def presets(self):
-        return {
-            0: 'diamond checklist'
-        }
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT id, name FROM Preset ORDER BY id')
+        rows = cursor.fetchall()
+
+        conn.close()
+        return {row[0]: row[1] for row in rows}
 
     def preset(self, i: int) -> dict:
-        diamond_checklist = {
-            "lodges": [],
-            "reserves": [],
-            "medals": [0],
-            "animals": [],
-            "reservesAndOr": "and",
-            "medalsAndOr": "and",
-            "animalsAndOr": "and",
-            "allAnimals": True
-        }
-        return diamond_checklist
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT query FROM Preset WHERE id = ?', (i,))
+        row = cursor.fetchone()
+
+        conn.close()
+        if row:
+            return json.loads(row[0])
+        else:
+            return {}
