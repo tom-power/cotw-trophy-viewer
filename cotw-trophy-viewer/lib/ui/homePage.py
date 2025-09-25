@@ -58,24 +58,31 @@ def homePage(paths=Paths(get_save_path())):
                 radioAnimalsAndOr = andOrRadio()
                 ui.space()
                 selectAnimals = selectMulti(animalsOptions(), 'animal')
-            with ui.grid(columns='auto 200px 200px'):
-                with ui.row():
-                    ui.button(text='FILTER', on_click=lambda: updateGrid())
-                    ui.button(text='CLEAR', on_click=lambda: clear())
-                    checkboxAllAnimals = ui.checkbox(text='All animals')
-                ui.space()
-                selectPresets = ui.select(options=presets(), label='presets', on_change=lambda e: applyPreset(e))
 
-        with ui.card():  # files
-            with ui.card():
-                ui.label('LODGE FILE ' + ('FOUND' if trophyFileExists else 'NOT FOUND'))
-            upload_component = ui.upload(label='UPLOAD LODGE FILE',
-                                         on_upload=lambda e: uploadLodge(e),
-                                         multiple=False,
-                                         auto_upload=True).props('accept="*"').tooltip('Upload trophy_lodges_adf file')
             with ui.row():
-                ui.button(text='RELOAD', on_click=lambda: reload())
-                ui.button(text='RESET', on_click=lambda: reset())
+                ui.button(text='FILTER', on_click=lambda: updateGrid())
+                ui.button(text='CLEAR', on_click=lambda: clear())
+                checkboxAllAnimals = ui.checkbox(text='All animals')
+
+        with ui.card():
+            with ui.card():
+                with ui.card():
+                    ui.label('LODGE FILE ' + ('FOUND' if trophyFileExists else 'NOT FOUND'))
+                upload_component = ui.upload(label='UPLOAD LODGE FILE',
+                                             on_upload=lambda e: uploadLodge(e),
+                                             multiple=False,
+                                             auto_upload=True).props('accept="*"').tooltip('Upload trophy_lodges_adf file')
+                with ui.row():
+                    ui.button(text='RELOAD', on_click=lambda: reload())
+                    ui.button(text='RESET', on_click=lambda: reset())
+
+            with ui.card():
+                with ui.row():
+                    selectPresets = ui.select(options=presets(), label='presets',
+                                              on_change=lambda e: applyPreset(e)).classes('w-48')
+                    ui.button(text='+')
+                    ui.button(text='-')
+
 
         dataGrid = ui.aggrid({
             'defaultColDef': {'sortable': True},
