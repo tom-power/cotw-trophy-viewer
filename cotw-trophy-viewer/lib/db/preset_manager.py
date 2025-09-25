@@ -6,6 +6,22 @@ from pathlib import Path
 class PresetManager:
     def __init__(self, db_path: Path):
         self.db_path = db_path
+        self._create_preset_table()
+
+    def _create_preset_table(self):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Preset (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE,
+                query TEXT NOT NULL
+            )
+        ''')
+
+        conn.commit()
+        conn.close()
 
     def presets(self):
         conn = sqlite3.connect(self.db_path)
@@ -74,21 +90,22 @@ class PresetManager:
 
         cursor.execute('SELECT COUNT(*) FROM Preset')
         if cursor.fetchone()[0] == 0:
-            default_preset_query = {
-                "lodges": [],
-                "reserves": [],
-                "medals": [0],
-                "animals": [],
-                "reservesAndOr": "and",
-                "medalsAndOr": "and",
-                "animalsAndOr": "and",
-                "allAnimals": True
-            }
-
             cursor.execute(
                 'INSERT INTO Preset (name, query) VALUES (?, ?)',
-                ('diamond checklist', json.dumps(default_preset_query))
+                ('diamond checklist', json.dumps(diamondChecklist_preset_query))
             )
 
         conn.commit()
         conn.close()
+
+
+diamondChecklist_preset_query = {
+    "lodges": [],
+    "reserves": [],
+    "medals": [0],
+    "animals": [],
+    "reservesAndOr": "and",
+    "medalsAndOr": "and",
+    "animalsAndOr": "and",
+    "allAnimals": True
+}

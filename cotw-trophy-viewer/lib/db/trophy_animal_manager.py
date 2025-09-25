@@ -12,6 +12,39 @@ from lib.model.trophyanimal import TrophyAnimal
 class TrophyAnimalManager:
     def __init__(self, db_path: Path):
         self.db_path = db_path
+        self._create_tables()
+
+    def _create_tables(self) -> None:
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+               CREATE TABLE IF NOT EXISTS TrophyAnimals (
+                   id TEXT PRIMARY KEY,
+                   type INTEGER,
+                   weight REAL,
+                   gender INTEGER,
+                   rating REAL,
+                   medal REAL,
+                   difficulty REAL,
+                   datetime TEXT,
+                   furType INTEGER,
+                   lodge INTEGER,
+                   reserve INTEGER
+               )
+           ''')
+
+        cursor.execute('''
+               CREATE TABLE IF NOT EXISTS AllAnimals (
+                   reserve INTEGER,
+                   type INTEGER,
+                   PRIMARY KEY (reserve, type)
+               )
+           ''')
+
+        conn.commit()
+        conn.close()
+
 
     def insert_trophy_animals(self, trophy_animals: List[TrophyAnimal]) -> None:
         conn = sqlite3.connect(self.db_path)
