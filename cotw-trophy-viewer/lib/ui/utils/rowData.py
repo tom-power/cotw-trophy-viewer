@@ -3,11 +3,11 @@ from datetime import datetime
 from typing import List
 
 from lib.model.animalType import AnimalType
+from lib.model.difficulty import Difficulty
 from lib.model.gender import Gender
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
-from lib.ui.utils.difficulty import getDifficultyName
 
 
 def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
@@ -28,7 +28,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
             'medal': _naIfNone(animal.medal, lambda m: Medal(m).name),
-            'difficulty': _naIfNone(animal.difficulty, lambda d: getDifficultyName(d)),
+            'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
             'difficultyScore': _naIfNone(animal.difficulty, lambda d: math.floor(d * 1000) / 1000),
             'furType': _naIfNone(furTypeName),
             'datetime': _naIfNone(animal.datetime, lambda d: datetime.fromtimestamp(int(d)).strftime(

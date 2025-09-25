@@ -1,4 +1,3 @@
-from enum import Enum
 from lib.model.animalType import AnimalType
 from lib.model.reserve import Reserve
 
@@ -175,19 +174,3 @@ RESERVES_ANIMALS_CLASSES = {
 }
 
 DIFFICULTY_SCORE_THRESHOLDS = [0, 0.115, 0.225, 0.335, 0.445, 0.555, 0.665, 0.775, 0.885]
-
-DIFFICULTIES = {
-    0: "TRIVIAL",
-    1: "MINOR",
-    2: "VERY EASY",
-    3: "EASY",
-    4: "MEDIUM",
-    5: "HARD",
-    6: "VERY HARD",
-    7: "MYTHICAL",
-    8: "LEGENDARY",
-    9: "FABLED",
-}
-
-def getKeyFor(constant, label) -> int:
-    return next(key for key, labels in constant.items() if labels == label)
