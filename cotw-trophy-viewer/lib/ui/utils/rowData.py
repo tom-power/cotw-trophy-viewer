@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List
 
 from lib.model.animalType import AnimalType
-from lib.model.constants import GENDERS
+from lib.model.gender import Gender
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
@@ -24,7 +24,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'lodge': _naIfNone(animal.lodge, lambda l: f'LODGE {l}'),
             'reserve': _naIfNone(animal.reserve, lambda r: _getReserveName(r)),
             'animal': _naIfNone(animal.type, lambda t: _getAnimalTypeName(t)),
-            'gender': _naIfNone(animal.gender, lambda g: GENDERS[g]),
+            'gender': _naIfNone(animal.gender, lambda g: Gender(g).name),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
             'medal': _naIfNone(animal.medal, lambda m: Medal(m).name),

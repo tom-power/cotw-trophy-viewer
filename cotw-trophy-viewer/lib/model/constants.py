@@ -1,3 +1,4 @@
+from enum import Enum
 from lib.model.animalType import AnimalType
 from lib.model.reserve import Reserve
 
@@ -171,11 +172,6 @@ RESERVES_ANIMALS_CLASSES = {
         8: [],
         9: [AnimalType.BANTENG],
     },
-}
-
-GENDERS = {
-    0: "FEMALE",
-    1: "MALE"
 }
 
 DIFFICULTY_SCORE_THRESHOLDS = [0, 0.115, 0.225, 0.335, 0.445, 0.555, 0.665, 0.775, 0.885]
