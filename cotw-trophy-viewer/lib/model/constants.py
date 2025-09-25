@@ -178,15 +178,6 @@ GENDERS = {
     1: "MALE"
 }
 
-MEDALS = {
-    0: "DIAMOND",
-    1: "GOLD",
-    2: "SILVER",
-    3: "BRONZE",
-    4: "NONE",
-    5: "GREAT ONE"
-}
-
 DIFFICULTY_SCORE_THRESHOLDS = [0, 0.115, 0.225, 0.335, 0.445, 0.555, 0.665, 0.775, 0.885]
 
 DIFFICULTIES = {

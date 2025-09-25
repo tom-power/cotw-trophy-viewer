@@ -1,7 +1,7 @@
 from nicegui import ui
 
 from lib.model.animalType import AnimalType
-from lib.model.constants import MEDALS
+from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 
 
@@ -22,7 +22,7 @@ def reservesOptions() -> dict:
 
 
 def medalOptions() -> dict:
-    return MEDALS
+    return {m.value: m.name for m in Medal}
 
 
 def animalsOptions() -> dict:
