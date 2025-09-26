@@ -151,7 +151,7 @@ class TrophyAnimalManager:
                 NULL as furType,
                 NULL as lodge,
                 NULL as reserve
-                FROM AllAnimals
+                FROM AnimalsReserves
                 """
 
             allAnimalsSql = (allAnimalsSelectSql

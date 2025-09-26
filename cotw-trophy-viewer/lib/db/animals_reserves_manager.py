@@ -12,7 +12,7 @@ class AnimalsReservesManager:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('''
-               CREATE TABLE IF NOT EXISTS AllAnimals (
+               CREATE TABLE IF NOT EXISTS AnimalsReserves (
                    reserve INTEGER,
                    type INTEGER,
                    PRIMARY KEY (reserve, type)
@@ -24,10 +24,10 @@ class AnimalsReservesManager:
     def insert_all_animals(self, all_animals: List[dict]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM AllAnimals')
+        cursor.execute('DELETE FROM AnimalsReserves')
         for animal in all_animals:
             cursor.execute('''
-                INSERT OR IGNORE INTO AllAnimals (reserve, type)
+                INSERT OR IGNORE INTO AnimalsReserves (reserve, type)
                 VALUES (?, ?)
             ''', (animal['reserve'], animal['type']))
         conn.commit()
