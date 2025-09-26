@@ -5,9 +5,9 @@ from nicegui import ui, binding
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.ui.utils.formFilter import footer, selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
+from lib.ui.filter_controller import FilterController
+from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
-from lib.ui.utils.queries import Queries
 from lib.ui.utils.rowData import rowData
 
 
@@ -18,21 +18,12 @@ class HomePage:
 
     def __init__(self, paths: Paths):
         self.paths = paths
-        self.queries = Queries()
         self.db = Db(self.paths.getLoadPath())
         self.trophyFileExists = self.paths.getLoadPath() and self.paths.getLoadPath().exists()
 
         self.presetName = self.PresetName(text="")
 
-        self.selectLodges = None
-        self.radioReservesAndOr = None
-        self.selectReserves = None
-        self.radioMedalsAndOr = None
-        self.selectMedals = None
-        self.radioAnimalsAndOr = None
-        self.selectAnimals = None
-        self.checkboxAllAnimals = None
-
+        self.filter_controller = None
         self.upload_component = None
         self.selectPresets = None
         self.addPresetDialog = None
@@ -47,28 +38,7 @@ class HomePage:
             ui.button(text="save", on_click=self._addPreset)
 
         with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
-            with ui.card():
-                with ui.grid(columns='auto auto 600px'):
-                    ui.space()
-                    ui.space()
-                    self.selectLodges = selectMulti(self.db.lodges(), 'lodge', )
-
-                    self.radioReservesAndOr = andOrRadio()
-                    ui.space()
-                    self.selectReserves = selectMulti(reservesOptions(), 'reserve', )
-
-                    self.radioMedalsAndOr = andOrRadio()
-                    ui.space()
-                    self.selectMedals = selectMulti(medalOptions(), 'medal')
-
-                    self.radioAnimalsAndOr = andOrRadio()
-                    ui.space()
-                    self.selectAnimals = selectMulti(animalsOptions(), 'animal')
-
-                with ui.row():
-                    ui.button(text='FILTER', on_click=self._updateGrid)
-                    ui.button(text='CLEAR', on_click=self._clear)
-                    self.checkboxAllAnimals = ui.checkbox(text='All animals')
+            self.filter_controller = FilterController(self.db, self._updateGrid, self._clear)
 
             with ui.card():
                 with ui.card():
@@ -114,7 +84,7 @@ class HomePage:
         return self.db
 
     def _getRowData(self) -> list[dict]:
-        return rowData(self._getDb().trophyAnimals(self.queries.queryDict))
+        return rowData(self._getDb().trophyAnimals(self.filter_controller.queries.queryDict))
 
     async def _uploadLodge(self, e):
         if e.content:
@@ -140,8 +110,8 @@ class HomePage:
         self._updatePresets()
 
     def _addPreset(self):
-        self._updateQueries()
-        self.db.presetAdd(self.presetName.text, self.queries.queryDict)
+        self.filter_controller.update_queries_from_filters()
+        self.db.presetAdd(self.presetName.text, self.filter_controller.queries.queryDict)
         self._updatePresets()
         self.addPresetDialog.close()
 
@@ -151,49 +121,22 @@ class HomePage:
         self.selectPresets.set_value(list(new_presets.keys())[-1])
 
     def _applyPreset(self, e):
-        self._clearForm()
+        self.filter_controller.clear_form()
         preset = self.db.preset(e.value)
-        self._updateFilterFromPreset(preset)
-
-    def _updateFilterFromPreset(self, preset: dict):
-        self.selectLodges.set_value(preset['lodges'])
-        self.radioReservesAndOr.set_value(preset['medals'])
-        self.selectReserves.set_value(preset['reserves'])
-        self.radioMedalsAndOr.set_value(preset['medalsAndOr'])
-        self.selectMedals.set_value(preset['medals'])
-        self.radioAnimalsAndOr.set_value(preset['animalsAndOr'])
-        self.selectAnimals.set_value(preset['animals'])
-        self.checkboxAllAnimals.set_value(preset['allAnimals'])
-
-    def _clearForm(self):
-        self.selectLodges.set_value('')
-        self.selectReserves.set_value('')
-        self.selectMedals.set_value('')
-        self.selectAnimals.set_value('')
-        self.checkboxAllAnimals.set_value(False)
+        self.filter_controller.update_filters_from_preset(preset)
 
     def _clear(self):
-        self._clearForm()
+        self.filter_controller.clear_form()
         self.selectPresets.set_value('')
 
-    def _updateQueries(self):
-        self.queries.updateQuery('lodges', self.selectLodges.value)
-        self.queries.updateQuery('reservesAndOr', self.radioReservesAndOr.value)
-        self.queries.updateQuery('reserves', self.selectReserves.value)
-        self.queries.updateQuery('medalsAndOr', self.radioMedalsAndOr.value)
-        self.queries.updateQuery('medals', self.selectMedals.value)
-        self.queries.updateQuery('animalsAndOr', self.radioAnimalsAndOr.value)
-        self.queries.updateQuery('animals', self.selectAnimals.value)
-        self.queries.updateQuery('allAnimals', self.checkboxAllAnimals.value)
-
     def _updateGrid(self):
-        self._updateQueries()
+        self.filter_controller.update_queries_from_filters()
         self.dataGrid.options['rowData'] = self._getRowData()
         self.dataGrid.update()
 
     def _reload(self):
         self.db = Db(self.paths.getLoadPath())
-        self.selectLodges.set_options(self.db.lodges())
+        self.filter_controller.selectLodges.set_options(self.db.lodges())
         self._updateGrid()
 
 
