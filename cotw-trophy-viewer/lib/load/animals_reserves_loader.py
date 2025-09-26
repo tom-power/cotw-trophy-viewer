@@ -1,13 +1,21 @@
+from typing import List
+
+from lib.model.animalReserve import AnimalReserve
+from lib.model.animalType import AnimalType
 from lib.model.constants import RESERVES_ANIMALS_CLASSES
+from lib.model.reserve import Reserve
 
 
 class AnimalsReservesLoader:
     @staticmethod
-    def load():
+    def load() -> List[AnimalReserve]:
         all_animals = []
         for reserve_enum, reserve_dict in RESERVES_ANIMALS_CLASSES.items():
-            reserve_index = reserve_enum.value
             for class_level, animals_list in reserve_dict.items():
                 for animal_type in animals_list:
-                    all_animals.append({'reserve': reserve_index, 'type': animal_type.value})
+                    animal_reserve = AnimalReserve(
+                        animalType=animal_type,
+                        reserve=reserve_enum
+                    )
+                    all_animals.append(animal_reserve)
         return all_animals
