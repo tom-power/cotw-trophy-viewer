@@ -7,8 +7,6 @@ class TestTrophyAnimalMapper(unittest.TestCase):
         self.mapper = TrophyAnimalMapper()
 
     def test_fromTrophyHybrids_filters_lodge_id_zero(self):
-        """Test that trophies with LodgeId == 0 are filtered out from TrophyHybrids"""
-        # Arrange
         trophy_lodge = {
             "TrophyHybrids": {
                 "Trophies": [
@@ -32,17 +30,14 @@ class TestTrophyAnimalMapper(unittest.TestCase):
             }
         }
 
-        # Act
-        result = self.mapper.map(trophy_lodge)
+        self.mapper.add(trophy_lodge)
+        result = self.mapper.map()
 
-        # Assert
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].lodge, 1)
         self.assertEqual(result[0].weight, 200.0)
 
     def test_fromTrophyAnimals_filters_lodge_id_zero(self):
-        """Test that trophies with LodgeId == 0 are filtered out from TrophyAnimals"""
-        # Arrange
         trophy_lodge = {
             "TrophyAnimals": {
                 "Trophies": [
@@ -58,10 +53,9 @@ class TestTrophyAnimalMapper(unittest.TestCase):
             }
         }
 
-        # Act
-        result = self.mapper.map(trophy_lodge)
+        self.mapper.add(trophy_lodge)
+        result = self.mapper.map()
 
-        # Assert
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].lodge, 2)
         self.assertEqual(result[0].weight, 300.0)

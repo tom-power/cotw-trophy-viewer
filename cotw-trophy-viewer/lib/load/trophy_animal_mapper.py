@@ -4,25 +4,30 @@ from typing import List
 from lib.deca.adf import load_adf
 from lib.deca.hashes import hash32_func
 from lib.model.animal_type import AnimalType
+from lib.model.lodge_type import LodgeType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
 
 
 class TrophyAnimalMapper:
-    def map(self, trophyLodges: dict) -> List[TrophyAnimal]:
-        trophy_animals_dict = self._to_trophy_animals_dict(trophyLodges)
+    def __init__(self):
+        self.trophyLodges = None
+
+    def add(self, trophyLodges: dict):
+        self.trophyLodges = trophyLodges
+
+    def map(self) -> List[TrophyAnimal]:
+        trophy_animals_dict = self._to_trophy_animals_dict()
         return self._to_trophy_animal_list(trophy_animals_dict)
 
-    @staticmethod
-    def _to_trophy_animals_dict(trophyLodge: dict) -> List[dict]:
-        return TrophyAnimalMapper._fromTrophyAnimals(trophyLodge) + TrophyAnimalMapper._fromTrophyHybrids(trophyLodge)
+    def _to_trophy_animals_dict(self) -> List[dict]:
+        return self._fromTrophyAnimals() + self._fromTrophyHybrids()
 
-    @staticmethod
-    def _fromTrophyAnimals(trophyLodge: dict) -> list[dict]:
+    def _fromTrophyAnimals(self) -> list[dict]:
         trophy_animals = []
-        if "TrophyAnimals" in trophyLodge and "Trophies" in trophyLodge["TrophyAnimals"]:
-            trophies = trophyLodge["TrophyAnimals"]["Trophies"]
+        if "TrophyAnimals" in self.trophyLodges and "Trophies" in self.trophyLodges["TrophyAnimals"]:
+            trophies = self.trophyLodges["TrophyAnimals"]["Trophies"]
             for trophy in trophies:
                 if "TrophyAnimal" in trophy and trophy["LodgeId"] != 0:
                     trophyAnimal = trophy["TrophyAnimal"]
@@ -30,11 +35,10 @@ class TrophyAnimalMapper:
                     trophy_animals.append(trophyAnimal)
         return trophy_animals
 
-    @staticmethod
-    def _fromTrophyHybrids(trophyLodge: dict) -> list[dict]:
+    def _fromTrophyHybrids(self) -> list[dict]:
         trophy_animals = []
-        if "TrophyHybrids" in trophyLodge and "Trophies" in trophyLodge["TrophyHybrids"]:
-            trophies = trophyLodge["TrophyHybrids"]["Trophies"]
+        if "TrophyHybrids" in self.trophyLodges and "Trophies" in self.trophyLodges["TrophyHybrids"]:
+            trophies = self.trophyLodges["TrophyHybrids"]["Trophies"]
             for trophy in trophies:
                 if "TrophyHybrid" in trophy and "TrophyAnimals" in trophy["TrophyHybrid"]:
                     trophyAnimals = trophy["TrophyHybrid"]["TrophyAnimals"]
@@ -62,7 +66,8 @@ class TrophyAnimalMapper:
             trophiesAnimals.append(animal)
         return trophiesAnimals
 
-    def _find_animal_type(self, trophyAnimalType) -> AnimalType | None:
+    @staticmethod
+    def _find_animal_type(trophyAnimalType) -> AnimalType | None:
         for a in AnimalType:
             if trophyAnimalType == hash32_func(a.name.lower()):
                 return a

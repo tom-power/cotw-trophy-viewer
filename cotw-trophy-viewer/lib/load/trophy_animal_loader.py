@@ -13,4 +13,5 @@ class TrophyAnimalLoader:
 
     def load(self) -> List[TrophyAnimal]:
         lodges = self.loadTrophyLodge.lodges()
-        return self.trophyAnimalsMapper.map(lodges)
+        self.trophyAnimalsMapper.add(lodges)
+        return self.trophyAnimalsMapper.map()
