@@ -23,7 +23,7 @@ class TestDbFunctions(unittest.TestCase):
             }
 
         trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOneAndHirsh)
-        self.assertEqual(3, len(trophyAnimals))
+        self.assertEqual(1, len(trophyAnimals))
 
     def test_db_trophyAnimals_query_lodge_or_animal(self):
         lodgeOneOrHirsh = \
@@ -38,6 +38,6 @@ class TestDbFunctions(unittest.TestCase):
             }
 
         trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOneOrHirsh)
-        self.assertEqual(6, len(trophyAnimals))
+        self.assertEqual(9, len(trophyAnimals))
 
 

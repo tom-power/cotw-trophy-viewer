@@ -16,18 +16,6 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
 
         self.assertEqual(len(trophyAnimals), 36)
 
-        testAnimal = list(filter(lambda a: a.type == AnimalType.FALLOW_DEER, trophyAnimals))[0]
-
-        self.assertEqual(testAnimal.weight, 90)
-        self.assertEqual(testAnimal.gender, 1)
-        self.assertEqual(testAnimal.rating, 215.97388)
-        self.assertEqual(testAnimal.medal, Medal.GOLD)
-        self.assertEqual(testAnimal.difficulty, 0.39767796)
-        self.assertEqual(testAnimal.datetime, '1738269517')
-        self.assertEqual(testAnimal.furType, 9)
-        self.assertEqual(testAnimal.lodge, np.uint32(1))
-        self.assertEqual(testAnimal.reserve, Reserve.HIRSCHFELDEN)
-
         testAnimal = \
         list(filter(lambda a: a.type == AnimalType.SALTWATER_CROCODILE and a.weight == 1064.090087890625, trophyAnimals))[0]
 
@@ -38,7 +26,7 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.difficulty, 0.9627677202224731)
         self.assertEqual(testAnimal.datetime, '1756497993')
         self.assertEqual(testAnimal.furType, 1)
-        self.assertEqual(testAnimal.lodge, np.uint32(3))
+        self.assertEqual(testAnimal.lodge, np.uint32(2))
         self.assertEqual(testAnimal.reserve, Reserve.EMERALD_COAST)
 
     def test_loadTrophyAnimalsNames(self):

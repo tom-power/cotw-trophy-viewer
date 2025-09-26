@@ -26,14 +26,31 @@ class TrophyAnimalLoader:
 
     @staticmethod
     def _to_trophy_animals_dict(trophyLodge: dict) -> List[dict]:
+        return TrophyAnimalLoader.fromTrophyAnimals(trophyLodge) + TrophyAnimalLoader.fromTrophyHybrids(trophyLodge)
+
+    @staticmethod
+    def fromTrophyAnimals(trophyLodge: dict) -> list[dict]:
         trophy_animals = []
         if "TrophyAnimals" in trophyLodge and "Trophies" in trophyLodge["TrophyAnimals"]:
             trophies = trophyLodge["TrophyAnimals"]["Trophies"]
             for trophy in trophies:
-                if "TrophyAnimal" in trophy:
+                if "TrophyAnimal" in trophy and trophy["LodgeId"] != 0:
                     trophyAnimal = trophy["TrophyAnimal"]
                     trophyAnimal['LodgeId'] = trophy["LodgeId"]
                     trophy_animals.append(trophyAnimal)
+        return trophy_animals
+
+    @staticmethod
+    def fromTrophyHybrids(trophyLodge: dict) -> list[dict]:
+        trophy_animals = []
+        if "TrophyHybrids" in trophyLodge and "Trophies" in trophyLodge["TrophyHybrids"]:
+            trophies = trophyLodge["TrophyHybrids"]["Trophies"]
+            for trophy in trophies:
+                if "TrophyHybrid" in trophy and "TrophyAnimals" in trophy["TrophyHybrid"]:
+                    trophyAnimals = trophy["TrophyHybrid"]["TrophyAnimals"]
+                    for trophyAnimal in trophyAnimals:
+                        trophyAnimal['LodgeId'] = trophy["LodgeId"]
+                        trophy_animals.append(trophyAnimal)
         return trophy_animals
 
     def _to_trophy_animal_list(self, trophiesAnimalsDict: List[dict]) -> List[TrophyAnimal]:
@@ -49,7 +66,7 @@ class TrophyAnimalLoader:
                 datetime=(str(animal_data.get("HarvestedAt", 0))),
                 furType=(animal_data.get("VariationIndex", 0)),
                 reserve=(Reserve(animal_data.get("HarvestReserve", 0))),
-                lodge=(animal_data.get("LodgeId", 0) + 1),
+                lodge=(animal_data.get("LodgeId", 0)),
             )
             trophiesAnimals.append(animal)
         return trophiesAnimals

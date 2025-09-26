@@ -13,7 +13,7 @@ class TestDbFunctions(unittest.TestCase):
     def test_db_trophyAnimals_query_lodge_and_medal(self):
         lodgeOneAndHirsh = \
             {
-                "lodges": [2],
+                "lodges": [1],
                 "reserves": [],
                 "medals": [2],
                 "animals": [],
@@ -28,7 +28,7 @@ class TestDbFunctions(unittest.TestCase):
     def test_db_trophyAnimals_query_lodge_or_medal(self):
         lodgeOneOrHirsh = \
             {
-                "lodges": [2],
+                "lodges": [1],
                 "reserves": [],
                 "medals": [2],
                 "animals": [],
