@@ -57,8 +57,20 @@ class PresetManager:
         conn.commit()
         conn.close()
 
-    def presetInit(self):
-        self._insert_default_presets()
+    def presetInit(self, default_presets: list):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT COUNT(*) FROM Preset')
+        if cursor.fetchone()[0] == 0:
+            for preset in default_presets:
+                cursor.execute(
+                    'INSERT INTO Preset (name, query) VALUES (?, ?)',
+                    (preset['name'], json.dumps(preset['query']))
+                )
+
+        conn.commit()
+        conn.close()
 
     def presetAdd(self, name, queryDict):
         conn = sqlite3.connect(self.db_path)
@@ -84,28 +96,4 @@ class PresetManager:
         conn.commit()
         conn.close()
 
-    def _insert_default_presets(self):
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
 
-        cursor.execute('SELECT COUNT(*) FROM Preset')
-        if cursor.fetchone()[0] == 0:
-            cursor.execute(
-                'INSERT INTO Preset (name, query) VALUES (?, ?)',
-                ('diamond checklist', json.dumps(diamondChecklist_preset_query))
-            )
-
-        conn.commit()
-        conn.close()
-
-
-diamondChecklist_preset_query = {
-    "lodges": [],
-    "reserves": [],
-    "medals": [0],
-    "animals": [],
-    "reservesAndOr": "and",
-    "medalsAndOr": "and",
-    "animalsAndOr": "and",
-    "allAnimals": True
-}

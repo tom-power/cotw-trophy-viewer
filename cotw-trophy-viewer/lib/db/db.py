@@ -4,6 +4,7 @@ from pathlib import Path
 
 from lib.load.loadTrophiesAnimals import TrophyAnimalLoader
 from lib.load.animals_reserves_loader import AnimalsReservesLoader
+from lib.load.default_presets_loader import DefaultPresetsLoader
 from .animals_reserves_manager import AnimalsReservesManager
 from .preset_manager import PresetManager
 from .trophy_animal_manager import TrophyAnimalManager
@@ -27,7 +28,7 @@ class Db:
         self.animals_reserves_manager.insert_animals_reserves(AnimalsReservesLoader().load())
 
         self.preset_manager = PresetManager(self.db_path)
-        self.preset_manager.presetInit()
+        self.preset_manager.presetInit(DefaultPresetsLoader().load())
 
 
     def trophyAnimals(self, query: dict | None = None):
@@ -46,7 +47,7 @@ class Db:
         return self.preset_manager.presetsClear()
 
     def presetInit(self):
-        return self.preset_manager.presetInit()
+        return self.preset_manager.presetInit(DefaultPresetsLoader().load())
 
     def presetAdd(self, name, queryDict):
         return self.preset_manager.presetAdd(name, queryDict)
