@@ -1,6 +1,6 @@
 import uuid
 
-from lib.model.animalType import AnimalType
+from lib.model.animal_type import AnimalType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 

@@ -3,7 +3,7 @@ import sys
 import unittest
 
 from lib.db.db import Db
-from lib.model.animalType import AnimalType
+from lib.model.animal_type import AnimalType
 from lib.model.medal import Medal
 from lib_test.fixtures import FIXTURES_PATH
 

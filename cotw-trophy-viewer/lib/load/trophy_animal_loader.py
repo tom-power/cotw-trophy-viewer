@@ -3,7 +3,7 @@ from typing import List
 
 from lib.load.trophy_lodge_loader import LoadTrophyLodge
 from lib.load.trophy_animal_mapper import TrophyAnimalMapper
-from lib.model.trophyanimal import TrophyAnimal
+from lib.model.trophy_animal import TrophyAnimal
 
 
 class TrophyAnimalLoader:

@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 
 from lib.load.trophy_animal_loader import TrophyAnimalLoader
-from lib.model.animalType import AnimalType
+from lib.model.animal_type import AnimalType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib_test.fixtures import FIXTURES_PATH

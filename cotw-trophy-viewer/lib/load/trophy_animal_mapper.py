@@ -3,10 +3,10 @@ from typing import List
 
 from lib.deca.adf import load_adf
 from lib.deca.hashes import hash32_func
-from lib.model.animalType import AnimalType
+from lib.model.animal_type import AnimalType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
-from lib.model.trophyanimal import TrophyAnimal
+from lib.model.trophy_animal import TrophyAnimal
 
 
 class TrophyAnimalMapper:

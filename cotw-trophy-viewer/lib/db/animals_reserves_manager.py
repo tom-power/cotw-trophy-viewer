@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 from typing import List
 
-from lib.model.animalReserve import AnimalReserve
+from lib.model.animal_reserve import AnimalReserve
 
 
 class AnimalsReservesManager:

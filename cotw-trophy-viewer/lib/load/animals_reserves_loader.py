@@ -1,6 +1,6 @@
 from typing import List
 
-from lib.model.animalReserve import AnimalReserve
+from lib.model.animal_reserve import AnimalReserve
 from lib.model.constants import RESERVES_ANIMALS_CLASSES
 
 
