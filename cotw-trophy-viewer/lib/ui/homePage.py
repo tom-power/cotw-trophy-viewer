@@ -6,6 +6,7 @@ from lib.ui.controller.filter_controller import FilterController
 from lib.ui.controller.grid_controller import GridController
 from lib.ui.controller.lodge_file_controller import LodgeFileController
 from lib.ui.controller.preset_controller import PresetController
+from lib.ui.controller.theme_controller import ThemeController
 from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
 
@@ -24,6 +25,8 @@ class HomePage:
         self._build_ui()
 
     def _build_ui(self):
+        ThemeController.apply_theme()
+
         with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
             self.filter_controller = FilterController(self.db, self._updateGrid, self._clear)
 
