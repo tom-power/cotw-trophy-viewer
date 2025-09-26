@@ -3,11 +3,11 @@ from nicegui import ui
 from lib.db.db import Db
 from lib.deca.config import get_save_path
 from lib.ui.filter_controller import FilterController
+from lib.ui.grid_controller import GridController
 from lib.ui.lodge_file_controller import LodgeFileController
 from lib.ui.preset_controller import PresetController
 from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
-from lib.ui.utils.rowData import rowData
 
 
 class HomePage:
@@ -19,7 +19,7 @@ class HomePage:
         self.filter_controller = None
         self.preset_controller = None
         self.lodge_file_controller = None
-        self.dataGrid = None
+        self.grid_controller = None
 
         self._build_ui()
 
@@ -31,47 +31,27 @@ class HomePage:
                 self.lodge_file_controller = LodgeFileController(self.paths, self._reload)
                 self.preset_controller = PresetController(self.db, self.filter_controller, self._updateGrid)
 
-            self.dataGrid = ui.aggrid({
-                'defaultColDef': {'sortable': True},
-                'columnDefs': [
-                    {'headerName': 'Lodge', 'field': 'lodge', 'width': '100'},
-                    {'headerName': 'Reserve', 'field': 'reserve'},
-                    {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
-                    {'headerName': 'Animal', 'field': 'animal'},
-                    {'headerName': 'Rating', 'field': 'rating', 'width': '100'},
-                    {'headerName': 'Weight', 'field': 'weight', 'width': '100'},
-                    {'headerName': 'Difficulty', 'field': 'difficulty', 'width': '100'},
-                    {'headerName': 'Fur type', 'field': 'furType', 'width': '100'},
-                    {'headerName': 'Datetime', 'field': 'datetime', 'sort': 'desc'},
-                ],
-                'pagination': True,
-                'paginationPageSize': 50,
-                'rowData': self._getRowData()
-            }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1')
+            self.grid_controller = GridController(self.db, self.filter_controller)
 
             footer()
-
-    def _getDb(self):
-        return self.db
-
-    def _getRowData(self) -> list[dict]:
-        return rowData(self._getDb().trophyAnimals(self.filter_controller.queries.queryDict))
 
     def _clear(self):
         self.filter_controller.clear_form()
         self.preset_controller.selectPresets.set_value('')
-
-    def _updateGrid(self):
-        self.filter_controller.update_queries_from_filters()
-        self.dataGrid.options['rowData'] = self._getRowData()
-        self.dataGrid.update()
+        self._updateGrid()
 
     def _reload(self):
         self.db = Db(self.paths.getLoadPath())
-        self.lodge_file_controller.status = self.lodge_file_controller._get_status()
-        self.filter_controller.selectLodges.set_options(self.db.lodges(), value=None)
+
+        self.filter_controller.db = self.db
+        self.preset_controller.db = self.db
+        self.grid_controller.db = self.db
+
+        self.filter_controller.updateLodges()
         self._updateGrid()
 
+    def _updateGrid(self):
+        self.grid_controller.update()
 
 def homePage(paths=Paths(get_save_path())):
     HomePage(paths)

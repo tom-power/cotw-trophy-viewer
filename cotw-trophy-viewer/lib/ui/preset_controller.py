@@ -1,4 +1,5 @@
 from nicegui import ui, binding
+
 from lib.db.db import Db
 from lib.ui.filter_controller import FilterController
 

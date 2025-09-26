@@ -8,7 +8,6 @@ class LodgeFileController:
     def __init__(self, paths, reload_callback):
         self.paths = paths
         self.reload_callback = reload_callback
-        self.status = self._get_status()
         self._build_ui()
 
     def _build_ui(self):
@@ -25,7 +24,8 @@ class LodgeFileController:
                 ui.button(text='RELOAD', on_click=self._reload)
                 ui.button(text='RESET', on_click=self._reset)
 
-    def _get_status(self) -> str:
+    @property
+    def status(self) -> str:
         exists = self.paths.getLoadPath() and self.paths.getLoadPath().exists()
         return 'LODGE FILE ' + ('FOUND' if exists else 'NOT FOUND')
 

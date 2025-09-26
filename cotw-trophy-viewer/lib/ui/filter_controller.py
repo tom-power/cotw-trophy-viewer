@@ -1,5 +1,6 @@
 
 from nicegui import ui
+
 from lib.db.db import Db
 from lib.ui.utils.formFilter import selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.queries import Queries
@@ -36,6 +37,9 @@ class FilterController:
                 ui.button(text='FILTER', on_click=self.filter_callback)
                 ui.button(text='CLEAR', on_click=self.clear_callback)
                 self.checkboxAllAnimals = ui.checkbox(text='All animals')
+
+    def updateLodges(self):
+        self.selectLodges.set_options(self.db.lodges(), value=None)
 
     def update_queries_from_filters(self):
         self.queries.updateQuery('lodges', self.selectLodges.value)
