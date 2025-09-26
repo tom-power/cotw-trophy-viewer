@@ -2,7 +2,9 @@ import os
 import sys
 from pathlib import Path
 
-from lib.load.loadTrophiesAnimals import loadTrophyAnimals
+from lib.load.loadTrophiesAnimals import TrophyAnimalLoader
+from lib.load.animals_reserves_loader import AnimalsReservesLoader
+from .animals_reserves_manager import AnimalsReservesManager
 from .preset_manager import PresetManager
 from .trophy_animal_manager import TrophyAnimalManager
 
@@ -19,8 +21,10 @@ class Db:
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
 
         self.trophy_animal_manager = TrophyAnimalManager(self.db_path)
-        self.trophy_animal_manager.insert_trophy_animals(loadTrophyAnimals(loadPath))
-        self.trophy_animal_manager.insert_trophy_animals_reserves()
+        self.trophy_animal_manager.insert_trophy_animals(TrophyAnimalLoader(loadPath).load())
+
+        self.animals_reserves_manager = AnimalsReservesManager(self.db_path)
+        self.animals_reserves_manager.insert_all_animals(AnimalsReservesLoader().load())
 
         self.preset_manager = PresetManager(self.db_path)
         self.preset_manager.presetInit()

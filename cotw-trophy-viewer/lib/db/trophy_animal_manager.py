@@ -34,14 +34,6 @@ class TrophyAnimalManager:
                )
            ''')
 
-        cursor.execute('''
-               CREATE TABLE IF NOT EXISTS AllAnimals (
-                   reserve INTEGER,
-                   type INTEGER,
-                   PRIMARY KEY (reserve, type)
-               )
-           ''')
-
         conn.commit()
         conn.close()
 
@@ -74,24 +66,7 @@ class TrophyAnimalManager:
         conn.commit()
         conn.close()
 
-    def insert_trophy_animals_reserves(self) -> None:
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
 
-        cursor.execute('DELETE FROM AllAnimals')
-
-        for reserve_enum, reserve_dict in RESERVES_ANIMALS_CLASSES.items():
-            reserve_index = reserve_enum.value
-
-            for class_level, animals_list in reserve_dict.items():
-                for animal_type in animals_list:
-                    cursor.execute('''
-                        INSERT OR IGNORE INTO AllAnimals (reserve, type)
-                        VALUES (?, ?)
-                    ''', (reserve_index, animal_type.value))
-
-        conn.commit()
-        conn.close()
 
     def trophyAnimals(self, query: dict | None = None) -> List[TrophyAnimal]:
         conn = sqlite3.connect(self.db_path)

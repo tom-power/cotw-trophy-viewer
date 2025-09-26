@@ -9,14 +9,23 @@ from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
 
 
-def loadTrophyAnimals(loadPath: Path) -> List[TrophyAnimal]:
-    def _loadTrophyLodges() -> dict:
-        if loadPath is None:
+class TrophyAnimalLoader:
+    def __init__(self, loadPath: Path):
+        self.loadPath = loadPath
+
+    def load(self) -> List[TrophyAnimal]:
+        lodges = self._load_trophy_lodges()
+        trophy_animals_dict = self._to_trophy_animals_dict(lodges)
+        return self._to_trophy_animal_list(trophy_animals_dict)
+
+    def _load_trophy_lodges(self) -> dict:
+        if self.loadPath is None:
             return {}
-        adf = load_adf(loadPath / "trophy_lodges_adf", verbose=True).adf
+        adf = load_adf(self.loadPath / "trophy_lodges_adf", verbose=True).adf
         return adf.table_instance_values[0]
 
-    def _toTrophyAnimalsDict(trophyLodge: dict) -> List[dict]:
+    @staticmethod
+    def _to_trophy_animals_dict(trophyLodge: dict) -> List[dict]:
         trophy_animals = []
         if "TrophyAnimals" in trophyLodge and "Trophies" in trophyLodge["TrophyAnimals"]:
             trophies = trophyLodge["TrophyAnimals"]["Trophies"]
@@ -27,11 +36,11 @@ def loadTrophyAnimals(loadPath: Path) -> List[TrophyAnimal]:
                     trophy_animals.append(trophyAnimal)
         return trophy_animals
 
-    def _toTrophyAnimalList(trophiesAnimalsDict: List[dict]) -> List[TrophyAnimal]:
+    def _to_trophy_animal_list(self, trophiesAnimalsDict: List[dict]) -> List[TrophyAnimal]:
         trophiesAnimals = []
         for animal_data in trophiesAnimalsDict:
             animal = TrophyAnimal(
-                animalType=(_find_animal_type(animal_data.get("Type", 0))),
+                animalType=(self._find_animal_type(animal_data.get("Type", 0))),
                 weight=(animal_data.get("Weight", 0.0)),
                 gender=(animal_data.get("IsMale", 0)),
                 rating=(animal_data.get("TrophyScore", 0.0)),
@@ -45,13 +54,8 @@ def loadTrophyAnimals(loadPath: Path) -> List[TrophyAnimal]:
             trophiesAnimals.append(animal)
         return trophiesAnimals
 
-    lodges = _loadTrophyLodges()
-    trophyAnimalsDict = _toTrophyAnimalsDict(lodges)
-    return _toTrophyAnimalList(trophyAnimalsDict)
-
-
-def _find_animal_type(trophyAnimalType) -> AnimalType | None:
-    for a in AnimalType:
-        if trophyAnimalType == hash32_func(a.name.lower()):
-            return a
-    return None
+    def _find_animal_type(self, trophyAnimalType) -> AnimalType | None:
+        for a in AnimalType:
+            if trophyAnimalType == hash32_func(a.name.lower()):
+                return a
+        return None
