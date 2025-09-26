@@ -2,10 +2,10 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.ui.filter_controller import FilterController
-from lib.ui.grid_controller import GridController
-from lib.ui.lodge_file_controller import LodgeFileController
-from lib.ui.preset_controller import PresetController
+from lib.ui.controller.filter_controller import FilterController
+from lib.ui.controller.grid_controller import GridController
+from lib.ui.controller.lodge_file_controller import LodgeFileController
+from lib.ui.controller.preset_controller import PresetController
 from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
 

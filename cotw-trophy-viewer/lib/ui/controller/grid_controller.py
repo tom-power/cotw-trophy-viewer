@@ -1,7 +1,7 @@
 from nicegui import ui
 
 from lib.db.db import Db
-from lib.ui.filter_controller import FilterController
+from lib.ui.controller.filter_controller import FilterController
 from lib.ui.utils.rowData import rowData
 
 

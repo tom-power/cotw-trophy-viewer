@@ -1,7 +1,7 @@
 from nicegui import ui, binding
 
 from lib.db.db import Db
-from lib.ui.filter_controller import FilterController
+from lib.ui.controller.filter_controller import FilterController
 
 
 class PresetController:
@@ -24,13 +24,10 @@ class PresetController:
 
         with ui.card():
             with ui.row():
-                self.selectPresets = ui.select(options=self.presets(), label='presets',
+                self.selectPresets = ui.select(options=self.db.presets(), label='presets',
                                                on_change=self._applyPreset).classes('w-48')
                 ui.button(text='+', on_click=self.addPresetDialog.open)
                 ui.button(text='-', on_click=self._removePreset)
-
-    def presets(self) -> dict:
-        return self.db.presets()
 
     def _removePreset(self):
         self.db.presetRemove(self.selectPresets.value)
