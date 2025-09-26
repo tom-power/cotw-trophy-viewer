@@ -4,6 +4,7 @@ from typing import List
 from lib.deca.adf import load_adf
 from lib.deca.hashes import hash32_func
 from lib.model.animal_type import AnimalType
+from lib.model.lodge import Lodge
 from lib.model.lodge_type import LodgeType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
@@ -61,7 +62,7 @@ class TrophyAnimalMapper:
                 datetime=(str(animal_data.get("HarvestedAt", 0))),
                 furType=(animal_data.get("VariationIndex", 0)),
                 reserve=(Reserve(animal_data.get("HarvestReserve", 0))),
-                lodge=(animal_data.get("LodgeId", 0)),
+                lodge=Lodge((animal_data.get("LodgeId", 0)), LodgeType.LAYTON_LAKES),
             )
             trophiesAnimals.append(animal)
         return trophiesAnimals

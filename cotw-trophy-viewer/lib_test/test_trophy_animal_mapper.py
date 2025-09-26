@@ -1,4 +1,5 @@
 import unittest
+
 from lib.load.trophy_animal_mapper import TrophyAnimalMapper
 
 
@@ -34,7 +35,7 @@ class TestTrophyAnimalMapper(unittest.TestCase):
         result = self.mapper.map()
 
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].lodge, 1)
+        self.assertEqual(result[0].lodge.lodgeId, 1)
         self.assertEqual(result[0].weight, 200.0)
 
     def test_fromTrophyAnimals_filters_lodge_id_zero(self):
@@ -57,7 +58,7 @@ class TestTrophyAnimalMapper(unittest.TestCase):
         result = self.mapper.map()
 
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].lodge, 2)
+        self.assertEqual(result[0].lodge.lodgeId, 2)
         self.assertEqual(result[0].weight, 300.0)
 
 

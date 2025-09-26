@@ -1,12 +1,14 @@
 import uuid
 
 from lib.model.animal_type import AnimalType
+from lib.model.lodge import Lodge
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 
 
 class TrophyAnimal:
-    def __init__(self, animalType, weight, gender, rating, medal, difficulty, datetime, furType, lodge, reserve):
+    def __init__(self, animalType: AnimalType, weight, gender, rating, medal, difficulty, datetime, furType,
+                 lodge: Lodge, reserve: Reserve):
         self.id = uuid.uuid4()
         self.type: AnimalType = animalType
         self.weight: float = weight
@@ -16,5 +18,5 @@ class TrophyAnimal:
         self.difficulty: float = difficulty
         self.datetime = datetime
         self.furType: int = furType
-        self.lodge: int = lodge
+        self.lodge: Lodge = lodge
         self.reserve: Reserve = reserve

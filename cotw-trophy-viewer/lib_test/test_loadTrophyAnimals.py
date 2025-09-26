@@ -26,7 +26,7 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.difficulty, 0.9627677202224731)
         self.assertEqual(testAnimal.datetime, '1756497993')
         self.assertEqual(testAnimal.furType, 1)
-        self.assertEqual(testAnimal.lodge, np.uint32(2))
+        self.assertEqual(testAnimal.lodge.lodgeId, np.uint32(2))
         self.assertEqual(testAnimal.reserve, Reserve.EMERALD_COAST)
 
     def test_loadTrophyAnimalsNames(self):

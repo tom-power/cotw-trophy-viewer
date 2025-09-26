@@ -1,6 +1,3 @@
-from io import BytesIO
-
-from fastapi import UploadFile
 from nicegui import ui
 from nicegui.testing import User
 

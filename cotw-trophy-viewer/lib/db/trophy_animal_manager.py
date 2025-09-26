@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import List
 
 from lib.model.animal_type import AnimalType
+from lib.model.lodge import Lodge
+from lib.model.lodge_type import LodgeType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
@@ -58,7 +60,7 @@ class TrophyAnimalManager:
                 float(animal.difficulty) if animal.difficulty is not None else None,
                 str(animal.datetime),
                 int(animal.furType) if animal.furType is not None else None,
-                int(animal.lodge) if animal.lodge is not None else None,
+                int(animal.lodge.lodgeId) if animal.lodge is not None else None,
                 int(animal.reserve.value) if animal.reserve is not None else None
             ))
 
@@ -185,7 +187,7 @@ class TrophyAnimalManager:
                 difficulty=float(row[6]) if row[6] is not None else None,
                 datetime=row[7],
                 furType=int(row[8]) if row[8] is not None else None,
-                lodge=int(row[9]) if row[9] is not None else None,
+                lodge=Lodge(int(row[9]), LodgeType.LAYTON_LAKES) if row[9] is not None else None,
                 reserve=Reserve(int(row[10])) if row[10] is not None else None
             )
             animal.id = row[0]
@@ -195,6 +197,6 @@ class TrophyAnimalManager:
         return trophy_animals
 
     def lodges(self) -> dict:
-        animals = sorted(self.trophyAnimals(), key=lambda x: x.lodge)
-        lodges = list(map(lambda t: t.lodge, animals))
+        animals = sorted(self.trophyAnimals(), key=lambda x: x.lodge.lodgeId)
+        lodges = list(map(lambda t: t.lodge.lodgeId, animals))
         return {l: f'LODGE {l}' for l in lodges}
