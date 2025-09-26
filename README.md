@@ -6,15 +6,25 @@ Wanted a quick overview of what I had/didn't have in my trophy lodges, lots copi
 - [animal-population-changer](https://github.com/cpypasta/apc)
 - [deca](https://github.com/kk49/deca)
 
-### Demo
+## Disclaimer
 
-Can get an idea of functionality [here](https://axis:deer@cotw-trophy-viewer.flanalyst.ovh/), but worth noting it's intended to be used locally, and think it'll break there alot.
+_This application is not affiliated, maintained, authorized, endorsed by, or in any way officially
+connected with Avalanche Studios Group, or any of its subsidiaries or its affiliates. The official
+theHunter™ Call of the Wild website can be found
+at [callofthewild.thehunter.com](https://callofthewild.thehunter.com). theHunter™ Call of the Wild
+is a registered trademark of [Avalanche Studios Group](https://avalanchestudios.com/)._
 
-### Installation
+## Demo
 
-Download binaries from the [release page](https://github.com/tom-power/cotw-trophy-viewer/releases/latest) and run locally.
+Can get an idea of functionality [here](https://axis:deer@cotw-trophy-viewer.flanalyst.ovh/), but worth noting it's
+intended to be used locally, and think it'll break there alot.
 
-### Run/build
+## Installation
+
+Download binaries from the [release page](https://github.com/tom-power/cotw-trophy-viewer/releases/latest) and run
+locally.
+
+## Run/build
 
 ```
 git clone https://github.com/tom-power/cotw-trophy-viewer.git &&
@@ -22,7 +32,7 @@ cd cotw-trophy-viewer &&
 sh/build.bat # see other scripts for running web version etc
 ```
 
-### Help
+## Help
 
 Missing these names currently, any help welcome:
 
