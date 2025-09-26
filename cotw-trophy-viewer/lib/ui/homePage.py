@@ -1,11 +1,9 @@
-import tempfile
-from pathlib import Path
-
 from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
 from lib.ui.filter_controller import FilterController
+from lib.ui.lodge_file_controller import LodgeFileController
 from lib.ui.preset_controller import PresetController
 from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
@@ -17,11 +15,10 @@ class HomePage:
     def __init__(self, paths: Paths):
         self.paths = paths
         self.db = Db(self.paths.getLoadPath())
-        self.trophyFileExists = self.paths.getLoadPath() and self.paths.getLoadPath().exists()
 
         self.filter_controller = None
         self.preset_controller = None
-        self.upload_component = None
+        self.lodge_file_controller = None
         self.dataGrid = None
 
         self._build_ui()
@@ -31,18 +28,7 @@ class HomePage:
             self.filter_controller = FilterController(self.db, self._updateGrid, self._clear)
 
             with ui.card():
-                with ui.card():
-                    with ui.card():
-                        ui.label('LODGE FILE ' + ('FOUND' if self.trophyFileExists else 'NOT FOUND'))
-                    self.upload_component = ui.upload(label='UPLOAD LODGE FILE',
-                                                 on_upload=self._uploadLodge,
-                                                 multiple=False,
-                                                 auto_upload=True).props('accept="*"').tooltip(
-                        'Upload trophy_lodges_adf file')
-                    with ui.row():
-                        ui.button(text='RELOAD', on_click=self._reload)
-                        ui.button(text='RESET', on_click=self._reset)
-
+                self.lodge_file_controller = LodgeFileController(self.paths, self._reload)
                 self.preset_controller = PresetController(self.db, self.filter_controller, self._updateGrid)
 
             self.dataGrid = ui.aggrid({
@@ -71,22 +57,6 @@ class HomePage:
     def _getRowData(self) -> list[dict]:
         return rowData(self._getDb().trophyAnimals(self.filter_controller.queries.queryDict))
 
-    async def _uploadLodge(self, e):
-        if e.content:
-            temp_dir = Path(tempfile.mkdtemp())
-            temp_file_path = temp_dir / 'trophy_lodges_adf'
-
-            with open(temp_file_path, 'wb') as f:
-                e.content.seek(0)  # Reset file pointer to beginning
-                f.write(e.content.read())
-
-            self.paths.updateLoadPath(temp_dir)
-            ui.notify('Trophy file uploaded successfully!', type='positive')
-
-    def _reset(self):
-        self.paths.resetToDefaultPath()
-        self.upload_component.reset()
-
     def _clear(self):
         self.filter_controller.clear_form()
         self.preset_controller.selectPresets.set_value('')
@@ -98,7 +68,8 @@ class HomePage:
 
     def _reload(self):
         self.db = Db(self.paths.getLoadPath())
-        self.filter_controller.selectLodges.set_options(self.db.lodges())
+        self.lodge_file_controller.status = self.lodge_file_controller._get_status()
+        self.filter_controller.selectLodges.set_options(self.db.lodges(), value=None)
         self._updateGrid()
 
 

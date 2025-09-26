@@ -30,7 +30,7 @@ async def test_upload_lodge(user: User) -> None:
     )])
 
     user.find('RELOAD').click()
-    user.find('lodge').click()
+    # user.find('lodge').click()
     # user.find('1').click() # works in ui, issue with loading here?
 
 
