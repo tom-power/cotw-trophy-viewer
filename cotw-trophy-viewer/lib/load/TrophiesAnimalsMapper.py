@@ -9,27 +9,17 @@ from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
 
 
-class TrophyAnimalLoader:
-    def __init__(self, loadPath: Path):
-        self.loadPath = loadPath
-
-    def load(self) -> List[TrophyAnimal]:
-        lodges = self._load_trophy_lodges()
-        trophy_animals_dict = self._to_trophy_animals_dict(lodges)
+class TrophyAnimalsMapper:
+    def map(self, trophyLodges: dict) -> List[TrophyAnimal]:
+        trophy_animals_dict = self._to_trophy_animals_dict(trophyLodges)
         return self._to_trophy_animal_list(trophy_animals_dict)
-
-    def _load_trophy_lodges(self) -> dict:
-        if self.loadPath is None:
-            return {}
-        adf = load_adf(self.loadPath / "trophy_lodges_adf", verbose=True).adf
-        return adf.table_instance_values[0]
 
     @staticmethod
     def _to_trophy_animals_dict(trophyLodge: dict) -> List[dict]:
-        return TrophyAnimalLoader.fromTrophyAnimals(trophyLodge) + TrophyAnimalLoader.fromTrophyHybrids(trophyLodge)
+        return TrophyAnimalsMapper._fromTrophyAnimals(trophyLodge) + TrophyAnimalsMapper._fromTrophyHybrids(trophyLodge)
 
     @staticmethod
-    def fromTrophyAnimals(trophyLodge: dict) -> list[dict]:
+    def _fromTrophyAnimals(trophyLodge: dict) -> list[dict]:
         trophy_animals = []
         if "TrophyAnimals" in trophyLodge and "Trophies" in trophyLodge["TrophyAnimals"]:
             trophies = trophyLodge["TrophyAnimals"]["Trophies"]
@@ -41,7 +31,7 @@ class TrophyAnimalLoader:
         return trophy_animals
 
     @staticmethod
-    def fromTrophyHybrids(trophyLodge: dict) -> list[dict]:
+    def _fromTrophyHybrids(trophyLodge: dict) -> list[dict]:
         trophy_animals = []
         if "TrophyHybrids" in trophyLodge and "Trophies" in trophyLodge["TrophyHybrids"]:
             trophies = trophyLodge["TrophyHybrids"]["Trophies"]
