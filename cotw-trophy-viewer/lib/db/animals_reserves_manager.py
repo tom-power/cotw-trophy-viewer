@@ -21,11 +21,11 @@ class AnimalsReservesManager:
         conn.commit()
         conn.close()
 
-    def insert_all_animals(self, all_animals: List[dict]):
+    def insert_animals_reserves(self, animals_reserves: List[dict]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('DELETE FROM AnimalsReserves')
-        for animal in all_animals:
+        for animal in animals_reserves:
             cursor.execute('''
                 INSERT OR IGNORE INTO AnimalsReserves (reserve, type)
                 VALUES (?, ?)

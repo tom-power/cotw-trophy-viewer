@@ -24,7 +24,7 @@ class Db:
         self.trophy_animal_manager.insert_trophy_animals(TrophyAnimalLoader(loadPath).load())
 
         self.animals_reserves_manager = AnimalsReservesManager(self.db_path)
-        self.animals_reserves_manager.insert_all_animals(AnimalsReservesLoader().load())
+        self.animals_reserves_manager.insert_animals_reserves(AnimalsReservesLoader().load())
 
         self.preset_manager = PresetManager(self.db_path)
         self.preset_manager.presetInit()
