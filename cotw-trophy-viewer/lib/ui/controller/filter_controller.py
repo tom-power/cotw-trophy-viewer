@@ -53,7 +53,7 @@ class FilterController:
 
     def update_filters_from_preset(self, preset: dict):
         self.selectLodges.set_value(preset['lodges'])
-        self.radioReservesAndOr.set_value(preset['medals'])
+        self.radioReservesAndOr.set_value(preset['reservesAndOr'])
         self.selectReserves.set_value(preset['reserves'])
         self.radioMedalsAndOr.set_value(preset['medalsAndOr'])
         self.selectMedals.set_value(preset['medals'])
@@ -63,7 +63,11 @@ class FilterController:
 
     def clear_form(self):
         self.selectLodges.set_value('')
+        self.radioReservesAndOr.set_value('and')
         self.selectReserves.set_value('')
+        self.radioMedalsAndOr.set_value('and')
         self.selectMedals.set_value('')
+        self.radioAnimalsAndOr.set_value('and')
         self.selectAnimals.set_value('')
+        self.checkboxAllAnimals.set_value('')
         self.checkboxAllAnimals.set_value(False)

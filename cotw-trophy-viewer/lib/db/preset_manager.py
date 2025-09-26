@@ -26,7 +26,7 @@ class PresetManager:
         conn.commit()
         conn.close()
 
-    def presets(self):
+    def presets(self) -> dict:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 

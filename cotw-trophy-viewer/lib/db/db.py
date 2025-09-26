@@ -37,7 +37,7 @@ class Db:
     def lodges(self) -> dict:
         return self.trophy_animal_manager.lodges()
 
-    def presets(self):
+    def presets(self) -> dict:
         return self.preset_manager.presets()
 
     def preset(self, i: int) -> dict:

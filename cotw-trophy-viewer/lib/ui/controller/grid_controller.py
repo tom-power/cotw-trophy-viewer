@@ -33,7 +33,7 @@ class GridController:
     def _get_row_data(self) -> list[dict]:
         return rowData(self.db.trophyAnimals(self.filter_controller.queries.queryDict))
 
-    def update(self):
+    def updateGrid(self):
         self.filter_controller.update_queries_from_filters()
         self.dataGrid.options['rowData'] = self._get_row_data()
         self.dataGrid.update()

@@ -54,7 +54,7 @@ class HomePage:
         self._updateGrid()
 
     def _updateGrid(self):
-        self.grid_controller.update()
+        self.grid_controller.updateGrid()
 
 def homePage(paths=Paths(get_save_path())):
     HomePage(paths)
