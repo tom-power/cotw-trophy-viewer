@@ -1,6 +1,9 @@
 import json
 import sqlite3
 from pathlib import Path
+from typing import List
+
+from lib.model.preset import Preset
 
 
 class PresetManager:
@@ -57,7 +60,7 @@ class PresetManager:
         conn.commit()
         conn.close()
 
-    def presetInit(self, default_presets: list):
+    def presetInit(self, default_presets: List[Preset]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
@@ -66,7 +69,7 @@ class PresetManager:
             for preset in default_presets:
                 cursor.execute(
                     'INSERT INTO Preset (name, query) VALUES (?, ?)',
-                    (preset['name'], json.dumps(preset['query']))
+                    (preset.name, json.dumps(preset.query))
                 )
 
         conn.commit()
