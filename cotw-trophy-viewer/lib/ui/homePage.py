@@ -1,42 +1,32 @@
 import tempfile
 from pathlib import Path
 
-from nicegui import ui, binding
+from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
 from lib.ui.filter_controller import FilterController
+from lib.ui.preset_controller import PresetController
 from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
 from lib.ui.utils.rowData import rowData
 
 
 class HomePage:
-    @binding.bindable_dataclass
-    class PresetName:
-        text: str
 
     def __init__(self, paths: Paths):
         self.paths = paths
         self.db = Db(self.paths.getLoadPath())
         self.trophyFileExists = self.paths.getLoadPath() and self.paths.getLoadPath().exists()
 
-        self.presetName = self.PresetName(text="")
-
         self.filter_controller = None
+        self.preset_controller = None
         self.upload_component = None
-        self.selectPresets = None
-        self.addPresetDialog = None
         self.dataGrid = None
 
         self._build_ui()
 
     def _build_ui(self):
-        self.addPresetDialog = ui.dialog()
-        with self.addPresetDialog, ui.card():
-            ui.input(label="preset name").bind_value(self.presetName, "text")
-            ui.button(text="save", on_click=self._addPreset)
-
         with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
             self.filter_controller = FilterController(self.db, self._updateGrid, self._clear)
 
@@ -53,12 +43,7 @@ class HomePage:
                         ui.button(text='RELOAD', on_click=self._reload)
                         ui.button(text='RESET', on_click=self._reset)
 
-                with ui.card():
-                    with ui.row():
-                        self.selectPresets = ui.select(options=self._presets(), label='presets',
-                                                  on_change=self._applyPreset).classes('w-48')
-                        ui.button(text='+', on_click=self.addPresetDialog.open)
-                        ui.button(text='-', on_click=self._removePreset)
+                self.preset_controller = PresetController(self.db, self.filter_controller, self._updateGrid)
 
             self.dataGrid = ui.aggrid({
                 'defaultColDef': {'sortable': True},
@@ -102,32 +87,9 @@ class HomePage:
         self.paths.resetToDefaultPath()
         self.upload_component.reset()
 
-    def _presets(self) -> dict:
-        return self.db.presets()
-
-    def _removePreset(self):
-        self.db.presetRemove(self.selectPresets.value)
-        self._updatePresets()
-
-    def _addPreset(self):
-        self.filter_controller.update_queries_from_filters()
-        self.db.presetAdd(self.presetName.text, self.filter_controller.queries.queryDict)
-        self._updatePresets()
-        self.addPresetDialog.close()
-
-    def _updatePresets(self):
-        new_presets = self.db.presets()
-        self.selectPresets.set_options(new_presets)
-        self.selectPresets.set_value(list(new_presets.keys())[-1])
-
-    def _applyPreset(self, e):
-        self.filter_controller.clear_form()
-        preset = self.db.preset(e.value)
-        self.filter_controller.update_filters_from_preset(preset)
-
     def _clear(self):
         self.filter_controller.clear_form()
-        self.selectPresets.set_value('')
+        self.preset_controller.selectPresets.set_value('')
 
     def _updateGrid(self):
         self.filter_controller.update_queries_from_filters()
