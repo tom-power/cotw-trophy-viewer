@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from lib.load.TrophyAnimalLoader import TrophyAnimalLoader
+from lib.load.trophy_animal_loader import TrophyAnimalLoader
 from lib.model.animalType import AnimalType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve

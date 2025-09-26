@@ -4,7 +4,7 @@ from pathlib import Path
 
 from lib.load.animals_reserves_loader import AnimalsReservesLoader
 from lib.load.default_presets_loader import DefaultPresetsLoader
-from lib.load.TrophyAnimalLoader import TrophyAnimalLoader
+from lib.load.trophy_animal_loader import TrophyAnimalLoader
 from .animals_reserves_manager import AnimalsReservesManager
 from .preset_manager import PresetManager
 from .trophy_animal_manager import TrophyAnimalManager

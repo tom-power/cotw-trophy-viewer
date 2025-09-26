@@ -1,5 +1,5 @@
 import unittest
-from lib.load.TrophyAnimalMapper import TrophyAnimalMapper
+from lib.load.trophy_animal_mapper import TrophyAnimalMapper
 
 
 class TestTrophyAnimalMapper(unittest.TestCase):
