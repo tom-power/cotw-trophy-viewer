@@ -9,14 +9,14 @@ from lib.model.reserve import Reserve
 from lib.model.trophyanimal import TrophyAnimal
 
 
-class TrophyAnimalsMapper:
+class TrophyAnimalMapper:
     def map(self, trophyLodges: dict) -> List[TrophyAnimal]:
         trophy_animals_dict = self._to_trophy_animals_dict(trophyLodges)
         return self._to_trophy_animal_list(trophy_animals_dict)
 
     @staticmethod
     def _to_trophy_animals_dict(trophyLodge: dict) -> List[dict]:
-        return TrophyAnimalsMapper._fromTrophyAnimals(trophyLodge) + TrophyAnimalsMapper._fromTrophyHybrids(trophyLodge)
+        return TrophyAnimalMapper._fromTrophyAnimals(trophyLodge) + TrophyAnimalMapper._fromTrophyHybrids(trophyLodge)
 
     @staticmethod
     def _fromTrophyAnimals(trophyLodge: dict) -> list[dict]:
@@ -39,8 +39,9 @@ class TrophyAnimalsMapper:
                 if "TrophyHybrid" in trophy and "TrophyAnimals" in trophy["TrophyHybrid"]:
                     trophyAnimals = trophy["TrophyHybrid"]["TrophyAnimals"]
                     for trophyAnimal in trophyAnimals:
-                        trophyAnimal['LodgeId'] = trophy["LodgeId"]
-                        trophy_animals.append(trophyAnimal)
+                        if trophy["LodgeId"] != 0:
+                            trophyAnimal['LodgeId'] = trophy["LodgeId"]
+                            trophy_animals.append(trophyAnimal)
         return trophy_animals
 
     def _to_trophy_animal_list(self, trophiesAnimalsDict: List[dict]) -> List[TrophyAnimal]:
