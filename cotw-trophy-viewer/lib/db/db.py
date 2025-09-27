@@ -24,13 +24,16 @@ class Db:
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
 
         self.trophy_animal_db = TrophyAnimalDb(self.db_path)
-        self.trophy_animal_db.insert_trophy_animals(TrophyAnimalLoader(loadPath).load())
-
         self.animals_reserves_db = AnimalsReservesDb(self.db_path)
-        self.animals_reserves_db.insert_animals_reserves(AnimalsReservesLoader().load())
-
         self.preset_db = PresetDb(self.db_path)
-        self.preset_db.init_presets(DefaultPresetsLoader().load())
+
+        self.trophy_animal_loader = TrophyAnimalLoader(loadPath)
+        self.animals_reserves_loader = AnimalsReservesLoader()
+        self.default_presets_loader = DefaultPresetsLoader()
+
+        self.trophy_animal_db.insert_trophy_animals(self.trophy_animal_loader.load())
+        self.animals_reserves_db.insert_animals_reserves(self.animals_reserves_loader.load())
+        self.preset_db.init_presets(self.default_presets_loader.load())
 
 
     def trophyAnimals(self, query: dict | None = None):
