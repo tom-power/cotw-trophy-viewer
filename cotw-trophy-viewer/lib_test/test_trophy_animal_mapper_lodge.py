@@ -39,7 +39,7 @@ class TestTrophyAnimalMapperLodge(unittest.TestCase):
 
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].lodge.lodgeId, 1)
-        self.assertEqual(result[0].lodge.lodgeType, LodgeType.LAYTON_LAKES)
+        self.assertEqual(result[0].lodge.lodgeType, LodgeType.LAYTON_LAKE)
         self.assertEqual(result[0].lodge.lodgeTypeId, 1)
         self.assertEqual(result[0].weight, 200.0)
 
