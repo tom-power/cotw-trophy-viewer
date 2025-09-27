@@ -204,6 +204,5 @@ class TrophyAnimalDb:
         return trophy_animals
 
     def lodges(self) -> dict:
-        animals = sorted(self.trophyAnimals(), key=lambda x: x.lodge.lodgeId)
-        lodges = list(map(lambda t: t.lodge.lodgeId, animals))
-        return {l: f'LODGE {l}' for l in lodges}
+        lodges: List[Lodge] = list(map(lambda t: t.lodge, self.trophyAnimals()))
+        return {l.lodgeId: l.lodgeName() for l in lodges}
