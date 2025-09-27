@@ -190,8 +190,8 @@ class TrophyAnimalDb:
                 difficulty=float(row[6]) if row[6] is not None else None,
                 datetime=row[7],
                 furType=int(row[8]) if row[8] is not None else None,
-                lodge=Lodge(int(row[9]), LodgeType.LAYTON_LAKES) if row[9] is not None else None,
-                reserve=Reserve(int(row[10])) if row[10] is not None else None
+                lodge=Lodge(int(row[9]), LodgeType(row[10])) if row[9] is not None else None,
+                reserve=Reserve(int(row[11])) if row[11] is not None else None
             )
             animal.id = row[0]
             trophy_animals.append(animal)

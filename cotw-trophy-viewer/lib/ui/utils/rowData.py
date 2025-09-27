@@ -5,6 +5,8 @@ from typing import List
 from lib.model.animal_type import AnimalType
 from lib.model.difficulty import Difficulty
 from lib.model.gender import Gender
+from lib.model.lodge import Lodge
+from lib.model.lodge_type import LodgeType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
@@ -21,7 +23,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
 
         rows.append({
             # 'id': idDisplay,
-            'lodge': _naIfNone(animal.lodge, lambda l: f'LODGE {l.lodgeId}'),
+            'lodge': _naIfNone(animal.lodge, lambda l: _getLodgeName(l.lodgeType)),
             'reserve': _naIfNone(animal.reserve, lambda r: _getReserveName(r)),
             'animal': _naIfNone(animal.type, lambda t: _getAnimalTypeName(t)),
             'gender': _naIfNone(animal.gender, lambda g: Gender(g).name),
@@ -38,14 +40,17 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
     return rows
 
 
-def _getReserveName(reserve) -> str:
-    return Reserve(reserve).reserveName()
+def _getLodgeName(key: int) -> str:
+    return LodgeType(key).lodgeName()
+
+
+def _getReserveName(key: int) -> str:
+    return Reserve(key).reserveName()
 
 
 def _getAnimalTypeName(key: int) -> str:
     try:
-        animal_type = AnimalType(key)
-        return animal_type.animalName()
+        return AnimalType(key).animalName()
     except ValueError:
         return f'{key}'
 
