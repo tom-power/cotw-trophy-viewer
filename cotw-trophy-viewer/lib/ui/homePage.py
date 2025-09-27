@@ -27,8 +27,10 @@ class HomePage:
     def _build_ui(self):
         Theme.apply_theme()
 
-        with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
+        with ui.grid(columns='800px 1fr 1fr').classes('w-full gap-0'):
             self.filter_controller = Filter(self.db, self._updateGrid, self._clear)
+
+            ui.space()
 
             with ui.card():
                 self.lodge_file_controller = LodgeFile(self.paths, self._reload)
