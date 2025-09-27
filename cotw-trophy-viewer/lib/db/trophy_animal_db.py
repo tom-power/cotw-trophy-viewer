@@ -19,8 +19,9 @@ class TrophyAnimalDb:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute('''
-               CREATE TABLE IF NOT EXISTS TrophyAnimals (
+        cursor.execute('DROP TABLE TrophyAnimals')
+        cursor.execute('''               
+               CREATE TABLE TrophyAnimals (
                    id TEXT PRIMARY KEY,
                    type INTEGER,
                    weight REAL,
