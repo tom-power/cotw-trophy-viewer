@@ -6,7 +6,7 @@ from typing import List
 from lib.model.preset import Preset
 
 
-class PresetManager:
+class PresetDb:
     def __init__(self, db_path: Path):
         self.db_path = db_path
         self._create_preset_table()
@@ -60,7 +60,7 @@ class PresetManager:
         conn.commit()
         conn.close()
 
-    def presetInit(self, default_presets: List[Preset]):
+    def init_presets(self, default_presets: List[Preset]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 

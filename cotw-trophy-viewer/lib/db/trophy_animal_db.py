@@ -10,7 +10,7 @@ from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
 
 
-class TrophyAnimalManager:
+class TrophyAnimalDb:
     def __init__(self, db_path: Path):
         self.db_path = db_path
         self._create_tables()

@@ -5,7 +5,7 @@ from typing import List
 from lib.model.animal_reserve import AnimalReserve
 
 
-class AnimalsReservesManager:
+class AnimalsReservesDb:
     def __init__(self, db_path: Path):
         self.db_path = db_path
         self._create_table()
