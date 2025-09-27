@@ -1,5 +1,6 @@
 
 from nicegui import ui
+from pygments.lexers.unicon import IconLexer
 
 from lib.db.db import Db
 from lib.ui.utils.formFilter import selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
@@ -37,6 +38,7 @@ class Filter:
                 ui.button(text='FILTER', on_click=self.filter_callback)
                 ui.button(text='CLEAR', on_click=self.clear_callback)
                 self.checkboxAllAnimals = ui.checkbox(text='All animals')
+                # Icon()
 
     def updateLodges(self):
         self.selectLodges.set_options(self.db.lodges(), value=None)

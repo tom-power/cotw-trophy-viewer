@@ -28,7 +28,7 @@ class Grid:
             'pagination': True,
             'paginationPageSize': 50,
             'rowData': self._get_row_data()
-        }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1')
+        }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1 ag-theme-balham-dark')
 
     def _get_row_data(self) -> list[dict]:
         return rowData(self.db.trophyAnimals(self.filter_controller.queries.queryDict))
