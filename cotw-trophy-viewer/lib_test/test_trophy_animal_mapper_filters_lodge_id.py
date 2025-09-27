@@ -65,7 +65,7 @@ class TestTrophyAnimalMapperFiltersLodge(unittest.TestCase):
             "TrophyLodges": {
                 "Lodges": [
                     {
-                        "Id": 1,
+                        "Id": 2,
                         "TypeId": 1,
                         "Name": 0,
                         "Type": 2,
