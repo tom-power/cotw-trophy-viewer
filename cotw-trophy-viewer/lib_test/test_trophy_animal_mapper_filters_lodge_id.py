@@ -28,6 +28,16 @@ class TestTrophyAnimalMapperFiltersLodge(unittest.TestCase):
                         }
                     }
                 ]
+            },
+            "TrophyLodges": {
+                "Lodges": [
+                    {
+                        "Id": 1,
+                        "TypeId": 1,
+                        "Name": 0,
+                        "Type": 2,
+                    }
+                ]
             }
         }
 
@@ -49,6 +59,16 @@ class TestTrophyAnimalMapperFiltersLodge(unittest.TestCase):
                     {
                         "LodgeId": 2,
                         "TrophyAnimal": {"Type": 456, "Weight": 300.0}
+                    }
+                ]
+            },
+            "TrophyLodges": {
+                "Lodges": [
+                    {
+                        "Id": 1,
+                        "TypeId": 1,
+                        "Name": 0,
+                        "Type": 2,
                     }
                 ]
             }

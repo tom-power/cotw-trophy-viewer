@@ -15,7 +15,7 @@ class GridController:
         self.dataGrid = ui.aggrid({
             'defaultColDef': {'sortable': True},
             'columnDefs': [
-                {'headerName': 'Lodge', 'field': 'lodge', 'width': '100'},
+                {'headerName': 'Lodge', 'field': 'lodge', 'width': '200'},
                 {'headerName': 'Reserve', 'field': 'reserve'},
                 {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
                 {'headerName': 'Animal', 'field': 'animal'},

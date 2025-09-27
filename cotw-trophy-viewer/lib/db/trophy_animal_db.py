@@ -32,6 +32,7 @@ class TrophyAnimalDb:
                    furType INTEGER,
                    lodge INTEGER,
                    lodgeType INTEGER,
+                   lodgeTypeId INTEGER,
                    reserve INTEGER
                )
            ''')
@@ -49,8 +50,8 @@ class TrophyAnimalDb:
         for animal in trophy_animals:
             cursor.execute('''
                 INSERT INTO TrophyAnimals
-                (id, type, weight, gender, rating, medal, difficulty, datetime, furType, lodge, lodgeType, reserve)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (id, type, weight, gender, rating, medal, difficulty, datetime, furType, lodge, lodgeType, lodgeTypeId, reserve)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 str(animal.id),
                 int(animal.type.value) if animal.type is not None else None,
@@ -63,6 +64,7 @@ class TrophyAnimalDb:
                 int(animal.furType) if animal.furType is not None else None,
                 int(animal.lodge.lodgeId) if animal.lodge is not None else None,
                 int(animal.lodge.lodgeType.value) if animal.lodge is not None else None,
+                int(animal.lodge.lodgeTypeId) if animal.lodge is not None else None,
                 int(animal.reserve.value) if animal.reserve is not None else None
             ))
 
@@ -154,6 +156,7 @@ class TrophyAnimalDb:
                 NULL as furType,
                 NULL as lodge,
                 NULL as lodgeType,
+                NULL as lodgeTypeId,
                 NULL as reserve
                 FROM AnimalsReserves
                 """
@@ -190,8 +193,8 @@ class TrophyAnimalDb:
                 difficulty=float(row[6]) if row[6] is not None else None,
                 datetime=row[7],
                 furType=int(row[8]) if row[8] is not None else None,
-                lodge=Lodge(int(row[9]), LodgeType(row[10])) if row[9] is not None else None,
-                reserve=Reserve(int(row[11])) if row[11] is not None else None
+                lodge=Lodge(int(row[9]), LodgeType(row[10]), int(row[11])) if row[9] is not None else None,
+                reserve=Reserve(int(row[12])) if row[12] is not None else None
             )
             animal.id = row[0]
             trophy_animals.append(animal)

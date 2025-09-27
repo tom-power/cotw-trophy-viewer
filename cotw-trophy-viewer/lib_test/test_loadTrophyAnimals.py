@@ -4,7 +4,6 @@ import numpy as np
 
 from lib.load.trophy_animal_loader import TrophyAnimalLoader
 from lib.model.animal_type import AnimalType
-from lib.model.lodge import Lodge
 from lib.model.lodge_type import LodgeType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
@@ -30,6 +29,7 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.furType, 1)
         self.assertEqual(testAnimal.lodge.lodgeId, np.uint32(2))
         self.assertEqual(testAnimal.lodge.lodgeType, LodgeType.SASEKA_SAFARI)
+        self.assertEqual(testAnimal.lodge.lodgeTypeId, 1)
         self.assertEqual(testAnimal.reserve, Reserve.EMERALD_COAST)
 
     def test_loadTrophyAnimalsNames(self):

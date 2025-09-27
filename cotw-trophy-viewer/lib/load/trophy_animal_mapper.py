@@ -28,8 +28,8 @@ class TrophyAnimalMapper:
         if "TrophyLodges" in self.trophyLodges and "Lodges" in self.trophyLodges["TrophyLodges"]:
             lodges = self.trophyLodges["TrophyLodges"]["Lodges"]
             for lodge in lodges:
-                if "Id" in lodge and "Type" in lodge:
-                    self.lodge_map[lodge["Id"]] = LodgeType(lodge["Type"])
+                if "Id" in lodge and "Type" in lodge and "TypeId" in lodge:
+                    self.lodge_map[lodge["Id"]] = Lodge(lodge["Id"], LodgeType(lodge["Type"]), lodge["TypeId"])
 
     def _to_trophy_animals_dict(self) -> List[dict]:
         return self._fromTrophyAnimals() + self._fromTrophyHybrids()
@@ -62,7 +62,7 @@ class TrophyAnimalMapper:
         trophiesAnimals = []
         for animal_data in trophiesAnimalsDict:
             lodge_id = animal_data.get("LodgeId")
-            lodge_type = self.lodge_map.get(lodge_id, LodgeType.LAYTON_LAKES)
+            lodge = self.lodge_map.get(lodge_id)
 
             animal = TrophyAnimal(
                 animalType=(self._find_animal_type(animal_data.get("Type", 0))),
@@ -74,7 +74,7 @@ class TrophyAnimalMapper:
                 datetime=(str(animal_data.get("HarvestedAt", 0))),
                 furType=(animal_data.get("VariationIndex", 0)),
                 reserve=(Reserve(animal_data.get("HarvestReserve", 0))),
-                lodge=Lodge(lodge_id, lodge_type) if lodge_id else None,
+                lodge=lodge if lodge_id else None,
             )
             trophiesAnimals.append(animal)
         return trophiesAnimals
