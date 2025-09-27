@@ -23,7 +23,7 @@ class GridController:
                 {'headerName': 'Weight', 'field': 'weight', 'width': '100'},
                 {'headerName': 'Difficulty', 'field': 'difficulty', 'width': '100'},
                 # {'headerName': 'Fur type', 'field': 'furType', 'width': '100'},
-                {'headerName': 'Datetime', 'field': 'datetime', 'sort': 'desc'},
+                {'headerName': 'Harvested Date', 'field': 'datetime', 'sort': 'desc'},
             ],
             'pagination': True,
             'paginationPageSize': 50,
