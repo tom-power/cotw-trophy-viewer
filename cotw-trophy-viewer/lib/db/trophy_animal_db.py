@@ -31,6 +31,7 @@ class TrophyAnimalDb:
                    datetime TEXT,
                    furType INTEGER,
                    lodge INTEGER,
+                   lodgeType INTEGER,
                    reserve INTEGER
                )
            ''')
@@ -48,8 +49,8 @@ class TrophyAnimalDb:
         for animal in trophy_animals:
             cursor.execute('''
                 INSERT INTO TrophyAnimals
-                (id, type, weight, gender, rating, medal, difficulty, datetime, furType, lodge, reserve)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (id, type, weight, gender, rating, medal, difficulty, datetime, furType, lodge, lodgeType, reserve)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 str(animal.id),
                 int(animal.type.value) if animal.type is not None else None,
@@ -61,6 +62,7 @@ class TrophyAnimalDb:
                 str(animal.datetime),
                 int(animal.furType) if animal.furType is not None else None,
                 int(animal.lodge.lodgeId) if animal.lodge is not None else None,
+                int(animal.lodge.lodgeType.value) if animal.lodge is not None else None,
                 int(animal.reserve.value) if animal.reserve is not None else None
             ))
 
@@ -151,6 +153,7 @@ class TrophyAnimalDb:
                 NULL as datetime,
                 NULL as furType,
                 NULL as lodge,
+                NULL as lodgeType,
                 NULL as reserve
                 FROM AnimalsReserves
                 """
