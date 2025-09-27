@@ -1,15 +1,15 @@
 from nicegui import ui, binding
 
 from lib.db.db import Db
-from lib.ui.controller.filter_controller import FilterController
+from lib.ui.components.filter import Filter
 
 
-class PresetController:
+class Preset:
     @binding.bindable_dataclass
     class PresetName:
         text: str
 
-    def __init__(self, db: Db, filter_controller: FilterController, update_grid_callback):
+    def __init__(self, db: Db, filter_controller: Filter, update_grid_callback):
         self.db = db
         self.filter_controller = filter_controller
         self.update_grid_callback = update_grid_callback

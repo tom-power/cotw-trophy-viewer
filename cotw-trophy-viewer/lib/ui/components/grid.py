@@ -1,12 +1,12 @@
 from nicegui import ui
 
 from lib.db.db import Db
-from lib.ui.controller.filter_controller import FilterController
+from lib.ui.components.filter import Filter
 from lib.ui.utils.rowData import rowData
 
 
-class GridController:
-    def __init__(self, db: Db, filter_controller: FilterController):
+class Grid:
+    def __init__(self, db: Db, filter_controller: Filter):
         self.db = db
         self.filter_controller = filter_controller
         self._build_ui()

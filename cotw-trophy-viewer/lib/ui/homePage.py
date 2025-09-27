@@ -2,11 +2,11 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.ui.controller.filter_controller import FilterController
-from lib.ui.controller.grid_controller import GridController
-from lib.ui.controller.lodge_file_controller import LodgeFileController
-from lib.ui.controller.preset_controller import PresetController
-from lib.ui.controller.theme_controller import ThemeController
+from lib.ui.components.filter import Filter
+from lib.ui.components.grid import Grid
+from lib.ui.components.lodge_file import LodgeFile
+from lib.ui.components.preset import Preset
+from lib.ui.components.theme import Theme
 from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
 
@@ -25,18 +25,18 @@ class HomePage:
         self._build_ui()
 
     def _build_ui(self):
-        ThemeController.apply_theme()
+        Theme.apply_theme()
 
         with ui.grid(columns='3fr 1fr').classes('w-full gap-0'):
-            self.filter_controller = FilterController(self.db, self._updateGrid, self._clear)
+            self.filter_controller = Filter(self.db, self._updateGrid, self._clear)
 
             with ui.card():
-                self.lodge_file_controller = LodgeFileController(self.paths, self._reload)
-                self.preset_controller = PresetController(self.db, self.filter_controller, self._updateGrid)
+                self.lodge_file_controller = LodgeFile(self.paths, self._reload)
+                self.preset_controller = Preset(self.db, self.filter_controller, self._updateGrid)
 
-            self.grid_controller = GridController(self.db, self.filter_controller)
+        self.grid_controller = Grid(self.db, self.filter_controller)
 
-            footer()
+        footer()
 
     def _clear(self):
         self.filter_controller.clear_form()

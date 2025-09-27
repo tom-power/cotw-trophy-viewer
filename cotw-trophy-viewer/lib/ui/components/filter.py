@@ -6,7 +6,7 @@ from lib.ui.utils.formFilter import selectMulti, andOrRadio, reservesOptions, me
 from lib.ui.utils.queries import Queries
 
 
-class FilterController:
+class Filter:
     def __init__(self, db: Db, filter_callback, clear_callback):
         self.db = db
         self.queries = Queries()
