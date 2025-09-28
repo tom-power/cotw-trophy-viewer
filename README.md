@@ -14,30 +14,30 @@ theHunter™ Call of the Wild website can be found
 at [callofthewild.thehunter.com](https://callofthewild.thehunter.com). theHunter™ Call of the Wild
 is a registered trademark of [Avalanche Studios Group](https://avalanchestudios.com/)._
 
-## Demo
-
-Can get an idea of functionality [here](https://axis:deer@cotw-trophy-viewer.flanalyst.ovh/), but worth noting it's
-intended to be used locally, and think it'll break there alot.
-
 ## Installation
 
-Download binaries from the [release page](https://github.com/tom-power/cotw-trophy-viewer/releases/latest) and run
-locally.
+Download binaries from the [release page](https://github.com/tom-power/cotw-trophy-viewer/releases/latest) and run locally.
 
 ## Run/build
 
 ```
 git clone https://github.com/tom-power/cotw-trophy-viewer.git &&
-cd cotw-trophy-viewer && 
-sh/build.bat # see other scripts for running web version etc
+cd cotw-trophy-viewer
 ```
+
+then:
+
+- windows `sh\setup.bat && sh\build.bat`
+- unix `sh/setup.sh && sh/build.sh`
+
+check `sh` for other scripts to run locally etc
 
 ## Help
 
-Missing these names currently, any help welcome:
+Don't know how to get these names currently, any help welcome!
 
-- lodges
-- fur types
-- probably some animals I don't have in my lodges
+- ~~lodges~~
+- fur types <- this would be great
+- very likely some animals, their name won't appear in the `Animal` column, then been guessing names and checking in `test_hash.py`
 
 Any help with theming/making it look more hunty also welcome :)
