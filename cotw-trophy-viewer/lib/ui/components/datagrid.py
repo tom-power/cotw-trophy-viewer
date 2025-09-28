@@ -13,6 +13,7 @@ from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
 from lib.ui.components.filter import Filter
 
+
 class DataGrid:
     def __init__(self, db: Db, filter_controller: Filter):
         self.db = db

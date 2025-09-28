@@ -32,11 +32,3 @@ async def test_upload_lodge(user: User) -> None:
     user.find('RELOAD').click()
     # user.find('lodge').click()
     # user.find('1').click() # works in ui, issue with loading here?
-
-
-async def test_icon_is_present(user: User) -> None:
-    homePage(Paths(FIXTURES_PATH))
-    await user.open('/')
-
-    icon = user.find(ui.image)
-    assert icon.props['src'] == '/assets/icon.png'

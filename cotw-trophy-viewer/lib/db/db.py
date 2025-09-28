@@ -2,8 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-from numba.cpython.new_mathimpl import DBL_MAX
-
 from lib.load.animals_reserves_loader import AnimalsReservesLoader
 from lib.load.default_presets_loader import DefaultPresetsLoader
 from lib.load.trophy_animal_loader import TrophyAnimalLoader
