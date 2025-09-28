@@ -17,7 +17,7 @@ class DataGrid:
     def __init__(self, db: Db, filter_controller: Filter):
         self.db = db
         self.filter_controller = filter_controller
-        self.TIME_FORMAT = "value === undefined ? '' : new Date(value * 1000).toLocaleDateString(undefined, {hour: \"2-digit\", minute: \"2-digit\"}).replace(\",\", \"\")"
+        self.TIME_FORMAT = "value === undefined || value === 'NA' ? 'NA' : new Date(value * 1000).toLocaleDateString(undefined, {hour: \"2-digit\", minute: \"2-digit\"}).replace(\",\", \"\")"
         self._build_ui()
 
     def _build_ui(self):
