@@ -3,6 +3,7 @@ from nicegui import ui
 from pygments.lexers.unicon import IconLexer
 
 from lib.db.db import Db
+from lib.ui.components.icon import Icon
 from lib.ui.utils.formFilter import selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.queries import Queries
 
@@ -34,11 +35,12 @@ class Filter:
                 ui.space()
                 self.selectAnimals = selectMulti(animalsOptions(), 'animal')
 
-            with ui.row():
-                ui.button(text='FILTER', on_click=self.filter_callback)
-                ui.button(text='CLEAR', on_click=self.clear_callback)
-                self.checkboxAllAnimals = ui.checkbox(text='All animals')
-                # Icon()
+            with ui.row().classes('w-full justify-between items-center'):
+                with ui.row():
+                    ui.button(text='FILTER', on_click=self.filter_callback)
+                    ui.button(text='CLEAR', on_click=self.clear_callback)
+                    self.checkboxAllAnimals = ui.checkbox(text='All animals')
+                Icon()
 
     def updateLodges(self):
         self.selectLodges.set_options(self.db.lodges(), value=None)

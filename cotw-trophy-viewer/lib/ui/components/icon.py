@@ -7,4 +7,5 @@ APP_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent.par
 
 class Icon:
     def __init__(self):
-        ui.image(source=Path(APP_DIR_PATH / 'assets/main-logo.png'))
+        with ui.card().classes('no-shadow border-[0px]'):
+            ui.image(source=Path(APP_DIR_PATH / 'assets/cotwTrophyViewer.png')).classes('w-72')
