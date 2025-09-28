@@ -1,6 +1,5 @@
 
 from nicegui import ui
-from pygments.lexers.unicon import IconLexer
 
 from lib.db.db import Db
 from lib.ui.components.icon import Icon

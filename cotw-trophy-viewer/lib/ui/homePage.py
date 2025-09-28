@@ -3,7 +3,7 @@ from nicegui import ui
 from lib.db.db import Db
 from lib.deca.config import get_save_path
 from lib.ui.components.filter import Filter
-from lib.ui.components.grid import Grid
+from lib.ui.components.datagrid import DataGrid
 from lib.ui.components.lodge_file import LodgeFile
 from lib.ui.components.preset import Preset
 from lib.ui.components.theme import Theme
@@ -35,7 +35,7 @@ class HomePage:
                 LodgeFile(self.paths, self._reload)
                 self.preset_controller = Preset(self.db, self.filter_controller, self._updateGrid)
 
-        self.grid_controller = Grid(self.db, self.filter_controller)
+        self.grid_controller = DataGrid(self.db, self.filter_controller)
 
         footer()
 
