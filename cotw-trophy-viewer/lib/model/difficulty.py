@@ -25,4 +25,4 @@ class Difficulty(Enum):
             else:
                 break
 
-        return cls(scoreIndex).name
+        return cls(scoreIndex).name.replace('_', ' ')
