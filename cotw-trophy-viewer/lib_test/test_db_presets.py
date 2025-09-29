@@ -41,8 +41,9 @@ class TestAllPresetsFunctions(unittest.TestCase):
 
     def test_db_presets(self):
         presets = self.db.presets()
-        self.assertEqual(1, len(presets))
+        self.assertEqual(2, len(presets))
         self.assertIn('diamond checklist', presets.values())
+        self.assertIn('layton lakes lodge todo', presets.values())
 
     def test_db_preset_add(self):
         test_query = {
@@ -59,7 +60,7 @@ class TestAllPresetsFunctions(unittest.TestCase):
         self.db.presetAdd("test preset", test_query)
 
         presets = self.db.presets()
-        self.assertEqual(2, len(presets))
+        self.assertEqual(3, len(presets))
         self.assertIn('test preset', presets.values())
 
         test_preset_id = None
@@ -108,7 +109,7 @@ class TestAllPresetsFunctions(unittest.TestCase):
         self.db.presetAdd("test preset to remove", test_query)
 
         presets_before = self.db.presets()
-        self.assertEqual(2, len(presets_before))
+        self.assertEqual(3, len(presets_before))
         self.assertIn('test preset to remove', presets_before.values())
 
         preset_id_to_remove = None
@@ -122,6 +123,6 @@ class TestAllPresetsFunctions(unittest.TestCase):
         self.db.presetRemove(preset_id_to_remove)
 
         presets_after = self.db.presets()
-        self.assertEqual(1, len(presets_after))
+        self.assertEqual(2, len(presets_after))
         self.assertNotIn('test preset to remove', presets_after.values())
         self.assertIn('diamond checklist', presets_after.values())
