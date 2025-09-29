@@ -1,7 +1,7 @@
 from nicegui import ui
 
 
-class Theme:
+class ThemeUi:
     @staticmethod
     def apply_theme():
         ui.dark_mode().enable()

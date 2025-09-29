@@ -4,7 +4,7 @@ from pathlib import Path
 from nicegui import ui
 
 
-class LodgeFile:
+class LodgeFileUi:
     def __init__(self, paths, reload_callback):
         self.paths = paths
         self.reload_callback = reload_callback

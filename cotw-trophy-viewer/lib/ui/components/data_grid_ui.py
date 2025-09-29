@@ -11,11 +11,11 @@ from lib.model.lodge import Lodge
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
-from lib.ui.components.filter import Filter
+from lib.ui.components.filter_ui import FilterUi
 
 
-class DataGrid:
-    def __init__(self, db: Db, filter_controller: Filter):
+class DataGridUi:
+    def __init__(self, db: Db, filter_controller: FilterUi):
         self.db = db
         self.filter_controller = filter_controller
         self.TIME_FORMAT = "value === undefined || value === 'NA' ? 'NA' : new Date(value * 1000).toLocaleDateString(undefined, {hour: \"2-digit\", minute: \"2-digit\"}).replace(\",\", \"\")"

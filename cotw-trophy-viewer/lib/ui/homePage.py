@@ -2,11 +2,11 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.deca.config import get_save_path
-from lib.ui.components.datagrid import DataGrid
-from lib.ui.components.filter import Filter
-from lib.ui.components.lodge_file import LodgeFile
-from lib.ui.components.preset import Preset
-from lib.ui.components.theme import Theme
+from lib.ui.components.data_grid_ui import DataGridUi
+from lib.ui.components.filter_ui import FilterUi
+from lib.ui.components.lodge_file_ui import LodgeFileUi
+from lib.ui.components.preset_ui import PresetUi
+from lib.ui.components.theme_ui import ThemeUi
 from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
 
@@ -24,18 +24,18 @@ class HomePage:
         self._build_ui()
 
     def _build_ui(self):
-        Theme.apply_theme()
+        ThemeUi.apply_theme()
 
         with ui.grid(columns='800px 1fr 390px').classes('w-full gap-0'):
-            self.filter_controller = Filter(self.db, self._updateGrid, self._clear)
+            self.filter_controller = FilterUi(self.db, self._updateGrid, self._clear)
 
             ui.space()
 
             with ui.card():
-                LodgeFile(self.paths, self._reload)
-                self.preset_controller = Preset(self.db, self.filter_controller, self._updateGrid)
+                LodgeFileUi(self.paths, self._reload)
+                self.preset_controller = PresetUi(self.db, self.filter_controller, self._updateGrid)
 
-        self.grid_controller = DataGrid(self.db, self.filter_controller)
+        self.grid_controller = DataGridUi(self.db, self.filter_controller)
 
         footer()
 

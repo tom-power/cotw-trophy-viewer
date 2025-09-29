@@ -2,12 +2,12 @@
 from nicegui import ui
 
 from lib.db.db import Db
-from lib.ui.components.icon import Icon
+from lib.ui.components.icon_ui import IconUi
 from lib.ui.utils.formFilter import selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.queries import Queries
 
 
-class Filter:
+class FilterUi:
     def __init__(self, db: Db, filter_callback, clear_callback):
         self.db = db
         self.queries = Queries()
@@ -39,7 +39,7 @@ class Filter:
                     ui.button(text='FILTER', on_click=self.filter_callback)
                     ui.button(text='CLEAR', on_click=self.clear_callback)
                     self.checkboxAllAnimals = ui.checkbox(text='All animals')
-                Icon()
+                IconUi()
 
     def updateLodges(self):
         self.selectLodges.set_options(self.db.lodges(), value=None)
