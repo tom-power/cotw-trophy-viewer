@@ -1,6 +1,6 @@
 import unittest
 
-from lib.load.trophy_animal_mapper import TrophyAnimalMapper
+from lib.load.loaders.trophy_animal_mapper import TrophyAnimalMapper
 
 
 class TestTrophyAnimalMapperFiltersLodge(unittest.TestCase):

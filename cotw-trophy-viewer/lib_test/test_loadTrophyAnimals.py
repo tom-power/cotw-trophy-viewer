@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from lib.load.trophy_animal_loader import TrophyAnimalLoader
+from lib.load.loader import Loader
 from lib.model.animal_type import AnimalType
 from lib.model.lodge_type import LodgeType
 from lib.model.medal import Medal
@@ -13,7 +13,7 @@ from lib_test.fixtures import FIXTURES_PATH
 class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
 
     def test_loadTrophyAnimals(self):
-        trophyAnimals = TrophyAnimalLoader(FIXTURES_PATH).load()
+        trophyAnimals = Loader(FIXTURES_PATH).load_trophy_animals()
 
         self.assertEqual(len(trophyAnimals), 36)
 
@@ -33,7 +33,7 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.reserve, Reserve.EMERALD_COAST)
 
     def test_loadTrophyAnimalsNames(self):
-        trophyAnimals = TrophyAnimalLoader(FIXTURES_PATH).load()
+        trophyAnimals = Loader(FIXTURES_PATH).load_trophy_animals()
 
         self.assertTrue(list(filter(lambda a: a.type == AnimalType.EU_RABBIT, trophyAnimals)))
 

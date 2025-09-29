@@ -41,7 +41,7 @@ def _find_saves_path() -> Path | None:
 DEFAULT_SAVE_PATH = _find_saves_path()
 
 
-def get_save_path() -> Path:
+def get_save_path() -> Path | None:
     if _custom_save_path is not None:
         return _custom_save_path
     return DEFAULT_SAVE_PATH

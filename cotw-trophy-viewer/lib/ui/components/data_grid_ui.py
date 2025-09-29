@@ -12,11 +12,12 @@ from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
 from lib.ui.components.filter_ui import FilterUi
+from lib.ui.hub import Hub
 
 
 class DataGridUi:
-    def __init__(self, db: Db, filter_controller: FilterUi):
-        self.db = db
+    def __init__(self, hub: Hub, filter_controller: FilterUi):
+        self.hub = hub
         self.filter_controller = filter_controller
         self.TIME_FORMAT = "value === undefined || value === 'NA' ? 'NA' : new Date(value * 1000).toLocaleDateString(undefined, {hour: \"2-digit\", minute: \"2-digit\"}).replace(\",\", \"\")"
         self._build_ui()
@@ -42,7 +43,7 @@ class DataGridUi:
         }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1 ag-theme-balham-dark')
 
     def _get_row_data(self) -> list[dict]:
-        return rowData(self.db.trophyAnimals(self.filter_controller.queries.queryDict))
+        return rowData(self.hub.trophyAnimals(self.filter_controller.queries.queryDict))
 
     def updateGrid(self):
         self.filter_controller.update_queries_from_filters()

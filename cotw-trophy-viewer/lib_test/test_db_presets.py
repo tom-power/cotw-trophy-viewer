@@ -11,7 +11,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 class TestAllPresetsFunctions(unittest.TestCase):
 
     def setUp(self):
-        self.db = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data')
+        self.db = Db(db_path=FIXTURES_PATH / 'data')
         self.db.presetsClear()
         self.db.presetInit()
 

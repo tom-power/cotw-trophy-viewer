@@ -3,6 +3,8 @@ import sys
 import unittest
 
 from lib.db.db import Db
+from lib.load.loader import Loader
+from lib.ui.hub import Hub
 from lib_test.fixtures import FIXTURES_PATH
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -22,7 +24,7 @@ class TestDbFunctions(unittest.TestCase):
                 "animalsAndOr": "and"
             }
 
-        trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOneAndHirsh)
+        trophyAnimals = Hub(Db(db_path=FIXTURES_PATH / 'data'), Loader(loadPath=FIXTURES_PATH)).trophyAnimals(lodgeOneAndHirsh)
         self.assertEqual(1, len(trophyAnimals))
 
     def test_db_trophyAnimals_query_lodge_or_animal(self):
@@ -37,7 +39,7 @@ class TestDbFunctions(unittest.TestCase):
                 "animalsAndOr": "or"
             }
 
-        trophyAnimals = Db(loadPath=FIXTURES_PATH, db_path=FIXTURES_PATH / 'data').trophyAnimals(lodgeOneOrHirsh)
+        trophyAnimals = Hub(Db(db_path=FIXTURES_PATH / 'data'), Loader(loadPath=FIXTURES_PATH)).trophyAnimals(lodgeOneOrHirsh)
         self.assertEqual(9, len(trophyAnimals))
 
 
