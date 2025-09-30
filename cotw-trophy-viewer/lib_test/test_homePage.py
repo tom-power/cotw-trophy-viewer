@@ -4,7 +4,7 @@ from fastapi import UploadFile
 from nicegui import ui
 from nicegui.testing import User
 
-from lib.ui.homePage import homePage
+from lib.homePage import homePage
 from lib.ui.utils.paths import Paths
 from lib_test.fixtures import FIXTURES_PATH
 

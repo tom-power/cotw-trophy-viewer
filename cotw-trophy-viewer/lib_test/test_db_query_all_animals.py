@@ -6,7 +6,7 @@ from lib.db.db import Db
 from lib.load.loader import Loader
 from lib.model.animal_type import AnimalType
 from lib.model.medal import Medal
-from lib.ui.hub import Hub
+from lib.hub import Hub
 from lib_test.fixtures import FIXTURES_PATH
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))

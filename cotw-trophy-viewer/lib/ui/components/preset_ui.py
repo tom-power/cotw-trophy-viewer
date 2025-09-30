@@ -1,8 +1,7 @@
 from nicegui import ui, binding
 
-from lib.db.db import Db
 from lib.ui.components.filter_ui import FilterUi
-from lib.ui.hub import Hub
+from lib.hub import Hub
 
 
 class PresetUi:

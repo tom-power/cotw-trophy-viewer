@@ -1,6 +1,6 @@
 from nicegui import ui
 
-from lib.ui.homePage import homePage
+from lib.homePage import homePage
 
 
 @ui.page("/")

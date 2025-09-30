@@ -3,7 +3,7 @@ from pathlib import Path
 
 from nicegui import ui
 
-from lib.ui.homePage import homePage
+from lib.homePage import homePage
 
 APP_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
 
