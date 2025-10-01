@@ -2,8 +2,10 @@
 from nicegui import ui
 
 from lib.db.db import Db
+from lib.model.animal_type import AnimalType
+from lib.model.medal import Medal
+from lib.model.reserve import Reserve
 from lib.ui.components.icon_ui import IconUi
-from lib.ui.utils.formFilter import selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.queries import Queries
 
 
@@ -20,19 +22,19 @@ class FilterUi:
             with ui.grid(columns='auto auto 600px'):
                 ui.space()
                 ui.space()
-                self.selectLodges = selectMulti(self.db.lodges(), 'lodge', )
+                self.selectLodges = _selectMulti(self.db.lodges(), 'lodge', )
 
-                self.radioReservesAndOr = andOrRadio()
+                self.radioReservesAndOr = _andOrRadio()
                 ui.space()
-                self.selectReserves = selectMulti(reservesOptions(), 'reserve', )
+                self.selectReserves = _selectMulti(_reservesOptions(), 'reserve', )
 
-                self.radioMedalsAndOr = andOrRadio()
+                self.radioMedalsAndOr = _andOrRadio()
                 ui.space()
-                self.selectMedals = selectMulti(medalOptions(), 'medal')
+                self.selectMedals = _selectMulti(_medalOptions(), 'medal')
 
-                self.radioAnimalsAndOr = andOrRadio()
+                self.radioAnimalsAndOr = _andOrRadio()
                 ui.space()
-                self.selectAnimals = selectMulti(animalsOptions(), 'animal')
+                self.selectAnimals = _selectMulti(_animalsOptions(), 'animal')
 
             with ui.row().classes('w-full justify-between items-center'):
                 with ui.row():
@@ -74,3 +76,23 @@ class FilterUi:
         self.selectAnimals.set_value('')
         self.checkboxAllAnimals.set_value('')
         self.checkboxAllAnimals.set_value(False)
+
+
+def _reservesOptions() -> dict:
+    return {r.value: r.reserveName() for r in Reserve}
+
+
+def _medalOptions() -> dict:
+    return {m.value: m.name for m in Medal}
+
+
+def _animalsOptions() -> dict:
+    return {a.value: a.animalName() for a in AnimalType}
+
+
+def _andOrRadio():
+    return ui.radio(['and', 'or'], value='and').props('inline')
+
+
+def _selectMulti(options, label):
+    return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True).props('use-chips')

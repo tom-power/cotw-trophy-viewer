@@ -35,8 +35,6 @@ class HomePage:
 
         self.grid_ui = DataGridUi(self.db, self.filter_ui)
 
-        footer()
-
     def _clear(self):
         self.filter_ui.clear_form()
         self.preset_ui.selectPresets.set_value('')
