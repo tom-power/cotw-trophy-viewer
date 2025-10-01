@@ -60,7 +60,7 @@ class PresetDb:
         conn.commit()
         conn.close()
 
-    def insert_presets(self, default_presets: List[Preset]):
+    def load_presets(self, default_presets: List[Preset]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 

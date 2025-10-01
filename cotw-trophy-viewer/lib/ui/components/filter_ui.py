@@ -2,14 +2,14 @@
 from nicegui import ui
 
 from lib.ui.components.icon_ui import IconUi
-from lib.hub import Hub
+from lib.db.db import Db
 from lib.ui.utils.formFilter import selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.queries import Queries
 
 
 class FilterUi:
-    def __init__(self, hub: Hub, filter_callback, clear_callback):
-        self.hub = hub
+    def __init__(self, db: Db, filter_callback, clear_callback):
+        self.db = db
         self.queries = Queries()
         self.filter_callback = filter_callback
         self.clear_callback = clear_callback
@@ -20,7 +20,7 @@ class FilterUi:
             with ui.grid(columns='auto auto 600px'):
                 ui.space()
                 ui.space()
-                self.selectLodges = selectMulti(self.hub.lodges(), 'lodge', )
+                self.selectLodges = selectMulti(self.db.lodges(), 'lodge', )
 
                 self.radioReservesAndOr = andOrRadio()
                 ui.space()
@@ -42,7 +42,7 @@ class FilterUi:
                 IconUi()
 
     def updateLodges(self):
-        self.selectLodges.set_options(self.hub.lodges(), value=None)
+        self.selectLodges.set_options(self.db.lodges(), value=None)
 
     def update_queries_from_filters(self):
         self.queries.updateQuery('lodges', self.selectLodges.value)

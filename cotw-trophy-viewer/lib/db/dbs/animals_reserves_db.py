@@ -23,7 +23,7 @@ class AnimalsReservesDb:
         conn.commit()
         conn.close()
 
-    def insert_animals_reserves(self, animals_reserves: List[AnimalReserve]):
+    def load_animals_reserves(self, animals_reserves: List[AnimalReserve]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('DELETE FROM AnimalsReserves')
