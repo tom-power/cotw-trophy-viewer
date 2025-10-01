@@ -1,6 +1,8 @@
 # COTW trophy viewer
 
-Wanted a quick overview of what I had/didn't have in my trophy lodges, lots copied from these (thank you!):
+Wanted a quick overview of what I had/didn't have in my trophy lodges.
+
+Lots copied from these (thank you!):
 
 - [cotw-harvest-tracker](https://github.com/LordHansCapon/cotw-harvest-tracker)
 - [animal-population-changer](https://github.com/cpypasta/apc)
@@ -14,7 +16,7 @@ theHunter™ Call of the Wild website can be found
 at [callofthewild.thehunter.com](https://callofthewild.thehunter.com). theHunter™ Call of the Wild
 is a registered trademark of [Avalanche Studios Group](https://avalanchestudios.com/)._
 
-## Installation
+## Installation 
 
 Download binaries from the [release page](https://github.com/tom-power/cotw-trophy-viewer/releases/latest) and run locally.
 
@@ -32,12 +34,14 @@ then:
 
 check `sh` for other scripts to run locally etc
 
+## Notes
+
+Tested on steam on pc with the animals I have currently.
+
 ## Help
 
-Don't know how to get these names currently, any help welcome!
+Don't know how to get names for `fur type` currently, any help welcome!
 
-- ~~lodges~~
-- fur types <- this would be great
-- very likely some animals, their name won't appear in the `Animal` column, then been guessing names and checking in `test_hash.py`
+Very likely missing animal names, their name won't appear in the `Animal` column, let me know in an issue. 
 
-Any help with theming/making it look more hunty also welcome :)
+Have been guessing names and checking in `test_hash.py`, probably easier to mot hash in the first place but I haven't explored.
