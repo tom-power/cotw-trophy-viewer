@@ -1,5 +1,6 @@
 from nicegui import ui
 
+from lib.db.db import Db
 from lib.deca.config import get_save_path
 from lib.load.loader import Loader
 from lib.ui.components.data_grid_ui import DataGridUi
@@ -7,7 +8,6 @@ from lib.ui.components.filter_ui import FilterUi
 from lib.ui.components.lodge_file_ui import LodgeFileUi
 from lib.ui.components.preset_ui import PresetUi
 from lib.ui.components.theme_ui import ThemeUi
-from lib.db.db import Db
 from lib.ui.utils.formFilter import footer
 from lib.ui.utils.paths import Paths
 
@@ -51,9 +51,9 @@ class HomePage:
         self.grid_ui.db = self.db
         self._updateGrid()
 
-
     def _updateGrid(self):
         self.grid_ui.updateGrid()
+
 
 def homePage(paths=Paths(get_save_path())):
     HomePage(paths)

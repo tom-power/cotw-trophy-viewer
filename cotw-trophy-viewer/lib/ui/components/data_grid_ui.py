@@ -3,6 +3,7 @@ from typing import List
 
 from nicegui import ui
 
+from lib.db.db import Db
 from lib.model.animal_type import AnimalType
 from lib.model.difficulty import Difficulty
 from lib.model.gender import Gender
@@ -11,7 +12,6 @@ from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
 from lib.ui.components.filter_ui import FilterUi
-from lib.db.db import Db
 
 
 class DataGridUi:

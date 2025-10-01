@@ -16,6 +16,11 @@ class Loader:
         self.trophy_lodge_loader = LoadTrophyLodge(loadPath)
         self.trophy_animal_mapper = TrophyAnimalMapper()
 
+    def load_trophy_animals(self) -> List[TrophyAnimal]:
+        lodges = self.trophy_lodge_loader.lodges()
+        self.trophy_animal_mapper.add(lodges)
+        return self.trophy_animal_mapper.map()
+
     @staticmethod
     def load_animals_reserves() -> List[AnimalReserve]:
         return AnimalsReservesLoader.load()
@@ -23,8 +28,3 @@ class Loader:
     @staticmethod
     def load_default_presets() -> List[Preset]:
         return DefaultPresetsLoader.load()
-
-    def load_trophy_animals(self) -> List[TrophyAnimal]:
-        lodges = self.trophy_lodge_loader.lodges()
-        self.trophy_animal_mapper.add(lodges)
-        return self.trophy_animal_mapper.map()

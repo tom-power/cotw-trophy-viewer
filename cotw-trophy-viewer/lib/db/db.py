@@ -3,7 +3,6 @@ import sys
 from pathlib import Path
 from typing import List
 
-from lib.load.loaders.default_presets_loader import DefaultPresetsLoader
 from lib.db.dbs.animals_reserves_db import AnimalsReservesDb
 from lib.db.dbs.preset_db import PresetDb
 from lib.db.dbs.trophy_animal_db import TrophyAnimalDb

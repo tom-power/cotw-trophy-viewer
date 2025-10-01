@@ -1,8 +1,8 @@
 
 from nicegui import ui
 
-from lib.ui.components.icon_ui import IconUi
 from lib.db.db import Db
+from lib.ui.components.icon_ui import IconUi
 from lib.ui.utils.formFilter import selectMulti, andOrRadio, reservesOptions, medalOptions, animalsOptions
 from lib.ui.utils.queries import Queries
 
