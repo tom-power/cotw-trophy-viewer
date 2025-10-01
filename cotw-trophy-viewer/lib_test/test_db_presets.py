@@ -2,8 +2,7 @@ import os
 import sys
 import unittest
 
-from lib.db.db import Db
-from lib_test.fixtures import FIXTURES_PATH
+from lib_test.fixtures import getDb
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -11,9 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 class TestAllPresetsFunctions(unittest.TestCase):
 
     def setUp(self):
-        self.db = Db(db_path=FIXTURES_PATH / 'data')
-        self.db.presetsClear()
-        self.db.presetInit()
+        self.db = getDb()
 
     def test_db_preset(self):
         diamondChecklist = \

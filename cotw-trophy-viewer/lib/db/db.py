@@ -27,9 +27,9 @@ class Db:
         self.preset_db = PresetDb(self.db_path)
 
     def load(self, loader: Loader):
-        self.trophy_animal_db.load_trophy_animals(loader.load_trophy_animals())
-        self.animals_reserves_db.load_animals_reserves(loader.load_animals_reserves())
-        self.preset_db.load_presets(loader.load_default_presets())
+        self.trophy_animal_db.insert_trophy_animals(loader.load_trophy_animals())
+        self.animals_reserves_db.insert_animals_reserves(loader.load_animals_reserves())
+        self.preset_db.insert_presets(loader.load_default_presets())
 
     def trophyAnimals(self, query: dict | None = None) -> List[TrophyAnimal]:
         return self.trophy_animal_db.trophyAnimals(query)
@@ -42,12 +42,6 @@ class Db:
 
     def preset(self, i: int) -> dict:
         return self.preset_db.preset(i)
-
-    def presetsClear(self):
-        return self.preset_db.presetsClear()
-
-    def presetInit(self):
-        return self.preset_db.load_presets(DefaultPresetsLoader().load())
 
     def presetAdd(self, name, queryDict):
         return self.preset_db.presetAdd(name, queryDict)

@@ -42,7 +42,7 @@ class TrophyAnimalDb:
         conn.close()
 
 
-    def load_trophy_animals(self, trophy_animals: List[TrophyAnimal]) -> None:
+    def insert_trophy_animals(self, trophy_animals: List[TrophyAnimal]) -> None:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 

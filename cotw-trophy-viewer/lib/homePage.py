@@ -30,7 +30,7 @@ class HomePage:
             ui.space()
 
             with ui.card():
-                LodgeFileUi(self.paths, self._reload)
+                LodgeFileUi(self.paths, self._reloadFromFile)
                 self.preset_ui = PresetUi(self.db, self.filter_ui, self._updateGrid)
 
         self.grid_ui = DataGridUi(self.db, self.filter_ui)
@@ -42,15 +42,15 @@ class HomePage:
         self.preset_ui.selectPresets.set_value('')
         self._updateGrid()
 
-    def _reload(self):
+    def _reloadFromFile(self):
         self.db.load(self.loader)
 
         self.filter_ui.db = self.db
-        self.preset_ui.db = self.db
-        self.grid_ui.db = self.db
-
         self.filter_ui.updateLodges()
+
+        self.grid_ui.db = self.db
         self._updateGrid()
+
 
     def _updateGrid(self):
         self.grid_ui.updateGrid()
