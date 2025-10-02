@@ -49,11 +49,10 @@ class PresetDb:
         else:
             return {}
 
-    def insert_presets(self, default_presets: List[Preset]):
+    def insert_default_presets(self, default_presets: List[Preset]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute('DELETE FROM Preset')
         cursor.execute('SELECT COUNT(*) FROM Preset')
         if cursor.fetchone()[0] == 0:
             for preset in default_presets:

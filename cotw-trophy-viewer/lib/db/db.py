@@ -28,7 +28,7 @@ class Db:
     def load(self, loader: Loader):
         self.trophy_animal_db.insert_trophy_animals(loader.load_trophy_animals())
         self.animals_reserves_db.insert_animals_reserves(loader.load_animals_reserves())
-        self.preset_db.insert_presets(loader.load_default_presets())
+        self.preset_db.insert_default_presets(loader.load_default_presets())
 
     def trophyAnimals(self, query: dict | None = None) -> List[TrophyAnimal]:
         return self.trophy_animal_db.trophyAnimals(query)

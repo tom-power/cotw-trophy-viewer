@@ -12,6 +12,10 @@ class TestAllPresetsFunctions(unittest.TestCase):
     def setUp(self):
         self.db = getDb()
 
+    def tearDown(self):
+        for p in self.db.presets():
+            self.db.presetRemove(p)
+
     def test_db_preset(self):
         diamondChecklist = \
             {
@@ -123,3 +127,44 @@ class TestAllPresetsFunctions(unittest.TestCase):
         self.assertEqual(2, len(presets_after))
         self.assertNotIn('test preset to remove', presets_after.values())
         self.assertIn('diamond checklist', presets_after.values())
+
+    def test_db_preset_add_persists(self):
+        test_query = {
+            "lodges": [1, 2],
+            "reserves": [3, 4],
+            "medals": [1, 2],
+            "animals": [5, 6],
+            "reservesAndOr": "or",
+            "medalsAndOr": "or",
+            "animalsAndOr": "or",
+            "allAnimals": False
+        }
+
+        self.db.presetAdd("test preset", test_query)
+
+        presets = self.db.presets()
+        self.assertEqual(3, len(presets))
+        self.assertIn('test preset', presets.values())
+
+        new_db_instance = getDb()
+        presets = new_db_instance.presets()
+        self.assertEqual(3, len(presets))
+        self.assertIn('test preset', presets.values())
+
+    def test_db_preset_inserts_defaults_once(self):
+        presets = self.db.presets()
+        self.assertEqual(2, len(presets))
+        self.assertIn('diamond checklist', presets.values())
+
+        preset_id_to_remove = None
+        for preset_id, name in presets.items():
+            if name == 'diamond checklist':
+                preset_id_to_remove = preset_id
+                break
+
+        self.db.presetRemove(preset_id_to_remove)
+
+        new_db_instance = getDb()
+        presets = new_db_instance.presets()
+        self.assertEqual(1, len(presets))
+        self.assertNotIn('diamond checklist', presets.values())
