@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from nicegui import ui
 
+from lib.db.config import DB_PATH
 from lib.db.db import Db
 from lib.deca.config import get_save_path
 from lib.load.loader import Loader
@@ -13,10 +16,10 @@ from lib.ui.utils.paths import Paths
 
 class HomePage:
 
-    def __init__(self, paths: Paths):
+    def __init__(self, paths: Paths, db_path: Path):
         self.paths = paths
-        self.db = Db()
-        self.loader = Loader(self.paths.getLoadPath())
+        self.db = Db(db_path)
+        self.loader = Loader(self.paths)
         self.db.load(self.loader)
         self._build_ui()
 
@@ -29,7 +32,7 @@ class HomePage:
             ui.space()
 
             with ui.card():
-                LodgeFileUi(self.paths, self._reloadFromFile)
+                LodgeFileUi(self.loader, self._reloadFromFile)
                 self.preset_ui = PresetUi(self.db, self.filter_ui, self._updateGrid)
 
         self.grid_ui = DataGridUi(self.db, self.filter_ui)
@@ -52,5 +55,5 @@ class HomePage:
         self.grid_ui.updateGrid()
 
 
-def homePage(paths=Paths(get_save_path())):
-    HomePage(paths)
+def homePage(paths=Paths(get_save_path() / 'trophy_lodges_adf'), db_path=DB_PATH):
+    HomePage(paths=paths, db_path=db_path)

@@ -13,5 +13,5 @@ class LoadTrophyLodge:
     def _load_trophy_lodges(self) -> dict:
         if self.loadPath is None:
             return {}
-        adf = load_adf(self.loadPath / "trophy_lodges_adf", verbose=True).adf
+        adf = load_adf(self.loadPath, verbose=True).adf
         return adf.table_instance_values[0]

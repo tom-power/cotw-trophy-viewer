@@ -1,5 +1,4 @@
 import os
-import sys
 from pathlib import Path
 from typing import List
 
@@ -9,16 +8,10 @@ from lib.db.dbs.trophy_animal_db import TrophyAnimalDb
 from ..load.loader import Loader
 from ..model.trophy_animal import TrophyAnimal
 
-TEST_DIR_PATH = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parent))
-
-if sys.platform == 'win32':
-    DB_PATH = Path.home() / 'AppData' / 'Local' / 'cotw-trophy-viewer' / 'data'
-else:
-    DB_PATH = Path.home() / '.cotw-trophy-viewer' / 'data'
 
 class Db:
-    def __init__(self, db_path: Path = DB_PATH) -> None:
-        self.db_path = db_path / "trophy_viewer.db"
+    def __init__(self, db_path: Path) -> None:
+        self.db_path = db_path / 'trophy_viewer.db'
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
 
         self.trophy_animal_db = TrophyAnimalDb(self.db_path)

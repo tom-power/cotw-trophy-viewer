@@ -7,13 +7,14 @@ from lib.model.animal_type import AnimalType
 from lib.model.lodge_type import LodgeType
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
+from lib.ui.utils.paths import Paths
 from lib_test.fixtures import FIXTURES_PATH
 
 
 class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
 
     def test_loadTrophyAnimals(self):
-        trophyAnimals = Loader(FIXTURES_PATH).load_trophy_animals()
+        trophyAnimals = Loader(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf')).load_trophy_animals()
 
         self.assertEqual(len(trophyAnimals), 36)
 
@@ -33,7 +34,7 @@ class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
         self.assertEqual(testAnimal.reserve, Reserve.EMERALD_COAST)
 
     def test_loadTrophyAnimalsNames(self):
-        trophyAnimals = Loader(FIXTURES_PATH).load_trophy_animals()
+        trophyAnimals = Loader(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf')).load_trophy_animals()
 
         self.assertTrue(list(filter(lambda a: a.type == AnimalType.EU_RABBIT, trophyAnimals)))
 
