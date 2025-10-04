@@ -29,7 +29,7 @@ class DataGridUi:
                 {'headerName': 'Reserve', 'field': 'reserve'},
                 {'headerName': 'Animal', 'field': 'animal'},
                 {'headerName': 'Weight', 'field': 'weight', 'width': '100'},
-                # {'headerName': 'Fur type', 'field': 'furType', 'width': '100'},
+                {'headerName': 'Fur type', 'field': 'furType', 'width': '100'},
                 {'headerName': 'Difficulty', 'field': 'difficulty', 'width': '150'},
                 {'headerName': 'Trophy Rating', 'field': 'rating', 'width': '150'},
                 {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
