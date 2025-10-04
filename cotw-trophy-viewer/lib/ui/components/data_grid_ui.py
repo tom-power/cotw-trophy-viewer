@@ -27,12 +27,12 @@ class DataGridUi:
             'columnDefs': [
                 {'headerName': 'Lodge', 'field': 'lodge', 'width': '200'},
                 {'headerName': 'Reserve', 'field': 'reserve'},
-                {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
                 {'headerName': 'Animal', 'field': 'animal'},
-                {'headerName': 'Rating', 'field': 'rating', 'width': '100'},
                 {'headerName': 'Weight', 'field': 'weight', 'width': '100'},
-                {'headerName': 'Difficulty', 'field': 'difficulty', 'width': '100'},
                 # {'headerName': 'Fur type', 'field': 'furType', 'width': '100'},
+                {'headerName': 'Difficulty', 'field': 'difficulty', 'width': '150'},
+                {'headerName': 'Trophy Rating', 'field': 'rating', 'width': '150'},
+                {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
                 {'headerName': 'Harvested Date', 'field': 'datetime', 'sort': 'desc',
                  'valueFormatter': self.TIME_FORMAT},
             ],
@@ -66,13 +66,11 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'animal': _naIfNone(animal.type, lambda t: _getAnimalTypeName(t)),
             'gender': _naIfNone(animal.gender, lambda g: Gender(g).name),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
+            'furType': _naIfNone(furTypeName),
+            'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
             'medal': _naIfNone(animal.medal, lambda m: Medal(m).name),
-            'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
-            'difficultyScore': _naIfNone(animal.difficulty, lambda d: math.floor(d * 1000) / 1000),
-            'furType': _naIfNone(furTypeName),
-            'datetime': _naIfNone(animal.datetime)
-            ,
+            'datetime': _naIfNone(animal.datetime)            ,
         })
     return rows
 
