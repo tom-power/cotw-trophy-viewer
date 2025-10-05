@@ -5,7 +5,7 @@ from typing import List
 from lib.model.animal_type_reserve import AnimalReserve
 
 
-class AnimalsReservesDb:
+class AnimalReserveDb:
     def __init__(self, db_path: Path):
         self.db_path = db_path
         self._create_table()
@@ -23,7 +23,7 @@ class AnimalsReservesDb:
         conn.commit()
         conn.close()
 
-    def insert_animals_reserves(self, animals_reserves: List[AnimalReserve]):
+    def insert_animal_reserves(self, animals_reserves: List[AnimalReserve]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('DELETE FROM AnimalsReserves')

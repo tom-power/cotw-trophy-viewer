@@ -29,7 +29,7 @@ class Loader:
         return self.paths.getLoadPath() and self.paths.getLoadPath().is_file()
 
     @staticmethod
-    def load_animals_reserves() -> List[AnimalReserve]:
+    def load_animal_reserves() -> List[AnimalReserve]:
         return AnimalsReservesLoader.load()
 
     @staticmethod

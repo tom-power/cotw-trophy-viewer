@@ -23,7 +23,7 @@ class AnimalMedalDb:
         conn.commit()
         conn.close()
 
-    def insert_animal_medal(self, animals_medals: List[AnimalMedal]):
+    def insert_animal_medals(self, animals_medals: List[AnimalMedal]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('DELETE FROM AnimalMedal')
