@@ -1,9 +1,6 @@
 import bisect
 from enum import Enum
 
-from lib.model.constants import DIFFICULTY_SCORE_THRESHOLDS
-
-
 class Difficulty(Enum):
     TRIVIAL = 1
     MINOR = 2
@@ -21,3 +18,5 @@ class Difficulty(Enum):
         scoreIndex = bisect.bisect_right(DIFFICULTY_SCORE_THRESHOLDS, score) - 1
 
         return str(scoreIndex) + ' - ' + Difficulty(scoreIndex).name.replace('_', ' ')
+
+DIFFICULTY_SCORE_THRESHOLDS = [0, 0.115, 0.225, 0.335, 0.445, 0.555, 0.665, 0.775, 0.885]
