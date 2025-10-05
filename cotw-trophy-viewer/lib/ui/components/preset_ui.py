@@ -9,9 +9,9 @@ class PresetUi:
     class PresetName:
         text: str
 
-    def __init__(self, db: Db, filter_controller: FilterUi, update_grid_callback):
+    def __init__(self, db: Db, filter_ui: FilterUi, update_grid_callback):
         self.db = db
-        self.filter_controller = filter_controller
+        self.filter_ui = filter_ui
         self.update_grid_callback = update_grid_callback
         self.presetName = self.PresetName(text="")
         self._build_ui()
@@ -34,8 +34,8 @@ class PresetUi:
         self._updatePresets()
 
     def _addPreset(self):
-        self.filter_controller.update_queries_from_filters()
-        self.db.presetAdd(self.presetName.text, self.filter_controller.queries.queryDict)
+        self.filter_ui.update_queries_from_filters()
+        self.db.presetAdd(self.presetName.text, self.filter_ui.queries.queryDict)
         self._updatePresets()
         self.addPresetDialog.close()
 
@@ -45,7 +45,7 @@ class PresetUi:
         self.selectPresets.set_value(list(new_presets.keys())[-1])
 
     def _applyPreset(self, e):
-        self.filter_controller.clear_form()
+        self.filter_ui.clear_form()
         preset = self.db.preset(e.value)
-        self.filter_controller.update_filters_from_preset(preset)
+        self.filter_ui.update_filters_from_preset(preset)
         self.update_grid_callback()

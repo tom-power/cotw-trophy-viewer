@@ -13,9 +13,9 @@ from lib.ui.components.filter_ui import FilterUi
 
 
 class DataGridUi:
-    def __init__(self, db: Db, filter_controller: FilterUi):
+    def __init__(self, db: Db, filter_ui: FilterUi):
         self.db = db
-        self.filter_controller = filter_controller
+        self.filter_ui = filter_ui
         self.TIME_FORMAT = "value === undefined || value === 'NA' ? 'NA' : new Date(value * 1000).toLocaleDateString(undefined, {hour: \"2-digit\", minute: \"2-digit\"}).replace(\",\", \"\")"
         self._build_ui()
 
@@ -40,10 +40,10 @@ class DataGridUi:
         }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1 ag-theme-balham-dark')
 
     def _get_row_data(self) -> list[dict]:
-        return rowData(self.db.trophyAnimals(self.filter_controller.queries.queryDict))
+        return rowData(self.db.trophyAnimals(self.filter_ui.queries.queryDict))
 
     def updateGrid(self):
-        self.filter_controller.update_queries_from_filters()
+        self.filter_ui.update_queries_from_filters()
         self.dataGrid.options['rowData'] = self._get_row_data()
         self.dataGrid.update()
 
