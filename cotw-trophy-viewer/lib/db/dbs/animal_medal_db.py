@@ -2,10 +2,10 @@ import sqlite3
 from pathlib import Path
 from typing import List
 
-from lib.model.animal_type_reserve import AnimalReserve
+from lib.model.animal_type_medal import AnimalMedal
 
 
-class AnimalsReservesDb:
+class AnimalMedalDb:
     def __init__(self, db_path: Path):
         self.db_path = db_path
         self._create_table()
@@ -14,23 +14,23 @@ class AnimalsReservesDb:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute('''
-               CREATE TABLE IF NOT EXISTS AnimalsReserves (
-                   reserve INTEGER,
+               CREATE TABLE IF NOT EXISTS AnimalMedal (
+                   medal INTEGER,
                    type INTEGER,
-                   PRIMARY KEY (reserve, type)
+                   PRIMARY KEY (medal, type)
                )
            ''')
         conn.commit()
         conn.close()
 
-    def insert_animals_reserves(self, animals_reserves: List[AnimalReserve]):
+    def insert_animal_medal(self, animals_medals: List[AnimalMedal]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM AnimalsReserves')
-        for animal_reserve in animals_reserves:
+        cursor.execute('DELETE FROM AnimalMedal')
+        for animal_medal in animals_medals:
             cursor.execute('''
-                INSERT OR IGNORE INTO AnimalsReserves (reserve, type)
+                INSERT OR IGNORE INTO AnimalMedal (medal, type)
                 VALUES (?, ?)
-            ''', (animal_reserve.reserve.value, animal_reserve.type.value))
+            ''', (animal_medal.medal.value, animal_medal.type.value))
         conn.commit()
         conn.close()

@@ -144,7 +144,7 @@ class TrophyAnimalDb:
 
             trophyTypesSubquery = f"SELECT DISTINCT type FROM ({trophyAnimalsSql})"
 
-            allAnimalsSelectSql = """
+            animalsReservesSql = """
                 SELECT DISTINCT
                 NULL as id,
                 type,
@@ -162,13 +162,19 @@ class TrophyAnimalDb:
                 FROM AnimalsReserves
                 """
 
-            allAnimalsSql = (allAnimalsSelectSql
+            allAnimalsSql = (animalsReservesSql
                              + f""" WHERE type NOT IN ({trophyTypesSubquery})""")
+
+            if 5 in set(_medalsIds):
+                allAnimalsSql = (animalsReservesSql
+                                 + f""" JOIN AnimalMedal USING(type)   
+                                        WHERE type NOT IN ({trophyTypesSubquery})""")
 
             if _reservesIds:
                 reservePlaceholders = ','.join(['?' for _ in _reservesIds])
-                allAnimalsSql = (allAnimalsSelectSql
-                                 + f""" WHERE type NOT IN ({trophyTypesSubquery}) AND reserve IN ({reservePlaceholders}) """)
+                allAnimalsSql = (animalsReservesSql
+                                 + f""" WHERE type NOT IN ({trophyTypesSubquery})
+                                        AND reserve IN ({reservePlaceholders}) """)
                 allAnimalsParams.extend(_reservesIds)
 
             sql = (f'WITH '

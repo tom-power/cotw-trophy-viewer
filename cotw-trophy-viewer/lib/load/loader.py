@@ -1,10 +1,12 @@
 from typing import List
 
+from lib.load.loaders.animal_medals_loader import AnimalMedalsLoader
 from lib.load.loaders.animals_reserves_loader import AnimalsReservesLoader
 from lib.load.loaders.default_presets_loader import DefaultPresetsLoader
 from lib.load.loaders.trophy_animal_mapper import TrophyAnimalMapper
 from lib.load.loaders.trophy_lodge_loader import LoadTrophyLodge
-from lib.model.animal_reserve import AnimalReserve
+from lib.model.animal_type_medal import AnimalMedal
+from lib.model.animal_type_reserve import AnimalReserve
 from lib.model.preset import Preset
 from lib.model.trophy_animal import TrophyAnimal
 from lib.ui.utils.paths import Paths
@@ -29,6 +31,10 @@ class Loader:
     @staticmethod
     def load_animals_reserves() -> List[AnimalReserve]:
         return AnimalsReservesLoader.load()
+
+    @staticmethod
+    def load_animal_medals() -> List[AnimalMedal]:
+        return AnimalMedalsLoader.load()
 
     @staticmethod
     def load_default_presets() -> List[Preset]:
