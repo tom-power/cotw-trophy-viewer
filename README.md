@@ -28,14 +28,13 @@ Lots copied from these (thank you!)
 - [animal-population-changer](https://github.com/cpypasta/apc)
 - [deca](https://github.com/kk49/deca)
 
-## TODO/help
-
-Any help with the below is welcome through issues etc
+## TODO/help welcome
 
 ### Names
 
-- don't know how to get names for `fur type` currently so haven't included, this would be good though
+- don't know how to get names for `fur type` currently, including numbers in the grid as a reminder
 - likely missing some animal names, when you have an animal in your lodge and this is the case, their name won't appear in the `Animal` column
+- I haven't got to the [Parque Fernando lodge](https://thehuntercotw.fandom.com/wiki/Missions/Parque_Fernando_Missions#Main_Missions) yet, don't know if it shows up or not
 
 > **_NOTE:_**  Have been guessing animal names and checking in `test_hash.py`, probably easier not to hash in the first place, but I haven't explored.
 
