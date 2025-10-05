@@ -6,15 +6,14 @@ from lib.model.preset import Preset
 class DefaultPresetsLoader:
     @staticmethod
     def load() -> List[Preset]:
-        return [diamond_checklist_preset, layton_lakes_lodge_todo]
+        return [layton_lakes_lodge_todo, great_one_todo_preset]
 
-
-diamond_checklist_preset = Preset(
-    name="diamond checklist",
+layton_lakes_lodge_todo = Preset(
+    name="layton lakes todo",
     query={
-        "lodges": [],
-        "reserves": [],
-        "medals": [0],
+        "lodges": [1],
+        "reserves": [0 ,1],
+        "medals": [],
         "animals": [],
         "reservesAndOr": "and",
         "medalsAndOr": "and",
@@ -23,12 +22,12 @@ diamond_checklist_preset = Preset(
     }
 )
 
-layton_lakes_lodge_todo = Preset(
-    name="layton lakes lodge todo",
+great_one_todo_preset = Preset(
+    name="great one todo",
     query={
-        "lodges": [1],
-        "reserves": [0 ,1],
-        "medals": [],
+        "lodges": [],
+        "reserves": [],
+        "medals": [5],
         "animals": [],
         "reservesAndOr": "and",
         "medalsAndOr": "and",

@@ -4,15 +4,14 @@ from fastapi import UploadFile
 from nicegui import ui
 from nicegui.testing import User
 
-from lib.homePage import homePage
 from lib.ui.utils.paths import Paths
-from lib_test.fixtures import FIXTURES_PATH
+from lib_test.fixtures import FIXTURES_PATH, getHomePage
 
 pytest_plugins = ['nicegui.testing.user_plugin']
 
 
 async def test_lodge_file_found(user: User) -> None:
-    _homePage(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf'))
+    getHomePage(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf'))
 
     await user.open('/')
 
@@ -21,7 +20,7 @@ async def test_lodge_file_found(user: User) -> None:
 
 
 async def test_lodge_file_not_found(user: User) -> None:
-    _homePage(paths=Paths(FIXTURES_PATH / 'no_file'))
+    getHomePage(paths=Paths(FIXTURES_PATH / 'no_file'))
 
     await user.open('/')
 
@@ -30,7 +29,7 @@ async def test_lodge_file_not_found(user: User) -> None:
 
 
 async def test_upload_lodge_file(user: User) -> None:
-    _homePage(paths=Paths(FIXTURES_PATH / 'no_file'))
+    getHomePage(paths=Paths(FIXTURES_PATH / 'no_file'))
     await user.open('/')
 
     await user.should_see('LODGE FILE NOT FOUND')
@@ -65,5 +64,3 @@ def _has_layton_lake_option(all_selects: set) -> bool:
     return foundLaytonLake
 
 
-def _homePage(paths: Paths):
-    homePage(paths=paths, db_path=FIXTURES_PATH / 'data')
