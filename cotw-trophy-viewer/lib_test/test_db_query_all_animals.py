@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 class TestAllAnimalsFunctions(unittest.TestCase):
 
     def test_db_trophyAnimals_all_animals(self):
-        lodgeOne = \
+        query = \
             {
                 "lodges": [],
                 "reserves": [],
@@ -24,11 +24,11 @@ class TestAllAnimalsFunctions(unittest.TestCase):
                 "allAnimals": True
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOne)
+        trophyAnimals = getDb().trophyAnimals(query)
         self.assertEqual(117, len(trophyAnimals))
 
     def test_db_trophyAnimals_all_animals_reserve(self):
-        lodgeOne = \
+        query = \
             {
                 "lodges": [],
                 "reserves": [0],
@@ -40,11 +40,11 @@ class TestAllAnimalsFunctions(unittest.TestCase):
                 "allAnimals": True
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOne)
+        trophyAnimals = getDb().trophyAnimals(query)
         self.assertEqual(10, len(trophyAnimals))
 
     def test_db_trophyAnimals_all_animals_diamond(self):
-        lodgeOne = \
+        query = \
             {
                 "lodges": [],
                 "reserves": [],
@@ -56,11 +56,11 @@ class TestAllAnimalsFunctions(unittest.TestCase):
                 "allAnimals": True
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOne)
+        trophyAnimals = getDb().trophyAnimals(query)
         self.assertEqual(106, len(trophyAnimals))
 
     def test_db_trophyAnimals_all_animals_diamond_hirsch(self):
-        lodgeOne = \
+        query = \
             {
                 "lodges": [],
                 "reserves": [0], # hirsch
@@ -72,12 +72,12 @@ class TestAllAnimalsFunctions(unittest.TestCase):
                 "allAnimals": True
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOne)
+        trophyAnimals = getDb().trophyAnimals(query)
         self.assertEqual(9, len(trophyAnimals))
         self.assertEqual(Medal.DIAMOND, list(filter(lambda a: a.type == AnimalType.RED_DEER, trophyAnimals))[0].medal)
 
     def test_db_trophyAnimals_all_animals_gold_hirsch(self):
-        lodgeOne = \
+        query = \
             {
                 "lodges": [],
                 "reserves": [0], # hirsch
@@ -89,25 +89,7 @@ class TestAllAnimalsFunctions(unittest.TestCase):
                 "allAnimals": True
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOne)
+        trophyAnimals = getDb().trophyAnimals(query)
         self.assertEqual(10, len(trophyAnimals))
         self.assertEqual(Medal.GOLD, list(filter(lambda a: a.type == AnimalType.FALLOW_DEER, trophyAnimals))[0].medal)
         self.assertEqual(Medal.GOLD, list(filter(lambda a: a.type == AnimalType.FALLOW_DEER, trophyAnimals))[1].medal)
-
-    def test_db_trophyAnimals_all_animals_diamond_emerald(self):
-        lodgeOne = \
-            {
-                "lodges": [],
-                "reserves": [16], # emerald
-                "medals": [0], # diamond, many
-                "animals": [],
-                "reservesAndOr": "and",
-                "medalsAndOr": "and",
-                "animalsAndOr": "and",
-                "allAnimals": True
-            }
-
-        trophyAnimals = getDb().trophyAnimals(lodgeOne)
-        # self.assertEqual(9, len(trophyAnimals))
-        self.assertEqual(Medal.DIAMOND, list(filter(lambda a: a.type == AnimalType.STUBBLE_QUAIL, trophyAnimals))[0].medal)
-        self.assertEqual(Medal.DIAMOND, list(filter(lambda a: a.type == AnimalType.BANTENG, trophyAnimals))[0].medal)

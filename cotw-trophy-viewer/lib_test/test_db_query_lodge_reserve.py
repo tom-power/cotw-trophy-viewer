@@ -10,7 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 class TestDbFunctions(unittest.TestCase):
 
     def test_db_trophyAnimals_query_lodge(self):
-        lodgeOne = \
+        query = \
             {
                 "lodges": [1],
                 "reserves": [],
@@ -21,11 +21,11 @@ class TestDbFunctions(unittest.TestCase):
                 "animalsAndOr": "and"
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOne)
+        trophyAnimals = getDb().trophyAnimals(query)
         self.assertEqual(4, len(trophyAnimals))
 
     def test_db_trophyAnimals_query_hirsch(self):
-        lodgeOne = \
+        query = \
             {
                 "lodges": [],
                 "reserves": [0],
@@ -36,11 +36,11 @@ class TestDbFunctions(unittest.TestCase):
                 "animalsAndOr": "and"
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOne)
+        trophyAnimals = getDb().trophyAnimals(query)
         self.assertEqual(4, len(trophyAnimals))
 
     def test_db_trophyAnimals_query_and(self):
-        lodgeOneAndHirsh = \
+        queryAndHirsh = \
             {
                 "lodges": [1],
                 "reserves": [0],
@@ -51,11 +51,11 @@ class TestDbFunctions(unittest.TestCase):
                 "animalsAndOr": "and"
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOneAndHirsh)
+        trophyAnimals = getDb().trophyAnimals(queryAndHirsh)
         self.assertEqual(2, len(trophyAnimals))
 
     def test_db_trophyAnimals_query_or(self):
-        lodgeOneOrHirsh = \
+        queryOrHirsh = \
             {
                 "lodges": [1],
                 "reserves": [0],
@@ -66,7 +66,7 @@ class TestDbFunctions(unittest.TestCase):
                 "animalsAndOr": "and"
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOneOrHirsh)
+        trophyAnimals = getDb().trophyAnimals(queryOrHirsh)
         self.assertEqual(6, len(trophyAnimals))
 
 

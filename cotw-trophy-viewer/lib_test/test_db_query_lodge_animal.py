@@ -10,7 +10,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 class TestDbFunctions(unittest.TestCase):
 
     def test_db_trophyAnimals_query_lodge_and_animal(self):
-        lodgeOneAndHirsh = \
+        queryAndHirsh = \
             {
                 "lodges": [1],
                 "reserves": [],
@@ -21,11 +21,11 @@ class TestDbFunctions(unittest.TestCase):
                 "animalsAndOr": "and"
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOneAndHirsh)
+        trophyAnimals = getDb().trophyAnimals(queryAndHirsh)
         self.assertEqual(1, len(trophyAnimals))
 
     def test_db_trophyAnimals_query_lodge_or_animal(self):
-        lodgeOneOrHirsh = \
+        queryOrHirsh = \
             {
                 "lodges": [1],
                 "reserves": [],
@@ -36,7 +36,7 @@ class TestDbFunctions(unittest.TestCase):
                 "animalsAndOr": "or"
             }
 
-        trophyAnimals = getDb().trophyAnimals(lodgeOneOrHirsh)
+        trophyAnimals = getDb().trophyAnimals(queryOrHirsh)
         self.assertEqual(9, len(trophyAnimals))
 
 
