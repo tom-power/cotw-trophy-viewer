@@ -20,27 +20,25 @@ then
 
 check `sh` for other scripts to run locally etc
 
-## Notes
+## Notes/todo/help
 
-Lots copied from these (thank you!)
+- `fur type` don't know how to get names, including ids in the grid for now as a reminder
+- `animal type` these are mapped, if you have an animal in your lodge without a name please shout
+- `medals` these are mapped, if you see some inaccuracy please shout 
+- [Parque Fernando lodge](https://thehuntercotw.fandom.com/wiki/Missions/Parque_Fernando_Missions#Main_Missions) don't know if this shows up or not as haven't got to it in the game
+
+## Questions
+
+- `include all animals` in filter, idea is to include unmounted animals so you know what's left, is this intuitive? 
+- `and or` in the filter, will anyone ever use `or`?
+
+## Thanks
+
+Lots copied from these, thanks!
 
 - [cotw-harvest-tracker](https://github.com/LordHansCapon/cotw-harvest-tracker)
 - [animal-population-changer](https://github.com/cpypasta/apc)
 - [deca](https://github.com/kk49/deca)
-
-## TODO/help welcome
-
-### Names
-
-- don't know how to get names for `fur type` currently, including numbers in the grid as a reminder
-- likely missing some animal names, when you have an animal in your lodge and this is the case, their name won't appear in the `Animal` column
-- I haven't got to the [Parque Fernando lodge](https://thehuntercotw.fandom.com/wiki/Missions/Parque_Fernando_Missions#Main_Missions) yet, don't know if it shows up or not
-
-> **_NOTE:_**  Have been guessing animal names and checking in `test_hash.py`, probably easier not to hash in the first place, but I haven't explored.
-
-### Medals
-
-These are mapped from difficulty and may be wrong
 
 ## Disclaimer
 
