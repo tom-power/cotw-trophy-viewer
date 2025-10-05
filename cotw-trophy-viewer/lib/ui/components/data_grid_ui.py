@@ -1,4 +1,3 @@
-import math
 from typing import List
 
 from nicegui import ui
@@ -7,7 +6,6 @@ from lib.db.db import Db
 from lib.model.animal_type import AnimalType
 from lib.model.difficulty import Difficulty
 from lib.model.gender import Gender
-from lib.model.lodge import Lodge
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.model.trophy_animal import TrophyAnimal
@@ -61,26 +59,18 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
 
         rows.append({
             # 'id': idDisplay,
-            'lodge': _naIfNone(animal.lodge, lambda l: _getLodgeName(l)),
-            'reserve': _naIfNone(animal.reserve, lambda r: _getReserveName(r)),
+            'lodge': _naIfNone(animal.lodge, lambda l: l.lodgeName()),
+            'reserve': _naIfNone(animal.reserve, lambda r: Reserve(r).reserveName()),
             'animal': _naIfNone(animal.type, lambda t: _getAnimalTypeName(t)),
             'gender': _naIfNone(animal.gender, lambda g: Gender(g).name),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
             'furType': _naIfNone(furTypeName),
             'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
-            'medal': _naIfNone(animal.medal, lambda m: Medal(m).name),
+            'medal': _naIfNone(animal.medal, lambda m: Medal(m).medalName()),
             'datetime': _naIfNone(animal.datetime)            ,
         })
     return rows
-
-
-def _getLodgeName(lodge: Lodge) -> str:
-    return lodge.lodgeName()
-
-
-def _getReserveName(key: int) -> str:
-    return Reserve(key).reserveName()
 
 
 def _getAnimalTypeName(key: int) -> str:

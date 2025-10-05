@@ -7,3 +7,6 @@ class Medal(Enum):
     BRONZE = 3
     NONE = 4
     GREAT_ONE = 5
+
+    def medalName(self) -> str:
+        return self.name.replace("_", " ")
