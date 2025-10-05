@@ -40,7 +40,7 @@ class FilterUi:
                 with ui.row():
                     ui.button(text='FILTER', on_click=self.filter_callback)
                     ui.button(text='CLEAR', on_click=self.clear_callback)
-                    self.checkboxAllAnimals = ui.checkbox(text='All animals')
+                    self.checkboxAllAnimals = ui.checkbox(text='Include all animals')
                 IconUi()
 
     def updateLodges(self):
