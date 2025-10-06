@@ -1,4 +1,4 @@
-# COTW trophy viewer
+# Trophy Viewer for theHunter: Call of the Wild
 
 Wanted to be able to search/sort what I do/don't have in my trophy lodge, seems to work, YMMV!
 
