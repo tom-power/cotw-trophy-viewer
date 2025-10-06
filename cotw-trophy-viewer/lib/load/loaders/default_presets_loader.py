@@ -6,10 +6,10 @@ from lib.model.preset import Preset
 class DefaultPresetsLoader:
     @staticmethod
     def load() -> List[Preset]:
-        return [layton_lakes_lodge_todo, great_one_todo_preset]
+        return [layton_lake_lodge_todo, great_one_todo_preset]
 
-layton_lakes_lodge_todo = Preset(
-    name="layton lakes todo",
+layton_lake_lodge_todo = Preset(
+    name="layton lake lodge todo",
     query={
         "lodges": [1],
         "reserves": [0 ,1],

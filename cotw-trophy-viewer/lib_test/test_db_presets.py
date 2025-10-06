@@ -20,7 +20,7 @@ class TestAllPresetsFunctions(unittest.TestCase):
         presets_list = self.db.presets()
         layton_lakes_preset_id = None
         for preset_id, name in presets_list.items():
-            if name == "layton lakes todo":
+            if name == "layton lake lodge todo":
                 layton_lakes_preset_id = preset_id
                 break
 
@@ -43,7 +43,7 @@ class TestAllPresetsFunctions(unittest.TestCase):
     def test_db_presets(self):
         presets = self.db.presets()
         self.assertEqual(2, len(presets))
-        self.assertIn('layton lakes todo', presets.values())
+        self.assertIn('layton lake lodge todo', presets.values())
         self.assertIn('great one todo', presets.values())
 
     def test_db_preset_add(self):
@@ -126,7 +126,7 @@ class TestAllPresetsFunctions(unittest.TestCase):
         presets_after = self.db.presets()
         self.assertEqual(2, len(presets_after))
         self.assertNotIn('test preset to remove', presets_after.values())
-        self.assertIn('layton lakes todo', presets_after.values())
+        self.assertIn('layton lake lodge todo', presets_after.values())
 
     def test_db_preset_add_persists(self):
         test_query = {
@@ -154,11 +154,11 @@ class TestAllPresetsFunctions(unittest.TestCase):
     def test_db_preset_inserts_defaults_once(self):
         presets = self.db.presets()
         self.assertEqual(2, len(presets))
-        self.assertIn('layton lakes todo', presets.values())
+        self.assertIn('layton lake lodge todo', presets.values())
 
         preset_id_to_remove = None
         for preset_id, name in presets.items():
-            if name == 'layton lakes todo':
+            if name == 'layton lake lodge todo':
                 preset_id_to_remove = preset_id
                 break
 
@@ -167,4 +167,4 @@ class TestAllPresetsFunctions(unittest.TestCase):
         new_db_instance = getDb()
         presets = new_db_instance.presets()
         self.assertEqual(1, len(presets))
-        self.assertNotIn('layton lakes todo', presets.values())
+        self.assertNotIn('layton lake lodge todo', presets.values())

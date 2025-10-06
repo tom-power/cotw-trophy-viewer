@@ -24,7 +24,7 @@ class PresetUi:
 
         with ui.card():
             with ui.row():
-                self.selectPresets = ui.select(options=self.db.presets(), label='presets',
+                self.selectPresets = ui.select(options=self.db.presets(), label='preset',
                                                on_change=self._applyPreset).classes('w-48')
                 ui.button(text='+', on_click=self.addPresetDialog.open)
                 ui.button(text='-', on_click=self._removePreset)

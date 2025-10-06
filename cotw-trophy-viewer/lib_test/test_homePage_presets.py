@@ -11,7 +11,7 @@ async def test_great_one_todo_preset(user: User) -> None:
     getHomePage(Paths(FIXTURES_PATH / 'trophy_lodges_adf'))
     await user.open('/')
 
-    user.find('presets').click()
+    user.find('preset').click()
     user.find('great one todo').click()
 
     all_animals_checkbox = list(user.find(ui.checkbox).elements)[0]
