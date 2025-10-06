@@ -15,5 +15,5 @@ notes
 .env.bat
 /docker/docker-compose-deploy.yml
 /sh/deploy.sh
-/cotw-trophy-viewer/.nicegui/
+/sh/release.sh
 /cotw-trophy-viewer/.nicegui/
