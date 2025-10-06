@@ -52,11 +52,6 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
     rows = []
 
     for animal in trophyAnimals:
-        furTypeName = 'UNKNOWN'
-
-        if hasattr(animal, 'furType') and animal.furType is not None:
-            furTypeName = animal.furType
-
         rows.append({
             # 'id': idDisplay,
             'lodge': _naIfNone(animal.lodge, lambda l: l.lodgeName()),
@@ -64,7 +59,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'animal': _naIfNone(animal.type, lambda t: _getAnimalTypeName(t)),
             'gender': _naIfNone(animal.gender, lambda g: Gender(g).name),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
-            'furType': _naIfNone(furTypeName),
+            'furType': _naIfNone(animal.furType),
             'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
             'medal': _naIfNone(animal.medal, lambda m: Medal(m).medalName()),
