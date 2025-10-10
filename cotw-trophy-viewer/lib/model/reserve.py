@@ -17,6 +17,7 @@ class Reserve(Enum):
     SUNDARPATAN=15
     EMERALD_COAST=16
     SALZWIESEN_PARK=18
+    ASKIY_RIDGE=19
 
 
     def reserveName(self) -> str:

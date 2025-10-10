@@ -35,6 +35,8 @@ class AnimalType(Enum):
     FALLOW_DEER = auto()
     FERAL_GOAT = auto()
     FERAL_PIG = auto()
+    FERRUGINOUS_DUCK = auto()
+    GADWALL = auto()
     GEMSBOK = auto()
     GOLDENEYE = auto()
     GREY_FOX = auto()
@@ -104,6 +106,14 @@ class AnimalType(Enum):
     NILGAI = auto()
     BENGAL_TIGER = auto()
     WILD_YAK = auto()
+    NORTH_AMERICAN_BEAVER = auto()
+    WOOD_BISON = auto()
+    MANITOBAN_ELK = auto()
+    DUSKY_GROUSE = auto()
+    NORTHERN_PINTAIL = auto()
+    WOOD_DUCK = auto()
+    SNOW_GOOSE = auto()
+    WOODLAND_CARIBOU = auto()
 
     def animalName(self) -> str:
         try:

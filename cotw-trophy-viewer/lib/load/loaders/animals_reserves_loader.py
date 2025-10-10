@@ -1,7 +1,7 @@
 from typing import List
 
 from lib.model.animal_type_reserve import AnimalReserve
-from lib.model.reserves_animals import RESERVES_ANIMALS_CLASSES
+from lib.model.reserves_animals_classes import RESERVES_ANIMALS_CLASSES
 
 
 class AnimalsReservesLoader:
