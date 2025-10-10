@@ -1,12 +1,7 @@
 from typing import List
 
-from lib.deca.hashes import hash32_func
-from lib.model.animal_type import AnimalType
 from lib.model.lodge import Lodge
 from lib.model.lodge_type import LodgeType
-from lib.model.medal import Medal
-from lib.model.reserve import Reserve
-from lib.model.trophy_animal import TrophyAnimal
 
 
 class TrophyAnimalMapper:
@@ -63,7 +58,7 @@ class TrophyAnimalMapper:
             lodge_id = animal_data.get("LodgeId")
             lodge = self.lodge_map.get(lodge_id)
             animal = {
-                "typeId": self._find_animal_type_id(animal_data.get("Type", 0)),
+                "typeId": (animal_data.get("Type", 0)),
                 "weight": animal_data.get("Weight", 0.0),
                 "gender": animal_data.get("IsMale", 0),
                 "rating": animal_data.get("TrophyScore", 0.0),
@@ -78,10 +73,3 @@ class TrophyAnimalMapper:
             }
             trophiesAnimals.append(animal)
         return trophiesAnimals
-
-    @staticmethod
-    def _find_animal_type_id(trophyAnimalType: int) -> int:
-        for a in AnimalType:
-            if trophyAnimalType == hash32_func(a.name.lower()):
-                return a.value
-        return trophyAnimalType

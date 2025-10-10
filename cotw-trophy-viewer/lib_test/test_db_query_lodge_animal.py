@@ -15,7 +15,7 @@ class TestDbFunctions(unittest.TestCase):
                 "lodges": [1],
                 "reserves": [],
                 "medals": [],
-                "animals": [31],
+                "animals": [1511159411], # FALLOW_DEER = 1511159411  # 0x5a127673
                 "reservesAndOr": "and",
                 "medalsAndOr": "and",
                 "animalsAndOr": "and"
@@ -30,7 +30,7 @@ class TestDbFunctions(unittest.TestCase):
                 "lodges": [1],
                 "reserves": [],
                 "medals": [],
-                "animals": [31],
+                "animals": [1511159411], # FALLOW_DEER = 1511159411  # 0x5a127673
                 "reservesAndOr": "and",
                 "medalsAndOr": "and",
                 "animalsAndOr": "or"

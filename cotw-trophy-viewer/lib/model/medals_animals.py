@@ -9,7 +9,7 @@ MEDALS_ANIMALS = {
         AnimalType.FALLOW_DEER,
         AnimalType.TAHR,
         AnimalType.RED_FOX,
-        AnimalType.RING_NECKED_PHEASANT,
+        AnimalType.PHEASANT,
         AnimalType.MULE_DEER,
     ]
 }
