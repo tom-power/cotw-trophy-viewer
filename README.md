@@ -25,7 +25,7 @@ check `sh` for other scripts to run locally etc
 ## Notes/todo/help
 
 - `fur type` don't know how to get names, including ids in the grid for now as a reminder
-- `animal type` these are mapped, if you have an animal in your lodge without a name please shout
+- `animal type` getting these from `global_animal_types.blo`, seem ok but, if you have an animal in your lodge without a name please shout
 - `medals` these come from `ScoreRank` in the `trophy_lodges_adf`, if you see some inaccuracy please shout 
 - `difficulty` these are mapped, if you see some inaccuracy please shout 
 - [Parque Fernando lodge](https://thehuntercotw.fandom.com/wiki/Missions/Parque_Fernando_Missions#Main_Missions) don't know if this shows up or not as haven't got to it in the game
