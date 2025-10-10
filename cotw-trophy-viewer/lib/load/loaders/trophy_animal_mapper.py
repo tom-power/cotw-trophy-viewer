@@ -17,15 +17,10 @@ class TrophyAnimalMapper:
     def add(self, trophyLodges: dict):
         self.trophyLodges = trophyLodges
 
-    def map(self) -> List[TrophyAnimal]:
-        self._map_lodges()
-        trophy_animals_dict = self._to_trophy_animals_dict()
-        return self._to_trophy_animal_list(trophy_animals_dict)
-
     def map_dict(self) -> List[dict]:
         self._map_lodges()
-        trophy_animals_dict = self._to_trophy_animals_dict()
-        return self._to_trophy_animal_list_dict(trophy_animals_dict)
+        trophy_animals_from_lodges = self._trophy_animals_from_lodges()
+        return self._to_trophy_animals_dict(trophy_animals_from_lodges)
 
     def _map_lodges(self):
         if "TrophyLodges" in self.trophyLodges and "Lodges" in self.trophyLodges["TrophyLodges"]:
@@ -34,10 +29,10 @@ class TrophyAnimalMapper:
                 if "Id" in lodge and "Type" in lodge and "TypeId" in lodge:
                     self.lodge_map[lodge["Id"]] = Lodge(lodge["Id"], LodgeType(lodge["Type"]), lodge["TypeId"])
 
-    def _to_trophy_animals_dict(self) -> List[dict]:
-        return self._fromTrophyAnimals() + self._fromTrophyHybrids()
+    def _trophy_animals_from_lodges(self) -> List[dict]:
+        return self._fromLodgesTrophyAnimals() + self._fromLodgesTrophyHybrids()
 
-    def _fromTrophyAnimals(self) -> list[dict]:
+    def _fromLodgesTrophyAnimals(self) -> list[dict]:
         trophy_animals = []
         if "TrophyAnimals" in self.trophyLodges and "Trophies" in self.trophyLodges["TrophyAnimals"]:
             trophies = self.trophyLodges["TrophyAnimals"]["Trophies"]
@@ -48,7 +43,7 @@ class TrophyAnimalMapper:
                     trophy_animals.append(trophyAnimal)
         return trophy_animals
 
-    def _fromTrophyHybrids(self) -> list[dict]:
+    def _fromLodgesTrophyHybrids(self) -> list[dict]:
         trophy_animals = []
         if "TrophyHybrids" in self.trophyLodges and "Trophies" in self.trophyLodges["TrophyHybrids"]:
             trophies = self.trophyLodges["TrophyHybrids"]["Trophies"]
@@ -61,28 +56,8 @@ class TrophyAnimalMapper:
                             trophy_animals.append(trophyAnimal)
         return trophy_animals
 
-    def _to_trophy_animal_list(self, trophiesAnimalsDict: List[dict]) -> List[TrophyAnimal]:
-        trophiesAnimals = []
-        for animal_data in trophiesAnimalsDict:
-            lodge_id = animal_data.get("LodgeId")
-            lodge = self.lodge_map.get(lodge_id)
 
-            animal = TrophyAnimal(
-                animalType=(self._find_animal_type(animal_data.get("Type", 0))),
-                weight=(animal_data.get("Weight", 0.0)),
-                gender=(animal_data.get("IsMale", 0)),
-                rating=(animal_data.get("TrophyScore", 0.0)),
-                medal=Medal(animal_data.get("ScoreRank", 0)),
-                difficulty=(animal_data.get("Difficulty", 0.0)),
-                datetime=(str(animal_data.get("HarvestedAt", 0))),
-                furType=(animal_data.get("VariationIndex", 0)),
-                reserve=(Reserve(animal_data.get("HarvestReserve", 0))),
-                lodge=lodge if lodge_id else None,
-            )
-            trophiesAnimals.append(animal)
-        return trophiesAnimals
-
-    def _to_trophy_animal_list_dict(self, trophiesAnimalsDict: List[dict]) -> List[dict]:
+    def _to_trophy_animals_dict(self, trophiesAnimalsDict: List[dict]) -> List[dict]:
         trophiesAnimals = []
         for animal_data in trophiesAnimalsDict:
             lodge_id = animal_data.get("LodgeId")
@@ -92,7 +67,7 @@ class TrophyAnimalMapper:
                 "weight": animal_data.get("Weight", 0.0),
                 "gender": animal_data.get("IsMale", 0),
                 "rating": animal_data.get("TrophyScore", 0.0),
-                "medal": animal_data.get("ScoreRank", 0),
+                "medalId": animal_data.get("ScoreRank", 0),
                 "difficulty": animal_data.get("Difficulty", 0.0),
                 "datetime": str(animal_data.get("HarvestedAt", 0)),
                 "furType": animal_data.get("VariationIndex", 0),
@@ -103,13 +78,6 @@ class TrophyAnimalMapper:
             }
             trophiesAnimals.append(animal)
         return trophiesAnimals
-
-    @staticmethod
-    def _find_animal_type(trophyAnimalType) -> AnimalType | None:
-        for a in AnimalType:
-            if trophyAnimalType == hash32_func(a.name.lower()):
-                return a
-        return None
 
     @staticmethod
     def _find_animal_type_id(trophyAnimalType: int) -> int:

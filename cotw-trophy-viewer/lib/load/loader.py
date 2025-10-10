@@ -18,13 +18,6 @@ class Loader:
         self._setLoadTrophyLodge()
         self.trophy_animal_mapper = TrophyAnimalMapper()
 
-    def load_trophy_animals(self) -> List[TrophyAnimal]:
-        if self.loadFileExists():
-            lodges = self.trophy_lodge_loader.lodges()
-            self.trophy_animal_mapper.add(lodges)
-            return self.trophy_animal_mapper.map()
-        return []
-
     def load_trophy_animals_dict(self) -> List[dict]:
         if self.loadFileExists():
             lodges = self.trophy_lodge_loader.lodges()

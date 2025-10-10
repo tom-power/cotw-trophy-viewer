@@ -24,7 +24,7 @@ class TestLoadTrophyAnimalsDictFunctions(unittest.TestCase):
         self.assertEqual(testAnimal['weight'], 1064.090087890625)
         self.assertEqual(testAnimal['gender'], 1)
         self.assertEqual(testAnimal['rating'], 1068.0112)
-        self.assertEqual(testAnimal['medal'], 0)
+        self.assertEqual(testAnimal['medalId'], 0)
         self.assertEqual(testAnimal['difficulty'], 0.9627677202224731)
         self.assertEqual(testAnimal['datetime'], '1756497993')
         self.assertEqual(testAnimal['furType'], 1)
