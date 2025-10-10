@@ -171,5 +171,16 @@ RESERVES_ANIMALS_CLASSES = {
         8: [],
         9: [AnimalType.BANTENG],
     },
+    Reserve.SALZWIESEN_PARK: {
+        1: [AnimalType.BLACK_GROUSE, AnimalType.EURASIAN_TEAL, AnimalType.EURASIAN_WIGEON, AnimalType.EU_RABBIT, AnimalType.FERRUGINOUS_DUCK, AnimalType.GADWALL, AnimalType.GOLDENEYE, AnimalType.GREYLAG_GOOSE, AnimalType.MALLARD, AnimalType.RING_NECKED_PHEASANT, AnimalType.TUFTED_DUCK, AnimalType.TUNDRA_BEAN_GOOSE],
+        2: [AnimalType.COMMON_RACCOON, AnimalType.RACCOON_DOG, AnimalType.RED_FOX],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: [],
+        8: [],
+        9: [],
+    },
 }
 

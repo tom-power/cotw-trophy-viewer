@@ -25,7 +25,7 @@ class TestAllAnimalsFunctions(unittest.TestCase):
             }
 
         trophyAnimals = getDb().trophyAnimals(query)
-        self.assertEqual(117, len(trophyAnimals))
+        self.assertEqual(119, len(trophyAnimals))
 
     def test_db_trophyAnimals_all_animals_reserve(self):
         query = \
@@ -57,7 +57,7 @@ class TestAllAnimalsFunctions(unittest.TestCase):
             }
 
         trophyAnimals = getDb().trophyAnimals(query)
-        self.assertEqual(106, len(trophyAnimals))
+        self.assertEqual(108, len(trophyAnimals))
 
     def test_db_trophyAnimals_all_animals_diamond_hirsch(self):
         query = \
