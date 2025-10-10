@@ -4,6 +4,7 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.model.animal_type import AnimalType
+from lib.model.animal_type_name import animalName
 from lib.model.difficulty import Difficulty
 from lib.model.gender import Gender
 from lib.model.medal import Medal
@@ -70,7 +71,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
 
 def _getAnimalTypeName(key: int) -> str:
     try:
-        return AnimalType(key).animalName()
+        return animalName(AnimalType(key))
     except ValueError:
         return f'{key}'
 

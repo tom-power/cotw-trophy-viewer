@@ -3,6 +3,7 @@ from nicegui import ui
 
 from lib.db.db import Db
 from lib.model.animal_type import AnimalType
+from lib.model.animal_type_name import animalName
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
 from lib.ui.components.icon_ui import IconUi
@@ -87,7 +88,7 @@ def _medalOptions() -> dict:
 
 
 def _animalsOptions() -> dict:
-    return {a.value: a.animalName() for a in AnimalType}
+    return {a.value: animalName(a) for a in AnimalType}
 
 
 def _andOrRadio():

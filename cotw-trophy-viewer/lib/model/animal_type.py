@@ -130,16 +130,3 @@ class AnimalType(Enum):
     WOOD_DUCK = 1160080144  # 0x45256b10
     WOODLAND_CARIBOU = 3246755727  # 0xc1858f8f
     WOOLLY_HARE = 1814885626  # 0x6c2cf4fa
-
-    def animalName(self) -> str:
-        try:
-            return _nameMap[self.name]
-        except:
-            return self.name.replace("_", " ")
-
-_nameMap = {
-    "EU_RABBIT": "EUROPEAN RABBIT",
-    "WILD_TURKEY": "MERRIAM TURKEY",
-    "ROCKYMOUNTAIN_ELK": "ROCKY MOUNTAIN ELK",
-}
-
