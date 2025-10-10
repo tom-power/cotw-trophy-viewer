@@ -117,7 +117,7 @@ RESERVES_ANIMALS_CLASSES = {
     Reserve.MISSISSIPPI_ACRES_PRESERVE: {
         1: [AnimalType.BOBWHITE_QUAIL, AnimalType.EASTERN_WILD_TURKEY, AnimalType.GREEN_WINGED_TEAL,
             AnimalType.EASTERN_COTTONTAIL_RABBIT],
-        2: [AnimalType.GREY_FOX, AnimalType.COMMON_RACCOON],
+        2: [AnimalType.GREY_FOX, AnimalType.RACCOON],
         3: [],
         4: [AnimalType.WHITETAIL_DEER, AnimalType.WILD_HOG],
         5: [],
@@ -127,7 +127,7 @@ RESERVES_ANIMALS_CLASSES = {
         9: [],
     },
     Reserve.REVONTULI_COAST: {
-        1: [AnimalType.EURASIAN_WIGEON, AnimalType.EURASIAN_TEAL, AnimalType.GOLDENEYE, AnimalType.MALLARD,
+        1: [AnimalType.EURASIAN_WIGEON, AnimalType.EURASIAN_TEAL, AnimalType.GOLDEN_EYE_DUCK, AnimalType.MALLARD,
             AnimalType.TUFTED_DUCK, AnimalType.CANADA_GOOSE,
             AnimalType.GREYLAG_GOOSE, AnimalType.TUNDRA_BEAN_GOOSE, AnimalType.BLACK_GROUSE, AnimalType.HAZEL_GROUSE,
             AnimalType.WESTERN_CAPERCAILLIE,
@@ -143,9 +143,9 @@ RESERVES_ANIMALS_CLASSES = {
     },
     Reserve.NEW_ENGLAND_MOUNTAINS: {
         1: [AnimalType.RING_NECKED_PHEASANT, AnimalType.BOBWHITE_QUAIL, AnimalType.EASTERN_WILD_TURKEY,
-            AnimalType.GOLDENEYE, AnimalType.MALLARD,
+            AnimalType.GOLDEN_EYE_DUCK, AnimalType.MALLARD,
             AnimalType.GREEN_WINGED_TEAL, AnimalType.EASTERN_COTTONTAIL_RABBIT],
-        2: [AnimalType.RED_FOX, AnimalType.GREY_FOX, AnimalType.COYOTE, AnimalType.COMMON_RACCOON],
+        2: [AnimalType.RED_FOX, AnimalType.GREY_FOX, AnimalType.COYOTE, AnimalType.RACCOON],
         3: [AnimalType.BOBCAT],
         4: [AnimalType.WHITETAIL_DEER],
         5: [],
@@ -178,9 +178,9 @@ RESERVES_ANIMALS_CLASSES = {
     },
     Reserve.SALZWIESEN_PARK: {
         1: [AnimalType.BLACK_GROUSE, AnimalType.EURASIAN_TEAL, AnimalType.EURASIAN_WIGEON, AnimalType.EU_RABBIT,
-            AnimalType.FERRUGINOUS_DUCK, AnimalType.GADWALL, AnimalType.GOLDENEYE, AnimalType.GREYLAG_GOOSE,
+            AnimalType.FERRUGINOUS_DUCK, AnimalType.GADWALL, AnimalType.GOLDEN_EYE_DUCK, AnimalType.GREYLAG_GOOSE,
             AnimalType.MALLARD, AnimalType.RING_NECKED_PHEASANT, AnimalType.TUFTED_DUCK, AnimalType.TUNDRA_BEAN_GOOSE],
-        2: [AnimalType.COMMON_RACCOON, AnimalType.RACCOON_DOG, AnimalType.RED_FOX],
+        2: [AnimalType.RACCOON, AnimalType.RACCOON_DOG, AnimalType.RED_FOX],
         3: [],
         4: [],
         5: [],

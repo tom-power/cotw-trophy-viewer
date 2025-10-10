@@ -25,6 +25,13 @@ class Loader:
             return self.trophy_animal_mapper.map()
         return []
 
+    def load_trophy_animals_dict(self) -> List[dict]:
+        if self.loadFileExists():
+            lodges = self.trophy_lodge_loader.lodges()
+            self.trophy_animal_mapper.add(lodges)
+            return self.trophy_animal_mapper.map_dict()
+        return []
+
     def loadFileExists(self) -> bool:
         return self.paths.getLoadPath() and self.paths.getLoadPath().is_file()
 

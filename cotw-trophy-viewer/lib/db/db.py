@@ -24,7 +24,7 @@ class Db:
         self.trophy_animal_query = TrophyAnimalQuery(self.db_path)
 
     def load(self, loader: Loader):
-        self.trophy_animal_db.insert_trophy_animals(loader.load_trophy_animals())
+        self.trophy_animal_db.insert_trophy_animals_dict(loader.load_trophy_animals_dict())
         self.animal_reserve_db.insert_animal_reserves(loader.load_animal_reserves())
         self.animal_medal_db.insert_animal_medals(loader.load_animal_medals())
         self.preset_db.insert_default_presets(loader.load_default_presets())

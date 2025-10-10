@@ -20,7 +20,7 @@ class AnimalType(Enum):
     CHAMOIS = auto()
     CINNAMON_TEAL = auto()
     COLLARED_PECCARY = auto()
-    COMMON_RACCOON = auto()
+    RACCOON = auto()
     COYOTE = auto()
     EASTERN_COTTONTAIL_RABBIT = auto()
     EASTERN_GREY_KANGAROO = auto()
@@ -38,7 +38,7 @@ class AnimalType(Enum):
     FERRUGINOUS_DUCK = auto()
     GADWALL = auto()
     GEMSBOK = auto()
-    GOLDENEYE = auto()
+    GOLDEN_EYE_DUCK = auto()
     GREY_FOX = auto()
     GREY_WOLF = auto()
     GREDOS_IBEX = auto()
@@ -114,6 +114,11 @@ class AnimalType(Enum):
     WOOD_DUCK = auto()
     SNOW_GOOSE = auto()
     WOODLAND_CARIBOU = auto()
+    UNKNOWN = auto()
+
+    @classmethod
+    def _missing_(cls, value):
+        return AnimalType.UNKNOWN
 
     def animalName(self) -> str:
         try:

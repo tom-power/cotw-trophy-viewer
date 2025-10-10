@@ -13,11 +13,12 @@ class AnimalMedalDb:
     def _create_table(self):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
+        cursor.execute('DROP TABLE IF EXISTS AnimalMedal')
         cursor.execute('''
                CREATE TABLE IF NOT EXISTS AnimalMedal (
-                   medal INTEGER,
-                   type INTEGER,
-                   PRIMARY KEY (medal, type)
+                   medalId INTEGER,
+                   typeId INTEGER,
+                   PRIMARY KEY (medalId, typeId)
                )
            ''')
         conn.commit()
@@ -29,7 +30,7 @@ class AnimalMedalDb:
         cursor.execute('DELETE FROM AnimalMedal')
         for animal_medal in animals_medals:
             cursor.execute('''
-                INSERT OR IGNORE INTO AnimalMedal (medal, type)
+                INSERT OR IGNORE INTO AnimalMedal (medalId, typeId)
                 VALUES (?, ?)
             ''', (animal_medal.medal.value, animal_medal.type.value))
         conn.commit()

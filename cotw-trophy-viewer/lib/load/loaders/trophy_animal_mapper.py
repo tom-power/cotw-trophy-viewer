@@ -22,6 +22,11 @@ class TrophyAnimalMapper:
         trophy_animals_dict = self._to_trophy_animals_dict()
         return self._to_trophy_animal_list(trophy_animals_dict)
 
+    def map_dict(self) -> List[dict]:
+        self._map_lodges()
+        trophy_animals_dict = self._to_trophy_animals_dict()
+        return self._to_trophy_animal_list_dict(trophy_animals_dict)
+
     def _map_lodges(self):
         if "TrophyLodges" in self.trophyLodges and "Lodges" in self.trophyLodges["TrophyLodges"]:
             lodges = self.trophyLodges["TrophyLodges"]["Lodges"]
@@ -77,9 +82,38 @@ class TrophyAnimalMapper:
             trophiesAnimals.append(animal)
         return trophiesAnimals
 
+    def _to_trophy_animal_list_dict(self, trophiesAnimalsDict: List[dict]) -> List[dict]:
+        trophiesAnimals = []
+        for animal_data in trophiesAnimalsDict:
+            lodge_id = animal_data.get("LodgeId")
+            lodge = self.lodge_map.get(lodge_id)
+            animal = {
+                "typeId": self._find_animal_type_id(animal_data.get("Type", 0)),
+                "weight": animal_data.get("Weight", 0.0),
+                "gender": animal_data.get("IsMale", 0),
+                "rating": animal_data.get("TrophyScore", 0.0),
+                "medal": animal_data.get("ScoreRank", 0),
+                "difficulty": animal_data.get("Difficulty", 0.0),
+                "datetime": str(animal_data.get("HarvestedAt", 0)),
+                "furType": animal_data.get("VariationIndex", 0),
+                "reserveId": animal_data.get("HarvestReserve", 0),
+                "lodgeId": lodge.lodgeId,
+                "lodgeType": lodge.lodgeType.value,
+                "lodgeTypeId": lodge.lodgeTypeId,
+            }
+            trophiesAnimals.append(animal)
+        return trophiesAnimals
+
     @staticmethod
     def _find_animal_type(trophyAnimalType) -> AnimalType | None:
         for a in AnimalType:
             if trophyAnimalType == hash32_func(a.name.lower()):
                 return a
         return None
+
+    @staticmethod
+    def _find_animal_type_id(trophyAnimalType: int) -> int:
+        for a in AnimalType:
+            if trophyAnimalType == hash32_func(a.name.lower()):
+                return a.value
+        return trophyAnimalType

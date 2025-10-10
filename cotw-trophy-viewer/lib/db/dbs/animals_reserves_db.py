@@ -13,11 +13,12 @@ class AnimalReserveDb:
     def _create_table(self):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
+        cursor.execute('DROP TABLE IF EXISTS AnimalsReserves')
         cursor.execute('''
-               CREATE TABLE IF NOT EXISTS AnimalsReserves (
-                   reserve INTEGER,
-                   type INTEGER,
-                   PRIMARY KEY (reserve, type)
+               CREATE TABLE AnimalsReserves (
+                   reserveId INTEGER,
+                   typeId INTEGER,
+                   PRIMARY KEY (reserveId, typeId)
                )
            ''')
         conn.commit()
@@ -29,7 +30,7 @@ class AnimalReserveDb:
         cursor.execute('DELETE FROM AnimalsReserves')
         for animal_reserve in animals_reserves:
             cursor.execute('''
-                INSERT OR IGNORE INTO AnimalsReserves (reserve, type)
+                INSERT OR IGNORE INTO AnimalsReserves (reserveId, typeId)
                 VALUES (?, ?)
             ''', (animal_reserve.reserve.value, animal_reserve.type.value))
         conn.commit()

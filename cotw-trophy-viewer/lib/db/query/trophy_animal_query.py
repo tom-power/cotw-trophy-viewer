@@ -43,7 +43,7 @@ class TrophyAnimalQuery:
 
         if _lodgesIds:
             reservePlaceholders = ','.join(['?' for _ in _lodgesIds])
-            where_clauses.append(f"lodge IN ({reservePlaceholders})")
+            where_clauses.append(f"lodgeId IN ({reservePlaceholders})")
             trophyParams.extend(_lodgesIds)
 
         if where_clauses and _reservesIds:
@@ -51,7 +51,7 @@ class TrophyAnimalQuery:
 
         if _reservesIds:
             reservePlaceholders = ','.join(['?' for _ in _reservesIds])
-            where_clauses.append(f"reserve IN ({reservePlaceholders})")
+            where_clauses.append(f"reserveId IN ({reservePlaceholders})")
             trophyParams.extend(_reservesIds)
 
         if where_clauses and _medalsIds:
@@ -59,7 +59,7 @@ class TrophyAnimalQuery:
 
         if _medalsIds:
             reservePlaceholders = ','.join(['?' for _ in _medalsIds])
-            where_clauses.append(f"medal IN ({reservePlaceholders})")
+            where_clauses.append(f"medalId IN ({reservePlaceholders})")
             trophyParams.extend(_medalsIds)
 
         if where_clauses and _animalsIds:
@@ -67,7 +67,7 @@ class TrophyAnimalQuery:
 
         if _animalsIds:
             reservePlaceholders = ','.join(['?' for _ in _animalsIds])
-            where_clauses.append(f"type IN ({reservePlaceholders})")
+            where_clauses.append(f"typeId IN ({reservePlaceholders})")
             trophyParams.extend(_animalsIds)
 
         trophyAnimalsSql = """
@@ -82,46 +82,45 @@ class TrophyAnimalQuery:
         if _allAnimals:
             allAnimalsParams = []
 
-            trophyTypesSubquery = f"SELECT DISTINCT type FROM ({trophyAnimalsSql})"
+            trophyTypesSubquery = f"SELECT DISTINCT typeId FROM ({trophyAnimalsSql})"
 
             reserveAnimalsSelectSql = """
-                SELECT DISTINCT
-                NULL as id,
-                type,
+                SELECT DISTINCT                
+                typeId,
                 NULL as weight,
                 NULL as gender,
                 NULL as rating,
-                NULL as medal,
+                NULL as medalId,
                 NULL as difficulty,
                 NULL as datetime,
                 NULL as furType,
-                NULL as lodge,
+                NULL as lodgeId,
                 NULL as lodgeType,
                 NULL as lodgeTypeId,
-                NULL as reserve
+                NULL as reserveId
                 FROM AnimalsReserves
                 """
 
             allAnimalsSql = (reserveAnimalsSelectSql
-                             + f""" WHERE type NOT IN ({trophyTypesSubquery})""")
+                             + f""" WHERE typeId NOT IN ({trophyTypesSubquery})""")
 
             match (5 in set(_medalsIds), bool(_reservesIds)):
                 case (True, True):
                     reservePlaceholders = ','.join(['?' for _ in _reservesIds])
                     allAnimalsSql = (reserveAnimalsSelectSql
-                                     + f""" JOIN AnimalMedal USING(type) 
-                                                WHERE type NOT IN ({trophyTypesSubquery}) 
-                                                AND reserve IN ({reservePlaceholders}) """)
+                                     + f""" JOIN AnimalMedal USING(typeId) 
+                                                WHERE typeId NOT IN ({trophyTypesSubquery}) 
+                                                AND reserveId IN ({reservePlaceholders}) """)
                     allAnimalsParams.extend(_reservesIds)
                 case (True, False):
                     allAnimalsSql = (reserveAnimalsSelectSql
-                                     + f""" JOIN AnimalMedal USING(type)   
-                                                WHERE type NOT IN ({trophyTypesSubquery})""")
+                                     + f""" JOIN AnimalMedal USING(typeId)   
+                                                WHERE typeId NOT IN ({trophyTypesSubquery})""")
                 case (False, True):
                     reservePlaceholders = ','.join(['?' for _ in _reservesIds])
                     allAnimalsSql = (reserveAnimalsSelectSql
-                                     + f""" WHERE type NOT IN ({trophyTypesSubquery})
-                                                AND reserve IN ({reservePlaceholders}) """)
+                                     + f""" WHERE typeId NOT IN ({trophyTypesSubquery})
+                                                AND reserveId IN ({reservePlaceholders}) """)
                     allAnimalsParams.extend(_reservesIds)
                 case _:
                     pass
@@ -141,16 +140,16 @@ class TrophyAnimalQuery:
         trophy_animals = []
         for row in rows:
             animal = TrophyAnimal(
-                animalType=AnimalType(int(row[1])) if row[1] is not None else None,
-                weight=float(row[2]) if row[2] is not None else None,
-                gender=int(row[3]) if row[3] is not None else None,
-                rating=float(row[4]) if row[4] is not None else None,
-                medal=Medal(int(row[5])) if row[5] is not None else None,
-                difficulty=float(row[6]) if row[6] is not None else None,
-                datetime=row[7],
-                furType=int(row[8]) if row[8] is not None else None,
-                lodge=Lodge(int(row[9]), LodgeType(row[10]), int(row[11])) if row[9] is not None else None,
-                reserve=Reserve(int(row[12])) if row[12] is not None else None
+                animalType=AnimalType(int(row[0])) if row[0] is not None else None,
+                weight=float(row[1]) if row[1] is not None else None,
+                gender=int(row[2]) if row[2] is not None else None,
+                rating=float(row[3]) if row[3] is not None else None,
+                medal=Medal(int(row[4])) if row[4] is not None else None,
+                difficulty=float(row[5]) if row[5] is not None else None,
+                datetime=row[6],
+                furType=int(row[7]) if row[7] is not None else None,
+                lodge=Lodge(int(row[8]), LodgeType(row[9]), int(row[10])) if row[8] is not None else None,
+                reserve=Reserve(int(row[11])) if row[11] is not None else None
             )
             animal.id = row[0]
             trophy_animals.append(animal)
