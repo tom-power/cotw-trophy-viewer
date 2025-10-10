@@ -15,8 +15,8 @@ class Difficulty(Enum):
 
     @classmethod
     def getDifficultyName(cls, score):
-        scoreIndex = bisect.bisect_right(DIFFICULTY_SCORE_THRESHOLDS, score) - 1
+        scoreIndex = bisect.bisect_right(DIFFICULTY_SCORE_THRESHOLDS, score)
 
         return str(scoreIndex) + ' - ' + Difficulty(scoreIndex).name.replace('_', ' ')
 
-DIFFICULTY_SCORE_THRESHOLDS = [0, 0.115, 0.225, 0.335, 0.445, 0.555, 0.665, 0.775, 0.885]
+DIFFICULTY_SCORE_THRESHOLDS = [0, 0.115, 0.225, 0.335, 0.445, 0.555, 0.665, 0.775, 0.885, 0.995]
