@@ -22,7 +22,10 @@ class DataGridUi:
 
     def _build_ui(self):
         self.dataGrid = ui.aggrid({
-            'defaultColDef': {'sortable': True},
+            'defaultColDef': {
+                'sortable': True,
+                'cellDataType': False
+            },
             'columnDefs': [
                 {'headerName': 'Lodge', 'field': 'lodge', 'width': '200'},
                 {'headerName': 'Reserve', 'field': 'reserve'},
@@ -64,7 +67,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
             'medal': _naIfNone(animal.medal, lambda m: Medal(m).medalName()),
-            'datetime': _naIfNone(animal.datetime)            ,
+            'datetime': _naIfNone(animal.datetime),
         })
     return rows
 
