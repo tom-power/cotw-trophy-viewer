@@ -4,7 +4,7 @@ from lib.model.animal_type_medal import AnimalMedal
 from lib.model.medals_animals import MEDALS_ANIMALS
 
 
-class AnimalMedalsLoader:
+class AnimalMedalsLoad:
     @staticmethod
     def load() -> List[AnimalMedal]:
         animal_medals = []

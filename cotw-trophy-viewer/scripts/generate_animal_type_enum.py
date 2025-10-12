@@ -22,32 +22,20 @@ from lib.deca.hashes import hash32_func
 
 
 def extract_animal_types(blo_path: Path) -> List[str]:
-    """
-    Parse the global_animal_types.blo.txt file to extract animal type names.
-
-    Args:
-        blo_path: Path to the global_animal_types.blo.txt file
-
-    Returns:
-        List of animal type names in lowercase
-    """
     animal_types = []
 
     with open(blo_path, 'r') as f:
         lines = f.readlines()
 
-    # Find all lines with "name" field after _class_hash CAnimalType
     in_animal_type = False
 
     for line in lines:
         if '"_class_hash"' in line and 'CAnimalType' in line:
             in_animal_type = True
         elif in_animal_type and '"name"' in line:
-            # Extract the animal name
             match = re.search(r"b'([a-z_]+)'", line)
             if match:
                 animal_name = match.group(1)
-                # Filter out non-animal entries (clue types, etc.)
                 if 'clue' not in animal_name and animal_name not in ['unknown', 'homo_sapien']:
                     animal_types.append(animal_name)
             in_animal_type = False
@@ -56,16 +44,6 @@ def extract_animal_types(blo_path: Path) -> List[str]:
 
 
 def generate_enum_code(animal_types: List[str]) -> str:
-    """
-    Generate the Python code for the AnimalType enum.
-
-    Args:
-        animal_types: List of animal type names in lowercase
-
-    Returns:
-        Python code as a string
-    """
-    # Generate enum entries with hash values
     enum_entries = []
     for animal_name in animal_types:
         enum_name = animal_name.upper()
@@ -102,13 +80,10 @@ class AnimalType(Enum):
 
 
 def main():
-    """Generate the animal_type.py file from the game data."""
-    # Paths
     script_dir = Path(__file__).parent
     blo_path = script_dir.parent / 'import' / 'global_animal_types.blo.txt'
     output_path = script_dir.parent / 'lib' / 'model' / 'animal_type.py'
 
-    # Verify input file exists
     if not blo_path.exists():
         print(f"ERROR: Could not find {blo_path}")
         print("Make sure the notes/global_animal_types.blo.txt file exists.")

@@ -4,7 +4,7 @@ from lib.model.animal_type_reserve import AnimalReserve
 from lib.model.reserves_animals_classes import RESERVES_ANIMALS_CLASSES
 
 
-class AnimalsReservesLoader:
+class AnimalsReservesLoad:
     @staticmethod
     def load() -> List[AnimalReserve]:
         all_animals = []

@@ -8,7 +8,7 @@ from lib.db.dbs.lodge_db import LodgeDb
 from lib.db.dbs.preset_db import PresetDb
 from lib.db.dbs.trophy_animal_db import TrophyAnimalDb
 from lib.db.query.trophy_animal_query import TrophyAnimalQuery
-from ..load.loader import Loader
+from lib.load.loader import Loader
 from ..model.trophy_animal import TrophyAnimal
 
 

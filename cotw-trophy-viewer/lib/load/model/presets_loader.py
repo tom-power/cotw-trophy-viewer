@@ -3,7 +3,7 @@ from typing import List
 from lib.model.preset import Preset
 
 
-class PresetsLoader:
+class PresetsLoad:
     @staticmethod
     def load() -> List[Preset]:
         return [layton_lake_lodge_todo, great_one_todo_preset]
