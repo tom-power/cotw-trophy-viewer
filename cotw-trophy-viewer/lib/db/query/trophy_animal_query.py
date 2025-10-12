@@ -43,7 +43,7 @@ class TrophyAnimalQuery:
 
         if _lodgesIds:
             reservePlaceholders = ','.join(['?' for _ in _lodgesIds])
-            where_clauses.append(f"lodgeId IN ({reservePlaceholders})")
+            where_clauses.append(f"ta.lodgeId IN ({reservePlaceholders})")
             trophyParams.extend(_lodgesIds)
 
         if where_clauses and _reservesIds:
@@ -51,7 +51,7 @@ class TrophyAnimalQuery:
 
         if _reservesIds:
             reservePlaceholders = ','.join(['?' for _ in _reservesIds])
-            where_clauses.append(f"reserveId IN ({reservePlaceholders})")
+            where_clauses.append(f"ta.reserveId IN ({reservePlaceholders})")
             trophyParams.extend(_reservesIds)
 
         if where_clauses and _medalsIds:
@@ -59,7 +59,7 @@ class TrophyAnimalQuery:
 
         if _medalsIds:
             reservePlaceholders = ','.join(['?' for _ in _medalsIds])
-            where_clauses.append(f"medalId IN ({reservePlaceholders})")
+            where_clauses.append(f"ta.medalId IN ({reservePlaceholders})")
             trophyParams.extend(_medalsIds)
 
         if where_clauses and _animalsIds:
@@ -67,11 +67,25 @@ class TrophyAnimalQuery:
 
         if _animalsIds:
             reservePlaceholders = ','.join(['?' for _ in _animalsIds])
-            where_clauses.append(f"typeId IN ({reservePlaceholders})")
+            where_clauses.append(f"ta.typeId IN ({reservePlaceholders})")
             trophyParams.extend(_animalsIds)
 
         trophyAnimalsSql = """
-        SELECT * FROM TrophyAnimals
+        SELECT 
+            ta.typeId,
+            ta.weight,
+            ta.gender,
+            ta.rating,
+            ta.medalId,
+            ta.difficulty,
+            ta.datetime,
+            ta.furType,
+            ta.lodgeId,
+            l.lodgeType,
+            l.lodgeTypeId,
+            ta.reserveId
+        FROM TrophyAnimals ta
+        LEFT JOIN Lodges l ON ta.lodgeId = l.lodgeId
         """
         if where_clauses:
             trophyAnimalsSql += " WHERE " + " ".join(where_clauses)
@@ -148,7 +162,10 @@ class TrophyAnimalQuery:
                 difficulty=float(row[5]) if row[5] is not None else None,
                 datetime=row[6],
                 furType=int(row[7]) if row[7] is not None else None,
-                lodge=Lodge(int(row[8]), LodgeType(row[9]), int(row[10])) if row[8] is not None else None,
+                lodge=Lodge(
+                    lodgeId=int(row[8]),
+                    lodgeType=LodgeType(row[9]),
+                    lodgeTypeId=int(row[10])) if row[8] is not None else None,
                 reserve=Reserve(int(row[11])) if row[11] is not None else None
             )
             animal.id = row[0]

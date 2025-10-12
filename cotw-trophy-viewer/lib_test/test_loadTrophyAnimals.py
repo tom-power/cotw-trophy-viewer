@@ -11,10 +11,10 @@ from lib.ui.utils.paths import Paths
 from lib_test.fixtures import FIXTURES_PATH
 
 
-class TestLoadTrophyAnimalsDictFunctions(unittest.TestCase):
+class TestLoadTrophyAnimalsFunctions(unittest.TestCase):
 
-    def test_loadTrophyAnimalsDict(self):
-        trophyAnimals = Loader(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf')).load_trophy_animals_dict()
+    def test_loadTrophyAnimals(self):
+        trophyAnimals = Loader(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf')).load_trophy_animals()
 
         self.assertEqual(len(trophyAnimals), 36)
 
@@ -33,8 +33,8 @@ class TestLoadTrophyAnimalsDictFunctions(unittest.TestCase):
         self.assertEqual(Reserve(testAnimal['reserveId']), Reserve.EMERALD_COAST)
         # self.assertEqual(testAnimal['reserve'], 16)
 
-    def test_loadTrophyAnimalsNamesDict(self):
-        trophyAnimals = Loader(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf')).load_trophy_animals_dict()
+    def test_loadTrophyAnimalsNames(self):
+        trophyAnimals = Loader(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf')).load_trophy_animals()
 
         self.assertTrue(list(filter(lambda a: AnimalType(a['typeId']) == AnimalType.EU_RABBIT, trophyAnimals)))
 

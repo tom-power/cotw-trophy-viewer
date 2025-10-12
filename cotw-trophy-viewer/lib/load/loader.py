@@ -2,7 +2,8 @@ from typing import List
 
 from lib.load.loaders.animal_medals_loader import AnimalMedalsLoader
 from lib.load.loaders.animals_reserves_loader import AnimalsReservesLoader
-from lib.load.loaders.default_presets_loader import DefaultPresetsLoader
+from lib.load.loaders.presets_loader import PresetsLoader
+from lib.load.loaders.lodge_mapper import LodgeMapper
 from lib.load.loaders.trophy_animal_mapper import TrophyAnimalMapper
 from lib.load.loaders.trophy_lodge_loader import LoadTrophyLodge
 from lib.model.animal_type_medal import AnimalMedal
@@ -17,12 +18,20 @@ class Loader:
         self.paths = paths
         self._setLoadTrophyLodge()
         self.trophy_animal_mapper = TrophyAnimalMapper()
+        self.lodge_mapper = LodgeMapper()
 
-    def load_trophy_animals_dict(self) -> List[dict]:
+    def load_trophy_animals(self) -> List[dict]:
         if self.loadFileExists():
             lodges = self.trophy_lodge_loader.lodges()
             self.trophy_animal_mapper.add(lodges)
-            return self.trophy_animal_mapper.map_dict()
+            return self.trophy_animal_mapper.map()
+        return []
+
+    def load_lodges(self) -> List[dict]:
+        if self.loadFileExists():
+            lodges = self.trophy_lodge_loader.lodges()
+            self.lodge_mapper.add(lodges)
+            return self.lodge_mapper.map()
         return []
 
     def loadFileExists(self) -> bool:
@@ -37,8 +46,8 @@ class Loader:
         return AnimalMedalsLoader.load()
 
     @staticmethod
-    def load_default_presets() -> List[Preset]:
-        return DefaultPresetsLoader.load()
+    def load_presets() -> List[Preset]:
+        return PresetsLoader.load()
 
     def updateLoadPath(self, new_path):
         self.paths.updateLoadPath(new_path)

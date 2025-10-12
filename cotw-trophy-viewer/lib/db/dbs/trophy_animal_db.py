@@ -24,8 +24,6 @@ class TrophyAnimalDb:
                    datetime TEXT,
                    furType INTEGER,
                    lodgeId INTEGER,
-                   lodgeType INTEGER,
-                   lodgeTypeId INTEGER,
                    reserveId INTEGER
                )
            ''')
@@ -34,7 +32,7 @@ class TrophyAnimalDb:
         conn.close()
 
 
-    def insert_trophy_animals_dict(self, trophy_animals: List[dict]) -> None:
+    def insert_trophy_animals(self, trophy_animals: List[dict]) -> None:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
@@ -43,8 +41,8 @@ class TrophyAnimalDb:
         for animal in trophy_animals:
             cursor.execute('''
                 INSERT INTO TrophyAnimals
-                (typeId, weight, gender, rating, medalId, difficulty, datetime, furType, lodgeId, lodgeType, lodgeTypeId, reserveId)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (typeId, weight, gender, rating, medalId, difficulty, datetime, furType, lodgeId, reserveId)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 int(animal['typeId']) if animal['typeId'] is not None else None,
                 float(animal['weight']) if animal['weight'] is not None else None,
@@ -55,8 +53,6 @@ class TrophyAnimalDb:
                 str(animal['datetime']),
                 int(animal['furType']) if animal['furType'] is not None else None,
                 int(animal['lodgeId']) if animal['lodgeId'] is not None else None,
-                int(animal['lodgeType']) if animal['lodgeType'] is not None else None,
-                int(animal['lodgeTypeId']) if animal['lodgeTypeId'] is not None else None,
                 int(animal['reserveId']) if animal['reserveId'] is not None else None
             ))
 

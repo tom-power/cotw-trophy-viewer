@@ -49,7 +49,7 @@ class PresetDb:
         else:
             return {}
 
-    def insert_default_presets(self, default_presets: List[Preset]):
+    def insert_presets(self, default_presets: List[Preset]):
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 

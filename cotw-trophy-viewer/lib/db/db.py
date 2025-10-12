@@ -4,6 +4,7 @@ from typing import List
 
 from lib.db.dbs.animal_medal_db import AnimalMedalDb
 from lib.db.dbs.animals_reserves_db import AnimalReserveDb
+from lib.db.dbs.lodge_db import LodgeDb
 from lib.db.dbs.preset_db import PresetDb
 from lib.db.dbs.trophy_animal_db import TrophyAnimalDb
 from lib.db.query.trophy_animal_query import TrophyAnimalQuery
@@ -17,6 +18,7 @@ class Db:
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
 
         self.trophy_animal_db = TrophyAnimalDb(self.db_path)
+        self.lodge_db = LodgeDb(self.db_path)
         self.animal_reserve_db = AnimalReserveDb(self.db_path)
         self.animal_medal_db = AnimalMedalDb(self.db_path)
         self.preset_db = PresetDb(self.db_path)
@@ -24,10 +26,11 @@ class Db:
         self.trophy_animal_query = TrophyAnimalQuery(self.db_path)
 
     def load(self, loader: Loader):
-        self.trophy_animal_db.insert_trophy_animals_dict(loader.load_trophy_animals_dict())
+        self.trophy_animal_db.insert_trophy_animals(loader.load_trophy_animals())
+        self.lodge_db.insert_lodges(loader.load_lodges())
         self.animal_reserve_db.insert_animal_reserves(loader.load_animal_reserves())
         self.animal_medal_db.insert_animal_medals(loader.load_animal_medals())
-        self.preset_db.insert_default_presets(loader.load_default_presets())
+        self.preset_db.insert_presets(loader.load_presets())
 
     def trophyAnimals(self, query: dict | None = None) -> List[TrophyAnimal]:
         return self.trophy_animal_query.trophyAnimals(query)
