@@ -6,7 +6,7 @@ Wanted to be able to search/sort what I do/don't have in my trophy lodge, seems 
 
 ## Installation 
 
-Download binaries from the [release page](https://github.com/tom-power/cotw-trophy-viewer/releases/latest) and run locally.
+Download .exe from the [release page](https://github.com/tom-power/cotw-trophy-viewer/releases/latest) and run locally.
 
 ## Run/build
 
