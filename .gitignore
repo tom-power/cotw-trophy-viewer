@@ -13,8 +13,6 @@ data
 notes
 .env
 .env.bat
-/docker/docker-compose-deploy.yml
-/sh/deploy.sh
 /sh/release.sh
 /cotw-trophy-viewer/.nicegui/
 /cotw-trophy-viewer/import/
