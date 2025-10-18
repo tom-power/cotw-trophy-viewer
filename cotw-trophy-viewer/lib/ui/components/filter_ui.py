@@ -6,43 +6,31 @@ from lib.model.animal_type import AnimalType
 from lib.model.animal_type_name import animalName
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
-from lib.ui.components.icon_ui import IconUi
 from lib.ui.utils.queries import Queries
 
 
 class FilterUi:
-    def __init__(self, db: Db, filter_callback, clear_callback):
+    def __init__(self, db: Db):
         self.db = db
         self.queries = Queries()
-        self.filter_callback = filter_callback
-        self.clear_callback = clear_callback
         self._build_ui()
 
     def _build_ui(self):
-        with ui.card():
-            with ui.grid(columns='auto auto 600px'):
-                ui.space()
-                ui.space()
-                self.selectLodges = _selectMulti(self.db.lodges(), 'lodge', )
+        self.checkboxAllAnimals = ui.checkbox(text='Include all animals')
+        ui.space()
+        self.selectLodges = _selectMulti(self.db.lodges(), 'lodge', )
 
-                self.radioReservesAndOr = _andOrRadio()
-                ui.space()
-                self.selectReserves = _selectMulti(_reservesOptions(), 'reserve', )
+        self.radioReservesAndOr = _andOrRadio()
+        ui.space()
+        self.selectReserves = _selectMulti(_reservesOptions(), 'reserve', )
 
-                self.radioMedalsAndOr = _andOrRadio()
-                ui.space()
-                self.selectMedals = _selectMulti(_medalOptions(), 'medal')
+        self.radioMedalsAndOr = _andOrRadio()
+        ui.space()
+        self.selectMedals = _selectMulti(_medalOptions(), 'medal')
 
-                self.radioAnimalsAndOr = _andOrRadio()
-                ui.space()
-                self.selectAnimals = _selectMulti(_animalsOptions(), 'animal')
-
-            with ui.row().classes('w-full justify-between items-center'):
-                with ui.row():
-                    ui.button(text='FILTER', on_click=self.filter_callback)
-                    ui.button(text='CLEAR', on_click=self.clear_callback)
-                    self.checkboxAllAnimals = ui.checkbox(text='Include all animals')
-                IconUi()
+        self.radioAnimalsAndOr = _andOrRadio()
+        ui.space()
+        self.selectAnimals = _selectMulti(_animalsOptions(), 'animal')
 
     def updateLodges(self):
         self.selectLodges.set_options(self.db.lodges(), value=None)

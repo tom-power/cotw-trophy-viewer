@@ -1,7 +1,6 @@
 from nicegui import ui, binding
 
 from lib.db.db import Db
-from lib.ui.components.filter_ui import FilterUi
 
 
 class PresetUi:
@@ -9,10 +8,9 @@ class PresetUi:
     class PresetName:
         text: str
 
-    def __init__(self, db: Db, filter_ui: FilterUi, update_grid_callback):
+    def __init__(self, db: Db, filter_ui):
         self.db = db
         self.filter_ui = filter_ui
-        self.update_grid_callback = update_grid_callback
         self.presetName = self.PresetName(text="")
         self._build_ui()
 
@@ -22,12 +20,11 @@ class PresetUi:
             ui.input(label="preset name").bind_value(self.presetName, "text")
             ui.button(text="save", on_click=self._addPreset)
 
-        with ui.card():
-            with ui.row():
-                self.selectPresets = ui.select(options=self.db.presets(), label='preset',
-                                               on_change=self._applyPreset).classes('w-48')
-                ui.button(text='+', on_click=self.addPresetDialog.open)
-                ui.button(text='-', on_click=self._removePreset)
+        with ui.row():
+            self.selectPresets = ui.select(options=self.db.presets(), label='preset',
+                                           on_change=self._applyPreset).classes('w-48')
+            ui.button(text='+', on_click=self.addPresetDialog.open)
+            ui.button(text='-', on_click=self._removePreset)
 
     def _removePreset(self):
         self.db.presetRemove(self.selectPresets.value)
@@ -48,4 +45,3 @@ class PresetUi:
         self.filter_ui.clear_form()
         preset = self.db.preset(e.value)
         self.filter_ui.update_filters_from_preset(preset)
-        self.update_grid_callback()

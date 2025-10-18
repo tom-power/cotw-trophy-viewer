@@ -13,7 +13,7 @@ class LodgeFileUi:
         self._build_ui()
 
     def _build_ui(self):
-        with (ui.card()):
+        with ui.card():
             with ui.card():
                 self.status_label = ui.label()
                 self.status_label.bind_text_from(self, 'status')
