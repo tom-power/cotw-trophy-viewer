@@ -50,6 +50,7 @@ async def test_upload_lodge_file(user: User) -> None:
 
     await user.open('/')  # shouldn't need to do this?
 
+    user.find('RELOAD').click()
     # await user.should_see('LODGE FILE FOUND') # this doesn't work hmmm
     assert _has_layton_lake_option(user.find(ui.select).elements)
 

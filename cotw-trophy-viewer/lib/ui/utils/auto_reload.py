@@ -7,9 +7,9 @@ from lib.load.loader import Loader
 
 
 class AutoReload:
-    def __init__(self, loader: Loader, reloadCallback: Callable):
+    def __init__(self, loader: Loader, reloadFromLodgeFile: Callable):
         self._loader = loader
-        self._reloadFromFile = reloadCallback
+        self._reloadFromLodgeFile = reloadFromLodgeFile
         self._isAutoReload = False
         self._start()
 
@@ -20,7 +20,7 @@ class AutoReload:
     async def _auto_reload(self):
         async for _ in watchfiles.awatch(str(self._loader.paths.getLoadPath().resolve())):
             if self._isAutoReload:
-                self._reloadFromFile()
+                self._reloadFromLodgeFile()
 
     def updateAutoReload(self, e):
         self._isAutoReload = e.value

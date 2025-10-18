@@ -9,10 +9,10 @@ from lib.ui.utils.auto_reload import AutoReload
 
 
 class LodgeFileUi:
-    def __init__(self, loader: Loader, reloadFromFile: Callable):
-        self.loader = loader
-        self.reloadFromFile = reloadFromFile
-        self.autoReload = AutoReload(loader, reloadFromFile)
+    def __init__(self, loader: Loader, reloadFromLodgeFile: Callable):
+        self._loader = loader
+        self._reloadFromLodgeFile = reloadFromLodgeFile
+        self._autoReload = AutoReload(loader, self._reloadFromLodgeFile)
         self._build_ui()
 
     def _build_ui(self):
@@ -21,8 +21,8 @@ class LodgeFileUi:
                 with ui.card():
                     self.status_label = ui.label()
                     self.status_label.bind_text_from(self, 'status')
-                if self.loader.loadFileExists():
-                    ui.checkbox(text='auto reload', on_change=self.autoReload.updateAutoReload).set_value(True)
+                if self._loader.loadFileExists():
+                    ui.checkbox(text='auto reload', on_change=self._autoReload.updateAutoReload).set_value(True)
 
             self.upload_component = (ui
                                      .upload(label='UPLOAD LODGE FILE',
@@ -32,12 +32,12 @@ class LodgeFileUi:
                                      .props('accept="*"')
                                      .tooltip('Upload trophy_lodges_adf file'))
             with ui.row():
+                ui.button(text='RELOAD', on_click=self._reloadFromLodgeFile)
                 ui.button(text='RESET', on_click=self._reset)
-                ui.button(text='RELOAD', on_click=self._reload)
 
     @property
     def status(self) -> str:
-        return 'LODGE FILE ' + ('FOUND' if self.loader.loadFileExists() else 'NOT FOUND')
+        return 'LODGE FILE ' + ('FOUND' if self._loader.loadFileExists() else 'NOT FOUND')
 
     def _loadLodgeFile(self, e):
         if e.content:
@@ -48,15 +48,10 @@ class LodgeFileUi:
                 e.content.seek(0)
                 f.write(e.content.read())
 
-            self.loader.updateLoadPath(temp_file_path)
-            self._reload()
+            self._loader.updateLoadPath(temp_file_path)
             ui.notify('Trophy file uploaded successfully!', type='positive')
 
     def _reset(self):
-        self.loader.resetToDefaultPath()
+        self._loader.resetToDefaultPath()
         self.upload_component.reset()
-        self._reload()
         ui.notify('Reset successfully!', type='positive')
-
-    def _reload(self):
-        self.reloadFromFile()

@@ -41,7 +41,7 @@ class HomePage:
             ui.space()
 
             with ui.card():
-                LodgeFileUi(self.loader, self._reloadFromFile)
+                LodgeFileUi(self.loader, self._reloadFromLodgeFile)
                 with ui.row().classes('w-full'):
                     ui.space()
                     IconUi()
@@ -54,7 +54,7 @@ class HomePage:
     def _updateGrid(self):
         self.grid_ui.updateGrid()
 
-    def _reloadFromFile(self):
+    def _reloadFromLodgeFile(self):
         self.db.load(self.loader)
 
         self.filter_ui.db = self.db
