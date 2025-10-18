@@ -1,18 +1,18 @@
 import tempfile
 from pathlib import Path
+from typing import Callable
 
 from nicegui import ui
-from watchdog.events import FileSystemEventHandler, FileSystemEvent
-from watchdog.observers import Observer
 
 from lib.load.loader import Loader
+from lib.ui.utils.auto_reload import AutoReload
 
 
 class LodgeFileUi:
-    def __init__(self, loader: Loader, reloadFromFile):
+    def __init__(self, loader: Loader, reloadFromFile: Callable):
         self.loader = loader
         self.reloadFromFile = reloadFromFile
-        self.observer = Observer()
+        self.autoReload = AutoReload(loader, reloadFromFile)
         self._build_ui()
 
     def _build_ui(self):
@@ -22,7 +22,8 @@ class LodgeFileUi:
                     self.status_label = ui.label()
                     self.status_label.bind_text_from(self, 'status')
                 if self.loader.loadFileExists():
-                    ui.checkbox(text='auto reload', on_change=self._auto_reload, value=True)
+                    ui.checkbox(text='auto reload', on_change=self.autoReload.updateAutoReload).set_value(True)
+
             self.upload_component = (ui
                                      .upload(label='UPLOAD LODGE FILE',
                                              on_upload=self._loadLodgeFile,
@@ -58,22 +59,4 @@ class LodgeFileUi:
         ui.notify('Reset successfully!', type='positive')
 
     def _reload(self):
-        self.reloadFromFile()
-
-    def _auto_reload(self, e):
-        if e.value:
-            self.observer.schedule(
-                event_handler=ReloadEventHandler(self.reloadFromFile),
-                path=str(self.loader.paths.getLoadPath().resolve()),
-                recursive=True)
-            self.observer.start()
-        else:
-            self.observer.stop()
-            self.observer.join()
-
-class ReloadEventHandler(FileSystemEventHandler):
-    def __init__(self, reloadFromFile):
-        self.reloadFromFile = reloadFromFile
-
-    def on_any_event(self, event: FileSystemEvent) -> None:
         self.reloadFromFile()
