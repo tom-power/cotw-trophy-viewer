@@ -27,7 +27,7 @@ class DataGridUi:
                 'cellDataType': False
             },
             'columnDefs': [
-                {'headerName': 'Lodge', 'field': 'lodge', 'width': '200'},
+                {'headerName': 'Lodge', 'field': 'lodge', 'width': '150'},
                 {'headerName': 'Reserve', 'field': 'reserve'},
                 {'headerName': 'Animal', 'field': 'animal'},
                 {'headerName': 'Weight', 'field': 'weight', 'width': '100'},
@@ -36,7 +36,8 @@ class DataGridUi:
                 {'headerName': 'Trophy Rating', 'field': 'rating', 'width': '150'},
                 {'headerName': 'Medal', 'field': 'medal', 'width': '100'},
                 {'headerName': 'Harvested Date', 'field': 'datetime', 'sort': 'desc',
-                 'valueFormatter': self.TIME_FORMAT},
+                 'valueFormatter': self.TIME_FORMAT, 'width': '150'},
+                {'headerName': 'Slot ID', 'field': 'slotId', 'width': '100'},
             ],
             'pagination': True,
             'paginationPageSize': 50,
@@ -64,6 +65,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'gender': _naIfNone(animal.gender, lambda g: Gender(g).name),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
             'furType': _naIfNone(animal.furType),
+            'slotId': _naIfNone(animal.slotId),
             'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
             'medal': _naIfNone(animal.medal, lambda m: Medal(m).medalName()),

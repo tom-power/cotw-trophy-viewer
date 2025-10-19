@@ -23,6 +23,7 @@ class TrophyAnimalMapper:
                 if "TrophyAnimal" in trophy and trophy["LodgeId"] != 0:
                     trophyAnimal = trophy["TrophyAnimal"]
                     trophyAnimal['LodgeId'] = trophy["LodgeId"]
+                    trophyAnimal['SlotId'] = trophy["SlotId"]
                     trophy_animals.append(trophyAnimal)
         return trophy_animals
 
@@ -36,6 +37,7 @@ class TrophyAnimalMapper:
                     for trophyAnimal in trophyAnimals:
                         if trophy["LodgeId"] != 0:
                             trophyAnimal['LodgeId'] = trophy["LodgeId"]
+                            trophyAnimal['SlotId'] = trophy["SlotId"]
                             trophy_animals.append(trophyAnimal)
         return trophy_animals
 
@@ -54,6 +56,7 @@ class TrophyAnimalMapper:
                 "furType": animal_data.get("VariationIndex", 0),
                 "reserveId": animal_data.get("HarvestReserve", 0),
                 "lodgeId": animal_data.get("LodgeId"),
+                "slotId": animal_data.get("SlotId"),
             }
             trophiesAnimals.append(animal)
         return trophiesAnimals
