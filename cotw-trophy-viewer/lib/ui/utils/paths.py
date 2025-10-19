@@ -19,4 +19,4 @@ class Paths(object):
 
     def resetToDefaultPath(self, ):
         reset_to_default_save_path()
-        self.path = get_save_path()
+        self.path = get_save_path() / 'trophy_lodges_adf'

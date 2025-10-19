@@ -9,10 +9,10 @@ from lib.ui.utils.auto_reload import AutoReload
 
 
 class LodgeFileUi:
-    def __init__(self, loader: Loader, reloadFromLodgeFile: Callable):
+    def __init__(self, loader: Loader, reloadCallback: Callable):
         self._loader = loader
-        self._reloadFromLodgeFile = reloadFromLodgeFile
-        self._autoReload = AutoReload(loader, self._reloadFromLodgeFile)
+        self._reloadCallback = reloadCallback
+        self._autoReload = AutoReload(loader, self._reloadCallback)
         self._build_ui()
 
     def _build_ui(self):
@@ -48,9 +48,9 @@ class LodgeFileUi:
                 f.write(e.content.read())
 
             self._loader.updateLoadPath(temp_file_path)
-            self._reloadFromLodgeFile()
+            self._reloadCallback()
 
     def _reset(self):
         self._loader.resetToDefaultPath()
         self.upload_component.reset()
-        self._reloadFromLodgeFile()
+        self._reloadCallback()
