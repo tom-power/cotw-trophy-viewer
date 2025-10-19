@@ -79,7 +79,6 @@ class FilterUi:
         self.selectAnimals.set_value([])
         self.checkboxAllAnimals.set_value(False)
 
-
     def applyCurrentPreset(self):
         self.preset_ui.applyCurrentPreset()
 
@@ -103,6 +102,7 @@ def _andOrRadio():
 def _selectMulti(options, label):
     return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True).props('use-chips')
 
+
 class PresetUi:
     @binding.bindable_dataclass
     class PresetName:
@@ -119,12 +119,30 @@ class PresetUi:
         with self.addPresetDialog, ui.card():
             ui.input(label="preset name").bind_value(self.presetName, "text")
             ui.button(text="save", on_click=self._addPreset)
+        self.updatePresetDialog = ui.dialog()
+        with self.updatePresetDialog, ui.card():
+            ui.input(label="preset name").bind_value(self.presetName, "text")
+            ui.button(text="save", on_click=self._updatePreset)
 
         with ui.row():
             self._presetSelect = ui.select(options=self.db.presets(), label='preset',
-                                           on_change=lambda e : self._applyPreset(e.value)).classes('w-48')
+                                           on_change=lambda e: self._applyPreset(e.value)).classes('w-48')
+            ui.button(text='⎙', on_click=self._updateCurrent)
+            ui.button(text='✎', on_click=self._openUpdatePresetDialog)
             ui.button(text='+', on_click=self.addPresetDialog.open)
             ui.button(text='-', on_click=self._removePreset)
+
+    def _openUpdatePresetDialog(self):
+        self._updatePresetNameToCurrent()
+        self.updatePresetDialog.open()
+
+    def _updateCurrent(self):
+        self._updatePresetNameToCurrent()
+        self._updatePreset()
+
+    def _updatePresetNameToCurrent(self):
+        if self._presetSelect.value:
+            self.presetName.text = self._presetSelect.options[self._presetSelect.value]
 
     def _removePreset(self):
         self.db.presetRemove(self._presetSelect.value)
@@ -133,6 +151,12 @@ class PresetUi:
     def _addPreset(self):
         self.filter_ui.update_queries_from_filters()
         self.db.presetAdd(self.presetName.text, self.filter_ui.queries.queryDict)
+        self._updatePresets()
+        self.addPresetDialog.close()
+
+    def _updatePreset(self):
+        self.filter_ui.update_queries_from_filters()
+        self.db.presetUpdate(self._presetSelect.value, self.presetName.text, self.filter_ui.queries.queryDict)
         self._updatePresets()
         self.addPresetDialog.close()
 

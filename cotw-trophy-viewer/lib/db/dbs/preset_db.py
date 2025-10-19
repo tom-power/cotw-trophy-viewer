@@ -36,11 +36,11 @@ class PresetDb:
         conn.close()
         return {row[0]: row[1] for row in rows}
 
-    def preset(self, i: int) -> dict:
+    def preset(self, presetId: int) -> dict:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute('SELECT query FROM Preset WHERE id = ?', (i,))
+        cursor.execute('SELECT query FROM Preset WHERE id = ?', (presetId,))
         row = cursor.fetchone()
 
         conn.close()
@@ -88,4 +88,15 @@ class PresetDb:
         conn.commit()
         conn.close()
 
+    def presetUpdate(self, presetId, name, queryDict):
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.cursor()
+
+        cursor.execute(
+            'UPDATE Preset SET name = ?, query = ? WHERE id = ?',
+            (name, json.dumps(queryDict), presetId)
+        )
+
+        conn.commit()
+        conn.close()
 

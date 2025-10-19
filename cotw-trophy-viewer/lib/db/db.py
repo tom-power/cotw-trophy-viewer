@@ -49,3 +49,6 @@ class Db:
 
     def presetRemove(self, presetId):
         return self.preset_db.presetRemove(presetId)
+
+    def presetUpdate(self, presetId, name, queryDict):
+        return self.preset_db.presetUpdate(presetId, name, queryDict)
