@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Callable
 
 from nicegui import ui, binding
@@ -104,66 +105,77 @@ def _selectMulti(options, label):
 
 
 class PresetUi:
-    @binding.bindable_dataclass
-    class PresetName:
-        text: str
+    class PresetDialogName:
+        def __init__(self):
+            self.text = ""
+
 
     def __init__(self, filter_ui: FilterUi):
         self.db: Db = filter_ui.db
         self.filter_ui: FilterUi = filter_ui
-        self.presetName = self.PresetName(text="")
+        self.presetDialogName = self.PresetDialogName()
         self._build_ui()
 
     def _build_ui(self):
-        self.addPresetDialog = ui.dialog()
-        with self.addPresetDialog, ui.card():
-            ui.input(label="preset name").bind_value(self.presetName, "text")
-            ui.button(text="save", on_click=self._addPreset)
-        self.updatePresetDialog = ui.dialog()
-        with self.updatePresetDialog, ui.card():
-            ui.input(label="preset name").bind_value(self.presetName, "text")
-            ui.button(text="save", on_click=self._updatePreset)
+        self._addPresetDialog = ui.dialog()
+        with self._addPresetDialog, ui.card():
+            ui.input(label="preset name").bind_value(self.presetDialogName, "text")
+            ui.button(text="save", on_click=self._addPresetWithClose)
 
         with ui.row():
             self._presetSelect = ui.select(options=self.db.presets(), label='preset',
                                            on_change=lambda e: self._applyPreset(e.value)).classes('w-48')
-            ui.button(text='⎙', on_click=self._updateCurrent)
-            ui.button(text='✎', on_click=self._openUpdatePresetDialog)
-            ui.button(text='+', on_click=self.addPresetDialog.open)
+            ui.button(text='⎙', on_click=self._updatePreset)
+            ui.button(text='✎', on_click=self._updatePresetWithDialog)
+            ui.button(text='+', on_click=self._addPresetWithDialog)
             ui.button(text='-', on_click=self._removePreset)
 
-    def _openUpdatePresetDialog(self):
-        self._updatePresetNameToCurrent()
+    def _updatePreset(self):
+        self._updatePresetFromCurrent()
+
+    def _updatePresetWithDialog(self):
+        self._updatePresetDialogName()
         self.updatePresetDialog.open()
 
-    def _updateCurrent(self):
-        self._updatePresetNameToCurrent()
-        self._updatePreset()
+    def _updatePresetDialogName(self):
+        self.updatePresetDialog = ui.dialog()
+        with self.updatePresetDialog, ui.card():
+            text = ""
+            if self._presetSelect.value:
+                text = self._presetSelect.options[self._presetSelect.value]
+            ui.input(label="preset name").bind_value(self.presetDialogName, "text").set_value(text)
+            ui.button(text="save", on_click=self._updatePresetWithClose)
 
-    def _updatePresetNameToCurrent(self):
-        if self._presetSelect.value:
-            self.presetName.text = self._presetSelect.options[self._presetSelect.value]
+    def _addPresetWithDialog(self):
+        self._addPresetDialog.open()
 
     def _removePreset(self):
         self.db.presetRemove(self._presetSelect.value)
         self._updatePresets()
 
-    def _addPreset(self):
-        self.filter_ui.update_queries_from_filters()
-        self.db.presetAdd(self.presetName.text, self.filter_ui.queries.queryDict)
-        self._updatePresets()
-        self.addPresetDialog.close()
+    def _updatePresetWithClose(self):
+        self._updatePresetFromCurrent()
+        self.updatePresetDialog.close()
 
-    def _updatePreset(self):
+    def _updatePresetFromCurrent(self):
         self.filter_ui.update_queries_from_filters()
-        self.db.presetUpdate(self._presetSelect.value, self.presetName.text, self.filter_ui.queries.queryDict)
+        self.db.presetUpdate(self._presetSelect.value, self.presetDialogName.text, self.filter_ui.queries.queryDict)
         self._updatePresets()
-        self.addPresetDialog.close()
+        self._presetSelect.set_value(self._presetSelect.value)
+
+    def _addPresetWithClose(self):
+        self._addPresetFromCurrent()
+        self._addPresetDialog.close()
+
+    def _addPresetFromCurrent(self):
+        self.filter_ui.update_queries_from_filters()
+        self.db.presetAdd(self.presetDialogName.text, self.filter_ui.queries.queryDict)
+        self._updatePresets()
+        self._presetSelect.set_value(list(self.db.presets())[-1])
 
     def _updatePresets(self):
         new_presets = self.db.presets()
         self._presetSelect.set_options(new_presets)
-        self._presetSelect.set_value(list(new_presets.keys())[-1])
 
     def _applyPreset(self, presetValue):
         if presetValue is not None and str(presetValue) != '':
