@@ -24,6 +24,7 @@ class TrophyAnimalDb:
                    datetime TEXT,
                    furType INTEGER,
                    slotId INTEGER,
+                   isHybrid INTEGER,
                    lodgeId INTEGER,
                    reserveId INTEGER
                )
@@ -42,8 +43,8 @@ class TrophyAnimalDb:
         for animal in trophy_animals:
             cursor.execute('''
                 INSERT INTO TrophyAnimals
-                (typeId, weight, gender, rating, medalId, difficulty, datetime, furType, slotId, lodgeId, reserveId)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (typeId, weight, gender, rating, medalId, difficulty, datetime, furType, slotId, isHybrid, lodgeId, reserveId)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 int(animal['typeId']) if animal['typeId'] is not None else None,
                 float(animal['weight']) if animal['weight'] is not None else None,
@@ -54,6 +55,7 @@ class TrophyAnimalDb:
                 str(animal['datetime']),
                 int(animal['furType']) if animal['furType'] is not None else None,
                 int(animal['slotId']) if animal['slotId'] is not None else None,
+                int(animal['isHybrid']) if animal['isHybrid'] is not None else None,
                 int(animal['lodgeId']) if animal['lodgeId'] is not None else None,
                 int(animal['reserveId']) if animal['reserveId'] is not None else None,
             ))

@@ -24,6 +24,7 @@ class TrophyAnimalMapper:
                     trophyAnimal = trophy["TrophyAnimal"]
                     trophyAnimal['LodgeId'] = trophy["LodgeId"]
                     trophyAnimal['SlotId'] = trophy["SlotId"]
+                    trophyAnimal['IsHybrid'] = False
                     trophy_animals.append(trophyAnimal)
         return trophy_animals
 
@@ -38,6 +39,7 @@ class TrophyAnimalMapper:
                         if trophy["LodgeId"] != 0:
                             trophyAnimal['LodgeId'] = trophy["LodgeId"]
                             trophyAnimal['SlotId'] = trophy["SlotId"]
+                            trophyAnimal['IsHybrid'] = True
                             trophy_animals.append(trophyAnimal)
         return trophy_animals
 
@@ -57,6 +59,7 @@ class TrophyAnimalMapper:
                 "reserveId": animal_data.get("HarvestReserve", 0),
                 "lodgeId": animal_data.get("LodgeId"),
                 "slotId": animal_data.get("SlotId"),
+                "isHybrid": animal_data.get("IsHybrid"),
             }
             trophiesAnimals.append(animal)
         return trophiesAnimals

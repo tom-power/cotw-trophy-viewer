@@ -81,6 +81,7 @@ class TrophyAnimalQuery:
             ta.datetime,
             ta.furType,
             ta.slotId,
+            ta.isHybrid,
             ta.lodgeId,
             l.lodgeType,
             l.lodgeTypeId,
@@ -110,6 +111,7 @@ class TrophyAnimalQuery:
                 NULL as datetime,
                 NULL as furType,
                 NULL as slotId,
+                NULL as isHybrid,
                 NULL as lodgeId,
                 NULL as lodgeType,
                 NULL as lodgeTypeId,
@@ -165,11 +167,12 @@ class TrophyAnimalQuery:
                 datetime=row[6],
                 furType=int(row[7]) if row[7] is not None else None,
                 slotId=int(row[8]) if row[8] is not None else None,
+                isHybrid=bool(row[9]) if row[9] is not None else None,
                 lodge=Lodge(
-                    lodgeId=int(row[9]),
-                    lodgeType=LodgeType(row[10]),
-                    lodgeTypeId=int(row[11])) if row[9] is not None else None,
-                reserve=Reserve(int(row[12])) if row[12] is not None else None
+                    lodgeId=int(row[10]),
+                    lodgeType=LodgeType(row[11]),
+                    lodgeTypeId=int(row[12])) if row[10] is not None else None,
+                reserve=Reserve(int(row[13])) if row[13] is not None else None
             )
             animal.id = row[0]
             trophy_animals.append(animal)

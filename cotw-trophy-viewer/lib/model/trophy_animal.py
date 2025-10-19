@@ -8,7 +8,7 @@ from lib.model.reserve import Reserve
 
 class TrophyAnimal:
     def __init__(self, animalType: AnimalType, weight, gender, rating, medal, difficulty, datetime, furType,
-                 slotId, lodge: Lodge, reserve: Reserve):
+                 slotId, isHybrid, lodge: Lodge, reserve: Reserve):
         self.id = uuid.uuid4()
         self.type: AnimalType = animalType
         self.weight: float = weight
@@ -19,5 +19,6 @@ class TrophyAnimal:
         self.datetime = datetime
         self.furType: int = furType
         self.slotId: int = slotId
+        self.isHybrid: bool = isHybrid
         self.lodge: Lodge = lodge
         self.reserve: Reserve = reserve
