@@ -131,6 +131,7 @@ class PresetUi:
             ui.button(text='-', on_click=self._removePreset)
 
     def _updatePreset(self):
+        self._updatePresetDialogName()
         self._updatePresetFromCurrent()
 
     def _updatePresetWithDialog(self):
