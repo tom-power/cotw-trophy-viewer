@@ -76,6 +76,10 @@ class FilterUi:
         self.checkboxAllAnimals.set_value('')
         self.checkboxAllAnimals.set_value(False)
 
+    def applyCurrentPreset(self):
+        self.preset_ui.applyCurrentPreset()
+
+
 def _reservesOptions() -> dict:
     return {r.value: r.reserveName() for r in Reserve}
 
@@ -115,7 +119,7 @@ class PresetUi:
 
         with ui.row():
             self.selectPresets = ui.select(options=self.db.presets(), label='preset',
-                                           on_change=self._applyPreset).classes('w-48')
+                                           on_change=lambda e : self._applyPreset(e.value)).classes('w-48')
             ui.button(text='+', on_click=self.addPresetDialog.open)
             ui.button(text='-', on_click=self._removePreset)
 
@@ -134,7 +138,10 @@ class PresetUi:
         self.selectPresets.set_options(new_presets)
         self.selectPresets.set_value(list(new_presets.keys())[-1])
 
-    def _applyPreset(self, e):
+    def _applyPreset(self, presetValue):
         self.filter_ui.clear_form()
-        preset = self.db.preset(e.value)
+        preset = self.db.preset(presetValue)
         self.filter_ui.update_filters_from_preset(preset)
+
+    def applyCurrentPreset(self):
+        self._applyPreset(self.selectPresets.value)
