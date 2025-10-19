@@ -20,28 +20,38 @@ class FilterUi:
 
     def _build_ui(self):
         with ui.grid(columns='auto auto 600px'):
-            self.checkboxAllAnimals = ui.checkbox(text='Include all animals')
+            self.checkboxAllAnimals = ui.checkbox(text='Include all animals', on_change=self._updateFromFilter)
             ui.space()
-            self.selectLodges = _selectMulti(self.db.lodges(), 'lodge', )
+            self.selectLodges = self._selectMulti(self.db.lodges(), 'lodge', )
 
-            self.radioReservesAndOr = _andOrRadio()
+            self.radioReservesAndOr = self._andOrRadio()
             ui.space()
-            self.selectReserves = _selectMulti(_reservesOptions(), 'reserve', )
+            self.selectReserves = self._selectMulti(_reservesOptions(), 'reserve', )
 
-            self.radioMedalsAndOr = _andOrRadio()
+            self.radioMedalsAndOr = self._andOrRadio()
             ui.space()
-            self.selectMedals = _selectMulti(_medalOptions(), 'medal')
+            self.selectMedals = self._selectMulti(_medalOptions(), 'medal')
 
-            self.radioAnimalsAndOr = _andOrRadio()
+            self.radioAnimalsAndOr = self._andOrRadio()
             ui.space()
-            self.selectAnimals = _selectMulti(_animalsOptions(), 'animal')
+            self.selectAnimals = self._selectMulti(_animalsOptions(), 'animal')
 
         with ui.row().classes('w-full justify-between items-center'):
             with ui.row():
-                ui.button(text='APPLY', on_click=self._update_grid_callback)
                 ui.button(text='CLEAR', on_click=self.clear_form_and_preset)
 
             self.preset_ui = PresetUi(self)
+
+    def _andOrRadio(self):
+        return ui.radio(['and', 'or'], value='and', on_change=self._updateFromFilter).props('inline')
+
+    def _selectMulti(self, options, label):
+        return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True,
+                         on_change=self._updateFromFilter).props('use-chips')
+
+    def _updateFromFilter(self):
+        self._update_grid_callback()
+        # self.preset_ui.updatePreset()
 
     def updateLodges(self):
         self.selectLodges.set_options(self.db.lodges(), value=None)
@@ -95,20 +105,10 @@ def _medalOptions() -> dict:
 def _animalsOptions() -> dict:
     return {a.value: animalName(a) for a in AnimalType}
 
-
-def _andOrRadio():
-    return ui.radio(['and', 'or'], value='and').props('inline')
-
-
-def _selectMulti(options, label):
-    return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True).props('use-chips')
-
-
 class PresetUi:
     class PresetDialogName:
         def __init__(self):
             self.text = ""
-
 
     def __init__(self, filter_ui: FilterUi):
         self.db: Db = filter_ui.db
