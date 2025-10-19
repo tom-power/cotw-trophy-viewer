@@ -1,5 +1,6 @@
+from typing import Callable
 
-from nicegui import ui
+from nicegui import ui, binding
 
 from lib.db.db import Db
 from lib.model.animal_type import AnimalType
@@ -10,27 +11,36 @@ from lib.ui.utils.queries import Queries
 
 
 class FilterUi:
-    def __init__(self, db: Db):
+    def __init__(self, db: Db, update_grid_callback: Callable):
         self.db = db
         self.queries = Queries()
+        self._update_grid_callback = update_grid_callback
         self._build_ui()
 
     def _build_ui(self):
-        self.checkboxAllAnimals = ui.checkbox(text='Include all animals')
-        ui.space()
-        self.selectLodges = _selectMulti(self.db.lodges(), 'lodge', )
+        with ui.grid(columns='auto auto 600px'):
+            self.checkboxAllAnimals = ui.checkbox(text='Include all animals')
+            ui.space()
+            self.selectLodges = _selectMulti(self.db.lodges(), 'lodge', )
 
-        self.radioReservesAndOr = _andOrRadio()
-        ui.space()
-        self.selectReserves = _selectMulti(_reservesOptions(), 'reserve', )
+            self.radioReservesAndOr = _andOrRadio()
+            ui.space()
+            self.selectReserves = _selectMulti(_reservesOptions(), 'reserve', )
 
-        self.radioMedalsAndOr = _andOrRadio()
-        ui.space()
-        self.selectMedals = _selectMulti(_medalOptions(), 'medal')
+            self.radioMedalsAndOr = _andOrRadio()
+            ui.space()
+            self.selectMedals = _selectMulti(_medalOptions(), 'medal')
 
-        self.radioAnimalsAndOr = _andOrRadio()
-        ui.space()
-        self.selectAnimals = _selectMulti(_animalsOptions(), 'animal')
+            self.radioAnimalsAndOr = _andOrRadio()
+            ui.space()
+            self.selectAnimals = _selectMulti(_animalsOptions(), 'animal')
+
+        with ui.row().classes('w-full justify-between items-center'):
+            with ui.row():
+                ui.button(text='APPLY', on_click=self._update_grid_callback)
+                ui.button(text='CLEAR', on_click=self.clear_form)
+
+            self.preset_ui = PresetUi(self)
 
     def updateLodges(self):
         self.selectLodges.set_options(self.db.lodges(), value=None)
@@ -66,7 +76,6 @@ class FilterUi:
         self.checkboxAllAnimals.set_value('')
         self.checkboxAllAnimals.set_value(False)
 
-
 def _reservesOptions() -> dict:
     return {r.value: r.reserveName() for r in Reserve}
 
@@ -85,3 +94,47 @@ def _andOrRadio():
 
 def _selectMulti(options, label):
     return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True).props('use-chips')
+
+
+class PresetUi:
+    @binding.bindable_dataclass
+    class PresetName:
+        text: str
+
+    def __init__(self, filter_ui: FilterUi):
+        self.db: Db = filter_ui.db
+        self.filter_ui: FilterUi = filter_ui
+        self.presetName = self.PresetName(text="")
+        self._build_ui()
+
+    def _build_ui(self):
+        self.addPresetDialog = ui.dialog()
+        with self.addPresetDialog, ui.card():
+            ui.input(label="preset name").bind_value(self.presetName, "text")
+            ui.button(text="save", on_click=self._addPreset)
+
+        with ui.row():
+            self.selectPresets = ui.select(options=self.db.presets(), label='preset',
+                                           on_change=self._applyPreset).classes('w-48')
+            ui.button(text='+', on_click=self.addPresetDialog.open)
+            ui.button(text='-', on_click=self._removePreset)
+
+    def _removePreset(self):
+        self.db.presetRemove(self.selectPresets.value)
+        self._updatePresets()
+
+    def _addPreset(self):
+        self.filter_ui.update_queries_from_filters()
+        self.db.presetAdd(self.presetName.text, self.filter_ui.queries.queryDict)
+        self._updatePresets()
+        self.addPresetDialog.close()
+
+    def _updatePresets(self):
+        new_presets = self.db.presets()
+        self.selectPresets.set_options(new_presets)
+        self.selectPresets.set_value(list(new_presets.keys())[-1])
+
+    def _applyPreset(self, e):
+        self.filter_ui.clear_form()
+        preset = self.db.preset(e.value)
+        self.filter_ui.update_filters_from_preset(preset)
