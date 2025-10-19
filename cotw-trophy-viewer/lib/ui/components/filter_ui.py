@@ -38,7 +38,7 @@ class FilterUi:
         with ui.row().classes('w-full justify-between items-center'):
             with ui.row():
                 ui.button(text='APPLY', on_click=self._update_grid_callback)
-                ui.button(text='CLEAR', on_click=self.clear_form)
+                ui.button(text='CLEAR', on_click=self.clear_form_and_preset)
 
             self.preset_ui = PresetUi(self)
 
@@ -65,6 +65,10 @@ class FilterUi:
         self.selectAnimals.set_value(preset['animals'])
         self.checkboxAllAnimals.set_value(preset['allAnimals'])
 
+    def clear_form_and_preset(self):
+        self.clear_form()
+        self.preset_ui.clearPresetSelect()
+
     def clear_form(self):
         self.selectLodges.set_value('')
         self.radioReservesAndOr.set_value('and')
@@ -73,8 +77,8 @@ class FilterUi:
         self.selectMedals.set_value('')
         self.radioAnimalsAndOr.set_value('and')
         self.selectAnimals.set_value('')
-        self.checkboxAllAnimals.set_value('')
         self.checkboxAllAnimals.set_value(False)
+
 
     def applyCurrentPreset(self):
         self.preset_ui.applyCurrentPreset()
@@ -99,7 +103,6 @@ def _andOrRadio():
 def _selectMulti(options, label):
     return ui.select(options=options, multiple=True, label=label, with_input=True, clearable=True).props('use-chips')
 
-
 class PresetUi:
     @binding.bindable_dataclass
     class PresetName:
@@ -118,13 +121,13 @@ class PresetUi:
             ui.button(text="save", on_click=self._addPreset)
 
         with ui.row():
-            self.selectPresets = ui.select(options=self.db.presets(), label='preset',
+            self._presetSelect = ui.select(options=self.db.presets(), label='preset',
                                            on_change=lambda e : self._applyPreset(e.value)).classes('w-48')
             ui.button(text='+', on_click=self.addPresetDialog.open)
             ui.button(text='-', on_click=self._removePreset)
 
     def _removePreset(self):
-        self.db.presetRemove(self.selectPresets.value)
+        self.db.presetRemove(self._presetSelect.value)
         self._updatePresets()
 
     def _addPreset(self):
@@ -135,13 +138,17 @@ class PresetUi:
 
     def _updatePresets(self):
         new_presets = self.db.presets()
-        self.selectPresets.set_options(new_presets)
-        self.selectPresets.set_value(list(new_presets.keys())[-1])
+        self._presetSelect.set_options(new_presets)
+        self._presetSelect.set_value(list(new_presets.keys())[-1])
 
     def _applyPreset(self, presetValue):
-        self.filter_ui.clear_form()
-        preset = self.db.preset(presetValue)
-        self.filter_ui.update_filters_from_preset(preset)
+        if presetValue is not None and str(presetValue) != '':
+            self.filter_ui.clear_form()
+            preset = self.db.preset(presetValue)
+            self.filter_ui.update_filters_from_preset(preset)
 
     def applyCurrentPreset(self):
-        self._applyPreset(self.selectPresets.value)
+        self._applyPreset(self._presetSelect.value)
+
+    def clearPresetSelect(self):
+        self._presetSelect.set_value('')
