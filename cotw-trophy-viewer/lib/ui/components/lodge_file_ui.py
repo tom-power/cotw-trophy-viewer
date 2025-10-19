@@ -32,7 +32,6 @@ class LodgeFileUi:
                                      .props('accept="*"')
                                      .tooltip('Upload trophy_lodges_adf file'))
             with ui.row():
-                ui.button(text='RELOAD', on_click=self._reloadFromLodgeFile)
                 ui.button(text='RESET', on_click=self._reset)
 
     @property
@@ -49,9 +48,9 @@ class LodgeFileUi:
                 f.write(e.content.read())
 
             self._loader.updateLoadPath(temp_file_path)
-            ui.notify('Trophy file uploaded successfully!', type='positive')
+            self._reloadFromLodgeFile()
 
     def _reset(self):
         self._loader.resetToDefaultPath()
         self.upload_component.reset()
-        ui.notify('Reset successfully!', type='positive')
+        self._reloadFromLodgeFile()
