@@ -96,7 +96,7 @@ class TrophyAnimalQuery:
         if _allAnimals:
             allAnimalsParams = []
 
-            trophyTypesSubquery = f"SELECT DISTINCT typeId FROM ({trophyAnimalsSql})"
+            trophyTypesSubquery = f"SELECT DISTINCT typeId, reserveId FROM ({trophyAnimalsSql}) as tt"
 
             reserveAnimalsSelectSql = """
                 SELECT DISTINCT                
@@ -111,12 +111,13 @@ class TrophyAnimalQuery:
                 NULL as lodgeId,
                 NULL as lodgeType,
                 NULL as lodgeTypeId,
-                NULL as reserveId
+                reserveId
                 FROM AnimalsReserves
+                as ra
                 """
 
             allAnimalsSql = (reserveAnimalsSelectSql
-                             + f""" WHERE typeId NOT IN ({trophyTypesSubquery})""")
+                             + f""" WHERE (typeId, reserveId) NOT IN ({trophyTypesSubquery})""")
 
             greatOneMedalSelected = _medalsIds is not None and 5 in set(_medalsIds)
             reservesSelected = bool(_reservesIds)
@@ -126,17 +127,17 @@ class TrophyAnimalQuery:
                     reservePlaceholders = ','.join(['?' for _ in _reservesIds])
                     allAnimalsSql = (reserveAnimalsSelectSql
                                      + f""" JOIN AnimalMedal USING(typeId) 
-                                                WHERE typeId NOT IN ({trophyTypesSubquery}) 
+                                                WHERE (typeId, reserveId) NOT IN ({trophyTypesSubquery}) 
                                                 AND reserveId IN ({reservePlaceholders}) """)
                     allAnimalsParams.extend(_reservesIds)
                 case (True, False):
                     allAnimalsSql = (reserveAnimalsSelectSql
                                      + f""" JOIN AnimalMedal USING(typeId)   
-                                                WHERE typeId NOT IN ({trophyTypesSubquery})""")
+                                                WHERE (typeId, reserveId) NOT IN ({trophyTypesSubquery})""")
                 case (False, True):
                     reservePlaceholders = ','.join(['?' for _ in _reservesIds])
                     allAnimalsSql = (reserveAnimalsSelectSql
-                                     + f""" WHERE typeId NOT IN ({trophyTypesSubquery})
+                                     + f""" WHERE (typeId, reserveId) NOT IN ({trophyTypesSubquery})
                                                 AND reserveId IN ({reservePlaceholders}) """)
                     allAnimalsParams.extend(_reservesIds)
                 case _:
