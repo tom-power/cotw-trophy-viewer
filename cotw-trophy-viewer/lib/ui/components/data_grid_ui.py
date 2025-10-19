@@ -17,7 +17,6 @@ class DataGridUi:
     def __init__(self, db: Db, filter_ui: FilterUi):
         self.db = db
         self.filter_ui = filter_ui
-        self.TIME_FORMAT = "value === undefined || value === 'NA' ? 'NA' : new Date(value * 1000).toLocaleDateString(undefined, {hour: \"2-digit\", minute: \"2-digit\"}).replace(\",\", \"\")"
         self._build_ui()
 
     def _build_ui(self):
@@ -27,21 +26,60 @@ class DataGridUi:
                 'cellDataType': False
             },
             'columnDefs': [
-                {'headerName': 'Lodge', 'field': 'lodge', 'width': '200', 'filter': 'agTextColumnFilter'},
-                {'headerName': 'Reserve', 'field': 'reserve', 'filter': 'agTextColumnFilter'},
-                {'headerName': 'Animal', 'field': 'animal', 'filter': 'agTextColumnFilter'},
-                {'headerName': 'Weight', 'field': 'weight', 'width': '100', 'filter': 'agNumberColumnFilter'},
-                {'headerName': 'Fur type', 'field': 'furType', 'width': '100', 'filter': 'agNumberColumnFilter'},
-                {'headerName': 'Difficulty', 'field': 'difficulty', 'width': '150', 'filter': 'agTextColumnFilter'},
-                {'headerName': 'Trophy Rating', 'field': 'rating', 'width': '150', 'filter': 'agNumberColumnFilter'},
-                {'headerName': 'Medal', 'field': 'medal', 'width': '100', 'filter': 'agTextColumnFilter'},
-                {'headerName': 'Harvested Date', 'field': 'datetime', 'sort': 'desc',
-                 'valueFormatter': self.TIME_FORMAT},
+                {'headerName': 'Lodge',
+                 'field': 'lodge',
+                 'width': '150',
+                 'filter': 'agTextColumnFilter'
+                 },
+                {'headerName': 'Reserve',
+                 'field': 'reserve',
+                 'filter': 'agTextColumnFilter'
+                 },
+                {'headerName': 'Animal',
+                 'field': 'animal',
+                 'filter': 'agTextColumnFilter'
+                 },
+                {'headerName': 'Weight',
+                 'field': 'weight',
+                 'width': '100',
+                 'filter': 'agNumberColumnFilter'
+                 },
+                {'headerName': 'Fur type',
+                 'field': 'furType',
+                 'width': '100',
+                 'filter': 'agNumberColumnFilter'
+                 },
+                {'headerName': 'Difficulty',
+                 'field': 'difficulty',
+                 'width': '150',
+                 'filter': 'agTextColumnFilter'
+                 },
+                {'headerName': 'Rating',
+                 'field': 'rating',
+                 'width': '100',
+                 'filter': 'agNumberColumnFilter'
+                 },
+                {'headerName': 'Medal',
+                 'field': 'medal',
+                 'width': '100',
+                 'filter': 'agTextColumnFilter'
+                 },
+                {'headerName': 'Harvested Date',
+                 'field': 'harvestedDate',
+                 'width': '175',
+                 'sort': 'desc',
+                 'valueFormatter': DATE_TIME_FORMAT,
+                 'filter': 'agDateColumnFilter',
+                 'filterParams': {
+                     ':comparator': DATE_TIME_COMPARATOR
+                 }
+                 },
             ],
             'pagination': True,
             'paginationPageSize': 50,
             'rowData': self._get_row_data()
-        }, html_columns=[0]).style('height: 600px').classes('col-span-full border p-1 ag-theme-balham-dark')
+        },
+            html_columns=[0]).style('height: 600px').classes('col-span-full border p-1 ag-theme-balham-dark')
 
     def _get_row_data(self) -> list[dict]:
         return rowData(self.db.trophyAnimals(self.filter_ui.queries.queryDict))
@@ -67,7 +105,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
             'medal': _naIfNone(animal.medal, lambda m: Medal(m).medalName()),
-            'datetime': _naIfNone(animal.datetime),
+            'harvestedDate': _naIfNone(animal.datetime),
         })
     return rows
 
@@ -83,3 +121,18 @@ def _naIfNone(value, fn=lambda a: a):
     if value is None:
         return 'NA'
     return fn(value)
+
+
+DATE_TIME_FORMAT = '''(
+        value === undefined || value === 'NA' 
+            ? 'NA' 
+            : 
+            new Date(value * 1000)
+                .toLocaleDateString(undefined, {hour: \"2-digit\", minute: \"2-digit\"})
+                .replace(\",\", \"\")
+        )'''
+
+DATE_TIME_COMPARATOR = '''(filterLocalDateAtMidnight, cellValue) => {                     
+                            const cellDate = new Date(cellValue * 1000).setHours(0,0,0,0);
+                            return cellDate < filterLocalDateAtMidnight ? -1 : cellDate > filterLocalDateAtMidnight ? 1 : 0;
+                        }'''
