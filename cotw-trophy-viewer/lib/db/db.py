@@ -14,7 +14,7 @@ from ..model.trophy_animal import TrophyAnimal
 
 class Db:
     def __init__(self, db_path: Path) -> None:
-        self.db_path = db_path / 'trophy_viewer.db'
+        self.db_path = db_path / 'cotw_trophy_viewer.db'
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
 
         self.trophy_animal_db = TrophyAnimalDb(self.db_path)
