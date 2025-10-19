@@ -28,13 +28,13 @@ class TrophyAnimalQuery:
         _allAnimals = False
 
         if query is not None:
-            _lodgesIds = query.get('lodges', [])
-            _reservesAndOr = query.get('reservesAndOr', '')
-            _reservesIds = query.get('reserves', [])
-            _medalsAndOr = query.get('medalsAndOr', '')
-            _medalsIds = query.get('medals', [])
-            _animalsAndOr = query.get('animalsAndOr', '')
-            _animalsIds = query.get('animals', [])
+            _lodgesIds = query.get('lodges') or []
+            _reservesAndOr = query.get('reservesAndOr') or ''
+            _reservesIds = query.get('reserves') or []
+            _medalsAndOr = query.get('medalsAndOr') or ''
+            _medalsIds = query.get('medals') or []
+            _animalsAndOr = query.get('animalsAndOr') or ''
+            _animalsIds = query.get('animals') or []
             _allAnimals = query.get('allAnimals', False)
 
         where_clauses = []
@@ -118,7 +118,10 @@ class TrophyAnimalQuery:
             allAnimalsSql = (reserveAnimalsSelectSql
                              + f""" WHERE typeId NOT IN ({trophyTypesSubquery})""")
 
-            match (5 in set(_medalsIds), bool(_reservesIds)):
+            greatOneMedalSelected = _medalsIds is not None and 5 in set(_medalsIds)
+            reservesSelected = bool(_reservesIds)
+
+            match (greatOneMedalSelected, reservesSelected):
                 case (True, True):
                     reservePlaceholders = ','.join(['?' for _ in _reservesIds])
                     allAnimalsSql = (reserveAnimalsSelectSql

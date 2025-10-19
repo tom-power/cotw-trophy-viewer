@@ -11,7 +11,7 @@ FIXTURES_PATH = TEST_DIR_PATH / 'fixtures'
 
 
 def getDb() -> Db:
-    db = Db(db_path=FIXTURES_PATH / 'data')
+    db = Db(db_path=FIXTURES_PATH / 'data' / 'dbTests')
     db.load(Loader(paths=Paths(FIXTURES_PATH / 'trophy_lodges_adf')))
     return db
 

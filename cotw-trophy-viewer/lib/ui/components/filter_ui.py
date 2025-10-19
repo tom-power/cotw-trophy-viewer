@@ -70,13 +70,13 @@ class FilterUi:
         self.preset_ui.clearPresetSelect()
 
     def clear_form(self):
-        self.selectLodges.set_value('')
+        self.selectLodges.set_value([])
         self.radioReservesAndOr.set_value('and')
-        self.selectReserves.set_value('')
+        self.selectReserves.set_value([])
         self.radioMedalsAndOr.set_value('and')
-        self.selectMedals.set_value('')
+        self.selectMedals.set_value([])
         self.radioAnimalsAndOr.set_value('and')
-        self.selectAnimals.set_value('')
+        self.selectAnimals.set_value([])
         self.checkboxAllAnimals.set_value(False)
 
 

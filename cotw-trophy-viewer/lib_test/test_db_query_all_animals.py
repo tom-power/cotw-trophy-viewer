@@ -27,6 +27,22 @@ class TestAllAnimalsFunctions(unittest.TestCase):
         trophyAnimals = getDb().trophyAnimals(query)
         self.assertEqual(125, len(trophyAnimals))
 
+    def test_db_trophyAnimals_all_animals_handle_empty(self):
+        query = \
+            {
+                "lodges": '',
+                "reserves": '',
+                "medals": '',
+                "animals": '',
+                "reservesAndOr": "and",
+                "medalsAndOr": "and",
+                "animalsAndOr": "and",
+                "allAnimals": True
+            }
+
+        trophyAnimals = getDb().trophyAnimals(query)
+        self.assertEqual(125, len(trophyAnimals))
+
     def test_db_trophyAnimals_all_animals_reserve(self):
         query = \
             {
