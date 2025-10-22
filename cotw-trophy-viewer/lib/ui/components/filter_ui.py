@@ -53,8 +53,10 @@ class FilterUi:
         self._update_grid_callback()
         # self.preset_ui.updatePreset()
 
-    def updateLodges(self):
+    def updateAndSelectLodges(self):
+        lodges = self.selectLodges.value
         self.selectLodges.set_options(self.db.lodges(), value=None)
+        self.selectLodges.set_value(lodges)
 
     def update_queries_from_filters(self):
         self.queries.updateQuery('lodges', self.selectLodges.value)
@@ -89,9 +91,6 @@ class FilterUi:
         self.radioAnimalsAndOr.set_value('and')
         self.selectAnimals.set_value([])
         self.checkboxAllAnimals.set_value(False)
-
-    def applyCurrentPreset(self):
-        self.preset_ui.applyCurrentPreset()
 
 
 def _reservesOptions() -> dict:
@@ -166,9 +165,6 @@ class PresetUi:
             self.filter_ui.clear_form()
             preset = self.db.preset(presetValue)
             self.filter_ui.update_filters_from_preset(preset)
-
-    def applyCurrentPreset(self):
-        self._applyPreset(self._presetSelect.value)
 
     def clearPresetSelect(self):
         self._presetSelect.set_value('')

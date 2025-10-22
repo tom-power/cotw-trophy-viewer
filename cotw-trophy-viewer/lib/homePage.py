@@ -48,9 +48,7 @@ class HomePage:
         self.db.load(self.loader)
 
         self.filter_ui.db = self.db
-        self.filter_ui.updateLodges()
-
-        self.filter_ui.applyCurrentPreset()
+        self.filter_ui.updateAndSelectLodges()
 
         self.grid_ui.db = self.db
         self._updateGrid()
