@@ -33,6 +33,7 @@ class LodgeFileUi:
                                      .tooltip('Upload trophy_lodges_adf file'))
             with ui.row():
                 ui.button(text='RESET', on_click=self._reset)
+                ui.button(text='RELOAD', on_click=self._reloadCallback)
 
     @property
     def status(self) -> str:

@@ -26,7 +26,7 @@ class HomePage:
     def _build_ui(self):
         ThemeUi.apply_theme()
 
-        with ui.grid(columns='800px 1fr 390px').classes('w-full gap-0'):
+        with ui.grid(columns='800px 1fr 400px').classes('w-full gap-0'):
             with ui.card():
                 self.filter_ui = FilterUi(self.db, self._updateGrid)
 
