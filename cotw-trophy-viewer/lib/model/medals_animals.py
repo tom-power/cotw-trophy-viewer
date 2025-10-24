@@ -11,5 +11,6 @@ MEDALS_ANIMALS = {
         AnimalType.RED_FOX,
         AnimalType.PHEASANT,
         AnimalType.MULE_DEER,
+        AnimalType.GRAY_WOLF
     ]
 }
