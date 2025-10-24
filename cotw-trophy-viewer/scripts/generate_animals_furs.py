@@ -61,9 +61,9 @@ def extract_animal_furs(blo_path: Path) -> List[Tuple[str, int, str]]:
             variation_name = None
             variation_start_line = i
         elif in_visual_variation:
-            # Extract index
-            if '"index"' in line:
-                match = re.search(r'= @0x[0-9a-f]+\(\s*\d+\)\s+(\d+)', line)
+            # Extract variation ID from the name field (e.g., 'variation_3' -> 3)
+            if '"name"' in line and 'variation_' in line:
+                match = re.search(r"b'variation_(\d+)'", line)
                 if match:
                     variation_index = int(match.group(1))
             
