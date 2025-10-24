@@ -24,7 +24,7 @@ async def test_lodge_file_reload(user: User) -> None:
     user.find('LAYTON LAKE #1').click()
     await user.should_see('LAYTON LAKE #1')
 
-    user.find('RELOAD').click()
+    user.find('↻').click()
 
     await user.should_see('LAYTON LAKE #1')
 
