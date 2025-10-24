@@ -1,7 +1,7 @@
 from lib.model.animal_type import AnimalType
 from lib.model.medal import Medal
 
-MEDALS_ANIMALS = {
+ANIMALS_MEDALS = {
     Medal.GREAT_ONE: [
         AnimalType.WHITETAIL_DEER,
         AnimalType.RED_DEER,

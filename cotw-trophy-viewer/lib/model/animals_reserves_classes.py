@@ -1,7 +1,7 @@
 from lib.model.animal_type import AnimalType
 from lib.model.reserve import Reserve
 
-RESERVES_ANIMALS_CLASSES = {
+ANIMALS_RESERVES_CLASSES = {
     Reserve.HIRSCHFELDEN: {
         1: [AnimalType.CANADA_GOOSE, AnimalType.PHEASANT, AnimalType.EU_RABBIT],
         2: [AnimalType.RED_FOX],
