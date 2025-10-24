@@ -21,7 +21,7 @@ class FilterUi:
 
     def _build_ui(self):
         with ui.grid(columns='auto auto 600px'):
-            self.checkboxAllAnimals = ui.checkbox(text='Include all animals', on_change=self._updateFromFilter)
+            ui.space()
             ui.space()
             self.selectLodges = self._selectMulti(self.db.lodges(), 'lodge', )
 
@@ -39,8 +39,12 @@ class FilterUi:
 
         with ui.row().classes('w-full justify-between items-center'):
             with ui.row():
-                ui.button(text='CLEAR', on_click=self.clear_form_and_preset)
-
+                ui.button(text='CLEAR', on_click=self.clear_form_and_preset).classes('mt-3 mr-0')
+                with ui.card():
+                    with ui.row():
+                        ui.label(text='Include all:').classes('mt-3 mr-0')
+                        self.checkboxAllAnimals = ui.checkbox(text='animals', on_change=self._updateFromFilter)
+                        self.checkboxAllSexes = ui.checkbox(text='sexes', on_change=self._updateFromFilter)
             self.preset_ui = PresetUi(self)
 
     def _andOrRadio(self):
