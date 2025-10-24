@@ -16,27 +16,35 @@ class LodgeFileUi:
         self._build_ui()
 
     def _build_ui(self):
-        with ui.card():
-            with ui.row():
-                with ui.card():
-                    self.status_label = ui.label()
-                    self.status_label.bind_text_from(self, 'status')
-                if self._loader.loadFileExists():
-                    ui.checkbox(text='auto reload', on_change=self._autoReload.updateAutoReload).set_value(True)
 
+        with ui.row():
+            with ui.card():
+                ui.label().bind_text_from(self, 'lodgeFileFoundText')
+            if self._loader.loadFileExists():
+                ui.button(
+                    text='↻',
+                    on_click=self._reloadCallback
+                ).classes('size-9')
+                (ui.checkbox(
+                    text='auto reload',
+                    on_change=self._autoReload.updateAutoReload
+                )
+                 .set_value(True))
+
+        with ui.card():
             self.upload_component = (ui
                                      .upload(label='UPLOAD LODGE FILE',
                                              on_upload=self._loadLodgeFile,
                                              multiple=False,
-                                             auto_upload=True)
+                                             auto_upload=True
+                                     )
                                      .props('accept="*"')
                                      .tooltip('Upload trophy_lodges_adf file'))
             with ui.row():
                 ui.button(text='RESET', on_click=self._reset)
-                ui.button(text='RELOAD', on_click=self._reloadCallback)
 
     @property
-    def status(self) -> str:
+    def lodgeFileFoundText(self) -> str:
         return 'LODGE FILE ' + ('FOUND' if self._loader.loadFileExists() else 'NOT FOUND')
 
     def _loadLodgeFile(self, e):

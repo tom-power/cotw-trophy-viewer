@@ -119,9 +119,9 @@ class PresetUi:
         with ui.row():
             self._presetSelect = ui.select(options=self.db.presets(), label='preset',
                                            on_change=lambda e: self._applyPreset(e.value)).classes('w-48')
-            ui.button(text='⎙', on_click=self._savePresetWithDialog)
-            ui.button(text='+', on_click=self._addPreset)
-            ui.button(text='-', on_click=self._removePreset)
+            ui.button(text='⎙', on_click=self._savePresetWithDialog).classes('size-9')
+            ui.button(text='+', on_click=self._addPreset).classes('size-9')
+            ui.button(text='-', on_click=self._removePreset).classes('size-9')
 
     def _savePresetWithDialog(self):
         self._addSavePresetDialog()
