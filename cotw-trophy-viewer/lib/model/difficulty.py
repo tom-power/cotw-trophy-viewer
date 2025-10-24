@@ -14,7 +14,7 @@ class Difficulty(Enum):
     FABLED = 10
 
     @classmethod
-    def getDifficultyName(cls, score):
+    def getDifficultyName(cls, score) -> str:
         scoreIndex = bisect.bisect_right(DIFFICULTY_SCORE_THRESHOLDS, score)
 
         return str(scoreIndex) + ' - ' + Difficulty(scoreIndex).name.replace('_', ' ')

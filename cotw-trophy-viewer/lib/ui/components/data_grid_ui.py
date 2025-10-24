@@ -46,7 +46,7 @@ class DataGridUi:
                  },
                 {'headerName': 'Fur type',
                  'field': 'furType',
-                 'width': '100',
+                 'width': '150',
                  'filter': 'agNumberColumnFilter'
                  },
                 {'headerName': 'Difficulty',
@@ -101,7 +101,7 @@ def rowData(trophyAnimals: List[TrophyAnimal]) -> List[dict]:
             'animal': _naIfNone(animal.type, lambda t: _getAnimalTypeName(t)),
             'gender': _naIfNone(animal.gender, lambda g: Gender(g).name),
             'weight': _naIfNone(animal.weight, lambda w: round(w * 100) / 100),
-            'furType': _naIfNone(animal.furType),
+            'furType': _naIfNone(animal.getFurTypeName()),
             'difficulty': _naIfNone(animal.difficulty, lambda d: Difficulty.getDifficultyName(d)),
             'rating': _naIfNone(animal.rating, lambda r: round(r * 100) / 100),
             'medal': _naIfNone(animal.medal, lambda m: Medal(m).medalName()),

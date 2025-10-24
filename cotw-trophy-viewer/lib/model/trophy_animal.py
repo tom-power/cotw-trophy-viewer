@@ -1,6 +1,7 @@
 import uuid
 
 from lib.model.animal_type import AnimalType
+from lib.model.animals_furs import ANIMALS_FURS
 from lib.model.lodge import Lodge
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
@@ -20,3 +21,9 @@ class TrophyAnimal:
         self.furType: int = furType
         self.lodge: Lodge = lodge
         self.reserve: Reserve = reserve
+
+    def getFurTypeName(self) -> str | None:
+        for fur in ANIMALS_FURS:
+            if fur.type == self.type and fur.furId == self.furType:
+                return fur.furName.replace('_', ' ').upper()
+        return None
