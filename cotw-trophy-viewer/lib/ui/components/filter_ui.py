@@ -8,6 +8,7 @@ from lib.model.animal_type import AnimalType
 from lib.model.animal_type_name import animalName
 from lib.model.medal import Medal
 from lib.model.reserve import Reserve
+from lib.ui.utils.controls import iconButton
 from lib.ui.utils.queries import Queries
 
 
@@ -119,9 +120,9 @@ class PresetUi:
         with ui.row():
             self._presetSelect = ui.select(options=self.db.presets(), label='preset',
                                            on_change=lambda e: self._applyPreset(e.value)).classes('w-48')
-            ui.button(text='⎙', on_click=self._savePresetWithDialog).classes('size-9')
-            ui.button(text='+', on_click=self._addPreset).classes('size-9')
-            ui.button(text='-', on_click=self._removePreset).classes('size-9')
+            iconButton(text='⎙', on_click=self._savePresetWithDialog)
+            iconButton(text='+', on_click=self._addPreset)
+            iconButton(text='-', on_click=self._removePreset)
 
     def _savePresetWithDialog(self):
         self._addSavePresetDialog()

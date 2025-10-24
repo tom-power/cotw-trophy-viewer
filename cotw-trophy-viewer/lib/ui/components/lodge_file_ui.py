@@ -6,6 +6,7 @@ from nicegui import ui
 
 from lib.load.loader import Loader
 from lib.ui.utils.auto_reload import AutoReload
+from lib.ui.utils.controls import iconButton
 
 
 class LodgeFileUi:
@@ -21,14 +22,15 @@ class LodgeFileUi:
             with ui.card():
                 ui.label().bind_text_from(self, 'lodgeFileFoundText')
             if self._loader.loadFileExists():
-                ui.button(
+                iconButton(
                     text='↻',
                     on_click=self._reloadCallback
-                ).classes('size-9')
+                )
                 (ui.checkbox(
                     text='auto reload',
                     on_change=self._autoReload.updateAutoReload
                 )
+                 .classes('mt-1')
                  .set_value(True))
 
         with ui.card():
