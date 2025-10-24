@@ -31,12 +31,14 @@ the following are mapped, please shout if inaccurate:
 - `medals` mapped from `ScoreRank` in the `trophy_lodges_adf` 
 - `difficulty` mapped from `Difficulty` in the `trophy_lodges_adf`
 
-don't know if [Parque Fernando lodge](https://thehuntercotw.fandom.com/wiki/Missions/Parque_Fernando_Missions#Main_Missions) shows up or not as haven't got to it in the game :)
+don't know if [Parque Fernando lodge](https://thehuntercotw.fandom.com/wiki/Missions/Parque_Fernando_Missions#Main_Missions) shows up or not as haven't got to it in the game yet
+
+thinking about adding `include all sexes` as a filter option, and a "noah's ark todo" preset :)
 
 ## Questions
 
-- `include all animals` in filter, idea is to include unmounted animals so you know what's left, is this intuitive? 
-- `and or` in the filter, will anyone ever use `or`?
+- I haven't used `or` at all in the filters, will anyone?
+- `include all animals` returns unmounted and mounted animals, so you know what's left, is that obvious from the phrasing?
 
 ## Thanks
 
