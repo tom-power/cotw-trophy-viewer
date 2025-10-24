@@ -49,6 +49,11 @@ class DataGridUi:
                  'width': '150',
                  'filter': 'agNumberColumnFilter'
                  },
+                {'headerName': 'Gender',
+                 'field': 'gender',
+                 'width': '100',
+                 'filter': 'agNumberColumnFilter'
+                 },
                 {'headerName': 'Difficulty',
                  'field': 'difficulty',
                  'width': '150',
